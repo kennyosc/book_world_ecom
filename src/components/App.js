@@ -3,7 +3,7 @@ import {BrowserRouter, Route} from 'react-router-dom'
 
 import Header from './Header'
 import Home from './home/Home'
-import Register from './Register'
+import Register from './auth/Register.js'
 
 class App extends Component{
     render(){
@@ -13,8 +13,8 @@ class App extends Component{
                     <Header/>
                     <div className='container'>
                         <Route path='/' exact component={Home}/>
-                        <Route path='/register' component={Register}/>
                     </div>
+                    <Route path='/register' component={Register}/>
                 </div>
             </BrowserRouter>
         )

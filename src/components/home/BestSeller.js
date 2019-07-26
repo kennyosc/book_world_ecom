@@ -16,6 +16,7 @@ class BestSeller extends Component{
                         </div>
                         <div className='text-center'>
                             <button className='btn btn-outline-danger w-50'>Add to Cart</button>
+                            <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
                         </div>
                     </div>
                     <div class="card pb-4">
@@ -26,6 +27,7 @@ class BestSeller extends Component{
                         </div>
                         <div className='text-center'>
                             <button className='btn btn-outline-danger w-50'>Add to Cart</button>
+                            <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
                         </div>
                     </div>
                     <div class="card pb-4">
@@ -36,6 +38,7 @@ class BestSeller extends Component{
                         </div>
                         <div className='text-center'>
                             <button className='btn btn-outline-danger w-50'>Add to Cart</button>
+                            <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
                         </div>
                     </div>
                 </div>

@@ -36,8 +36,8 @@ class Home extends Component{
                     </div>
 
                     {/* QUOTE REVIEWS */}
-                    <blockquote className="blockquote text-center">
-                        <p className="mb-0">The best place to find and buy books in Indonesia</p>
+                    <blockquote style={{fontSize:'15px'}} className="blockquote text-center">
+                        <p className="mb-0 font-italic">"The best place to find and buy books in Indonesia"</p>
                         <footer className="blockquote-footer">Willis Wee,<cite title="Source Title">Founder of Tech In Asia</cite></footer>
                     </blockquote>
                 </div>

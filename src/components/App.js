@@ -5,7 +5,7 @@ import Header from './Header'
 import Home from './home/Home'
 import Register from './auth/Register.js'
 import Login from './auth/Login.js'
-import Footer from './Footer'
+import AllProducts from './allproducts/AllProducts.js'
 
 class App extends Component{
     render(){
@@ -16,6 +16,7 @@ class App extends Component{
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
+                        <Route path='/allproduct' component={AllProducts}/>
                 </div>
             </BrowserRouter>
         )

@@ -25,7 +25,7 @@ class Register extends Component{
 
             //REGISTER CARD
             <div style={background_style} >
-                <div className="card w-50" style={{height:'500px', margin:'50px 0 250px 100px',borderRadius:"15px"}}>
+                <div className="card w-50" style={{height:'500px', margin:'60px auto 100px auto',borderRadius:"15px"}}>
                     <h3 className="card-header">Register</h3>
                     <div className="card-body">
                         <div className='card-title'>

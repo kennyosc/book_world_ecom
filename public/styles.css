@@ -1,0 +1,34 @@
+.mainFooter{
+    color: white;
+}
+
+.aboutUs{
+    color:white;
+}
+
+.aboutUs p{
+    color:lightgrey;
+    font-size: 0.8em;
+}
+
+.getHelp{
+    list-style:none;
+    color:white;
+}
+.link{
+    list-style:none;
+    color:white;
+}
+
+div ul li{
+    list-style: none;
+}
+
+div ul a{
+    text-decoration: none;
+    color: lightgrey;
+}
+
+div ul a:hover{
+    color: rgb(230, 230, 230)
+}

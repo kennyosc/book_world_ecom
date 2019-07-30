@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import MainCarousel from './MainCarousel'
 import BestSeller from './BestSeller'
 import NewsReview from './NewsReview'
-import ProductCarousel from './ProductCarousel'
+import NewBooks from './NewBooks'
 
 
 class Home extends Component{
@@ -17,7 +17,7 @@ class Home extends Component{
                 <MainCarousel/>
                 <NewsReview/>
                 <BestSeller/>
-                <ProductCarousel/>
+                <NewBooks/>
             </div>
         )
     }

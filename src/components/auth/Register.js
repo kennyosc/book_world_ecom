@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 
 import background_image from '../../images/background/register_background.jpg'
 
+// SETTING UP BACKGROUND IMAGE
 const background_style={
     backgroundImage:`linear-gradient(rgba(0,0,0,0.03),rgba(0,0,0,0.03)),url(${background_image})`,
     backgroundSize:'cover',
@@ -17,8 +18,14 @@ const background_style={
 
 class Register extends Component{
 
+    componentDidMount(){
+        window.scrollTo(0,0)
+    }
+
     render(){
         return(
+
+            //REGISTER CARD
             <div style={background_style}>
                 <div className="card w-50" style={{height:'500px', margin:'100px 0 0 100px',borderRadius:"15px"}}>
                     <h3 className="card-header">Register</h3>

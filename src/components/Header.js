@@ -22,6 +22,7 @@ class Header extends Component{
     
     render(){
         return(
+            // NAVBAR
             <nav className="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
                 <Link to='/'>
                     <a className="navbar-brand" href="#">Book World</a>
@@ -48,6 +49,7 @@ class Header extends Component{
                     
                     </ul>
 
+                    {/* MODAL FOR LOGIN */}
                     <div>
                         <Button className='btn btn-outline-light mx-3' onClick={this.toggle}>{this.props.buttonLabel}Login</Button>
 
@@ -80,7 +82,7 @@ class Header extends Component{
                         </Modal>
                     </div>
 
-
+                    {/* NAVBAR SEARCH */}
                     <form className="form-inline my-2 my-lg-0">
                         <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                     </form>

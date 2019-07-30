@@ -3,6 +3,7 @@ import MainCarousel from './MainCarousel'
 import BestSeller from './BestSeller'
 import NewsReview from './NewsReview'
 import NewBooks from './NewBooks'
+import Footer from '../Footer'
 
 
 class Home extends Component{
@@ -15,9 +16,12 @@ class Home extends Component{
         return(
             <div>
                 <MainCarousel/>
-                <NewsReview/>
-                <BestSeller/>
-                <NewBooks/>
+                <div className='container'>
+                    <NewsReview/>
+                    <BestSeller/>
+                    <NewBooks/>
+                </div>
+                <Footer/>
             </div>
         )
     }

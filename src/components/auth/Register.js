@@ -1,8 +1,12 @@
 import React,{Component} from 'react'
+import {connect} from 'react-redux'
+
+import {registerButton} from '../../actions/index.js'
 
 import background_image from '../../images/background/register_background.jpg'
 import Footer from '../Footer'
-import axios from '../../config/axios.js';
+import axios from '../../config/axios.js'
+
 
 // SETTING UP BACKGROUND IMAGE
 const background_style={
@@ -25,26 +29,8 @@ class Register extends Component{
         const phoneNumber = this.phoneNumber.value
         const password = this.password.value
         const passwordConfirmation = this.passwordConfirmation.value
-        console.log(firstName)
-        
-        if(password === passwordConfirmation){
-            axios.post('/register',
-                {
-                    first_name : firstName,
-                    last_name: lastName,
-                    username: username,
-                    email: email,
-                    phone_number: phoneNumber,
-                    password : password
-                }
-            ).then(res=>{
-                console.log('Register Berhasil')
-                console.log(res)
-            })
-        } else{
-            console.log(`Password doesn't match`)
-        }
-        
+
+        registerButton(firstName,lastName,username,email,phoneNumber,password,passwordConfirmation)
     }
 
     render(){
@@ -52,24 +38,24 @@ class Register extends Component{
 
             //REGISTER CARD
             <div style={background_style} >
-                <div className="card w-50" style={{height:'500px', margin:'60px auto 175px auto',borderRadius:"15px"}}>
+                <div className="card w-50" style={{height:'550px', margin:'60px auto 175px auto',borderRadius:"15px"}}>
                     <h3 className="card-header">Register</h3>
                     <div className="card-body">
                         
                         <div className="input-group">
-                            <input type="text" className="form-control" placeholder='First Name' ref={(firstName) => {this.firstName = firstName}}/>
+                            <input type="text" className="form-control" placeholder='*First Name' ref={(firstName) => {this.firstName = firstName}}/>
                             <input type="text" className="form-control" placeholder='Last Name' ref={(lastName) => {this.lastName = lastName}}/>
                         </div>
 
                         
                         <form className='input-group my-3'>
-                            <input className='form-control' placeholder='Username'
+                            <input className='form-control' placeholder='*Username'
                             ref={(username) => {this.username = username}}></input>
                         </form>
 
                         
                         <form className='input-group'>
-                            <input className='form-control' placeholder='Email' type="email"
+                            <input className='form-control' placeholder='*Email' type="email"
                             ref={(email) => {this.email = email}}></input>
                         </form>
 
@@ -78,15 +64,21 @@ class Register extends Component{
                             <input className='form-control' placeholder='Phone Number'
                             ref={(phoneNumber) => {this.phoneNumber = phoneNumber}}></input>
                         </form>
-
+                        
+                        <div class="input-group mb-3">
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
                         
                         <form className='input-group'>
-                            <input className='form-control' type="password" placeholder='Password'
+                            <input className='form-control' type="password" placeholder='*Password'
                             ref={(password) => {this.password = password}}></input>
                         </form>
 
                         <form className='input-group my-3'>
-                            <input className='form-control' type="password" placeholder='Password Confirmation'
+                            <input className='form-control' type="password" placeholder='*Password Confirmation'
                             ref={(input) => {this.passwordConfirmation = input}}></input>
                         </form>
                         
@@ -101,4 +93,4 @@ class Register extends Component{
     }
 }
 
-export default Register
+export default connect(null,{registerButton})(Register)

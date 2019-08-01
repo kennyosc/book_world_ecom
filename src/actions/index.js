@@ -1,6 +1,10 @@
 import axios from '../config/axios.js'
 import Swal from 'sweetalert2'
+import cookies from 'universal-cookie'
 
+const cookie = new cookies()
+
+// REGISTER BUTTON
 export const registerButton = (firstName,lastName,username,email,phoneNumber,password, passwordConfirmation) =>{
     if(password === passwordConfirmation){
         axios.post('/register',
@@ -21,11 +25,13 @@ export const registerButton = (firstName,lastName,username,email,phoneNumber,pas
                     text: res.data
                   })
             }else{
-                Swal.fire(
-                    'Register Success!',
-                    `User successfully submitted`,
-                    'success'
-                  )
+                  Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Register Success!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
             }
         })
     } else{
@@ -36,4 +42,88 @@ export const registerButton = (firstName,lastName,username,email,phoneNumber,pas
           })
     }
     
+}
+
+// LOGIN BUTTON
+export const loginButton = (email, password,remember_me) =>{
+    return(dispatch) =>{
+        axios.post('/login',
+            {
+                email: email,
+                password: password
+            }
+        ).then(res=>{
+            if(typeof(res.data) == 'string'){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: res.data
+                  })
+            }else{
+                const {id,first_name, last_name,username,email,phone_number,avatar} = res.data
+
+                dispatch({
+                    type:'LOGIN_SUCCESS',
+                    payload:{
+                        id: id,
+                        first_name: first_name,
+                        last_name: last_name,
+                        username: username,
+                        email: email,
+                        phone_number: phone_number,
+                        avatar: avatar
+                    }
+                })
+                
+                if(remember_me === true){
+                    //CREATE COOKIE DATA
+                    cookie.set('user', {id,first_name,last_name,username,email,phone_number,avatar} , {path:'/'})
+                }
+                
+
+                  Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Login Success!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        })
+    }
+}
+
+// LOGOUT BUTTON
+export const logoutButton = () =>{
+    cookie.remove('user')
+    return {
+        type:'LOGOUT_SUCCESS'
+    }
+}
+
+//COOKIE DATA
+export const keepLogin = (objCookie) =>{
+    return{
+        type:'LOGIN_SUCCESS',
+        payload:{
+            id: objCookie.id,
+            first_name: objCookie.first_name,
+            last_name: objCookie.last_name,
+            username: objCookie.username,
+            email: objCookie.email,
+            phone_number:objCookie.phone_number,
+            avatar: objCookie.avatar
+        }
+    }
+}
+
+//UDPATE PROFILE BUTTON
+export const onUpdateProfile = (firstName,lastName,username,email,phoneNumber) =>{
+    return (dispatch) =>{
+        axios.patch(`/updateprofile/${username}`,
+            {
+                
+            }
+        )
+    }
 }

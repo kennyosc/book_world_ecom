@@ -1,13 +1,33 @@
 import React,{Component} from 'react'
 import {BrowserRouter, Route} from 'react-router-dom'
+import cookies from 'universal-cookie'
+import {keepLogin} from '../actions/index.js'
+import {connect} from 'react-redux'
 
 import Header from './Header'
 import Home from './home/Home'
 import Register from './auth/Register.js'
 import Login from './auth/Login.js'
 import AllProducts from './allproducts/AllProducts.js'
+import Profile from './profile/Profile.js'
+import EditProfile from './profile/EditProfile.js'
+import ChangePassword from './profile/ChangePassword.js'
+
+import LoginAdmin from './admin/AdminLogin.js'
+
+const cookie = new cookies()
 
 class App extends Component{
+
+    componentWillMount(){
+        const objCookie = cookie.get('user')
+        console.log(objCookie)
+
+        if(objCookie !== undefined){
+            this.props.keepLogin(objCookie)
+        }
+    }
+
     render(){
         return(
             <BrowserRouter>
@@ -17,10 +37,16 @@ class App extends Component{
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
                         <Route path='/allproduct' component={AllProducts}/>
+                        <Route path='/profile' component={Profile}/>
+                        <Route path='/editprofile' component={EditProfile}/>
+                        <Route path='/changepassword' component={ChangePassword}/>
+                </div>
+                <div>
+                        <Route path='/login-admin' component={LoginAdmin}/>
                 </div>
             </BrowserRouter>
         )
     }
 }
 
-export default App
+export default connect(null,{keepLogin})(App)

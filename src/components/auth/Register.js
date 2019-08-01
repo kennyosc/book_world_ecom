@@ -80,6 +80,9 @@ class Register extends Component{
                         <form className='input-group my-3'>
                             <input className='form-control' type="password" placeholder='*Password Confirmation'
                             ref={(input) => {this.passwordConfirmation = input}}></input>
+                            <small id="passwordHelpBlock" class="form-text text-muted mt-3">
+                                Your password must be more than 8 characters long, and must not contain spaces, special characters, or emoji.
+                            </small>
                         </form>
                         
                         <button className='btn btn-success mt-3' onClick={this.handleRegister}>Register</button>

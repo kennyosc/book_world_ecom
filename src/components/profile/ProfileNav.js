@@ -5,19 +5,24 @@ import {connect} from 'react-redux'
 class ProfileNav extends Component{
     render(){
         return(
-            <div className="card w-75">
+            <div className="card w-100">
                 <div className="card-header">
-                    <b>Profile</b>
+                    <Link style={{color:'black'}} to='/profile'>
+                        <b>Profile</b>
+                    </Link>
                 </div>
                 <ul className="list-group list-group-flush">
                     <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/editprofile'>
                         <li className="list-group-item">Edit Profile</li>
                     </Link>
+                    <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/changeavatar'>
+                        <li className="list-group-item">Change Avatar</li>
+                    </Link>
                     <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/changepassword'>
                         <li className="list-group-item">Change Password</li>
                     </Link>
                     <Link style={{color:'grey'}} to={`/profile/${this.props.user.id}/orders`}>
-                        <li className="list-group-item">Orders</li>                                                
+                        <li className="list-group-item">Orders</li>
                     </Link>
                 </ul>
             </div>

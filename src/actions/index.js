@@ -101,7 +101,7 @@ export const logoutButton = () =>{
     }
 }
 
-//COOKIE DATA
+//KEEP LOGIN FUNCTION
 export const keepLogin = (objCookie) =>{
     return{
         type:'LOGIN_SUCCESS',
@@ -118,12 +118,37 @@ export const keepLogin = (objCookie) =>{
 }
 
 //UDPATE PROFILE BUTTON
-export const onUpdateProfile = (firstName,lastName,username,email,phoneNumber) =>{
+export const onUpdateProfile = (id,firstName,lastName,username,email,phoneNumber) =>{
     return (dispatch) =>{
-        axios.patch(`/updateprofile/${username}`,
+        axios.patch(`/updateprofile/${id}`,
             {
-                
+                first_name: firstName,
+                last_name: lastName,
+                username: username,
+                email: email,
+                phone_number : phoneNumber
             }
-        )
+        ).then(res=>{
+            const {id,first_name, last_name,username,email,phone_number,avatar} = res.data
+            console.log(res)
+
+            dispatch({
+                type:'PROFILE_UPDATE_SUCCESS',
+                payload:{
+                    id: id,
+                    first_name: first_name,
+                    last_name: last_name,
+                    username: username,
+                    email: email,
+                    phone_number: phone_number,
+                    avatar: avatar
+                }
+            })
+
+            cookie.set('user', {id,first_name,last_name,username,email,phone_number,avatar} , {path:'/'})
+        })
     }
 }
+
+//POST AVATAR TO USER
+export const on

@@ -26,9 +26,12 @@ class Register extends Component{
         const lastName = this.lastName.value
         const username = this.username.value
         const email = this.email.value
+        const gender = this.gender.value
         const phoneNumber = this.phoneNumber.value
         const password = this.password.value
         const passwordConfirmation = this.passwordConfirmation.value
+
+        console.log(gender)
 
         registerButton(firstName,lastName,username,email,phoneNumber,password,passwordConfirmation)
     }
@@ -38,7 +41,7 @@ class Register extends Component{
 
             //REGISTER CARD
             <div style={background_style} >
-                <div className="card w-50" style={{height:'550px', margin:'60px auto 175px auto',borderRadius:"15px"}}>
+                <div className="card w-50" style={{height:'600px', margin:'60px auto 175px auto',borderRadius:"15px"}}>
                     <h3 className="card-header">Register</h3>
                     <div className="card-body">
                         
@@ -66,7 +69,7 @@ class Register extends Component{
                         </form>
                         
                         <div class="input-group mb-3">
-                            <select class="custom-select" id="inputGroupSelect01">
+                            <select ref={gender => this.gender = gender} class="custom-select" id="inputGroupSelect01">
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>

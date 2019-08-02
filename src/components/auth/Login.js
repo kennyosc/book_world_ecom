@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import Swal from 'sweetalert2'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
 import background_image from '../../images/background/login_background.jpg'
 import Footer from '../Footer'
@@ -29,44 +30,56 @@ class Register extends Component{
     }
 
     render(){
-        return(
+        if(this.props.user.username === ''){
+            return(
 
-            //REGISTER CARD
-            <div style={background_style} >
-                <div className="card w-50" style={{height:'375px', margin:'60px auto 300px auto',borderRadius:"15px"}}>
-                    <h3 className="card-header">Login</h3>
-                    <div className="card-body">
-
-                        <div className='card-title'>
-                            <h4>Email</h4>
+                //LOGIN CARD
+                <div style={background_style} >
+                    <div className="card w-50" style={{height:'375px', margin:'60px auto 300px auto',borderRadius:"15px"}}>
+                        <h3 className="card-header">Login</h3>
+                        <div className="card-body">
+    
+                            <div className='card-title'>
+                                <h4>Email</h4>
+                            </div>
+                            <form className='input-group'>
+                                <input className='form-control' placeholder='Insert Email'
+                                ref={(email) => {this.email = email}}></input>
+                            </form>
+    
+                            <div className='card-title mt-3'>
+                                <h4>Password</h4>
+                            </div>
+                            <form className='input-group'>
+                                <input className='form-control' placeholder='Insert Password ' type="password"
+                                ref={(password) => {this.password = password}}></input>
+                            </form>
+                            <div className="form-check mt-3">
+                                <input type="checkbox" className="form-check-input" id="dropdownCheck" ref={input => this.remember_me = input}/>
+                                <label className="form-check-label" for="dropdownCheck">
+                                    Remember me
+                                </label>
+                            </div>
+                            <button className='btn btn-primary mt-3' onClick={this.handleLogin}>Login</button>
                         </div>
-                        <form className='input-group'>
-                            <input className='form-control' placeholder='Insert Email'
-                            ref={(email) => {this.email = email}}></input>
-                        </form>
-
-                        <div className='card-title mt-3'>
-                            <h4>Password</h4>
-                        </div>
-                        <form className='input-group'>
-                            <input className='form-control' placeholder='Insert Password ' type="password"
-                            ref={(password) => {this.password = password}}></input>
-                        </form>
-                        <div className="form-check mt-3">
-                            <input type="checkbox" className="form-check-input" id="dropdownCheck" ref={input => this.remember_me = input}/>
-                            <label className="form-check-label" for="dropdownCheck">
-                                Remember me
-                            </label>
-                        </div>
-                        <button className='btn btn-primary mt-3' onClick={this.handleLogin}>Login</button>
+                    </div>
+                    <div className='mt-5'>
+                        <Footer/>
                     </div>
                 </div>
-                <div className='mt-5'>
-                    <Footer/>
-                </div>
-            </div>
-        )
+            )
+        }else{
+            return(
+                <Redirect to ='/'/>
+            )
+        }
     }
 }
 
-export default connect(null, {loginButton})(Register)
+const mapStateToProps = (state) =>{
+    return{
+        user : state.auth
+    }
+}
+
+export default connect(mapStateToProps, {loginButton})(Register)

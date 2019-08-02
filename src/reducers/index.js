@@ -34,6 +34,19 @@ const userReducer = (state = user_init, action) =>{
                 avatar: ''
             }
             break;
+
+        case 'PROFILE_UPDATE_SUCCESS':
+            return{
+                ...state,
+                id: action.payload.id,
+                first_name: action.payload.first_name,
+                last_name: action.payload.last_name,
+                username: action.payload.username,
+                email: action.payload.email,
+                phone_number: action.payload.phone_number,
+                avatar: action.payload.avatar
+            }
+            break;
             
         default:
             return state

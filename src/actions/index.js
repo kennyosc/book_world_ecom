@@ -5,7 +5,7 @@ import cookies from 'universal-cookie'
 const cookie = new cookies()
 
 // REGISTER BUTTON
-export const registerButton = (firstName,lastName,username,email,phoneNumber,password, passwordConfirmation) =>{
+export const registerButton = (firstName,lastName,username,email,gender,phoneNumber,password, passwordConfirmation) =>{
     if(password === passwordConfirmation){
         axios.post('/register',
             {
@@ -13,6 +13,7 @@ export const registerButton = (firstName,lastName,username,email,phoneNumber,pas
                 last_name: lastName,
                 username: username,
                 email: email,
+                gender: gender,
                 phone_number: phoneNumber,
                 password : password
             }
@@ -60,7 +61,7 @@ export const loginButton = (email, password,remember_me) =>{
                     text: res.data
                   })
             }else{
-                const {id,first_name, last_name,username,email,phone_number,avatar} = res.data
+                const {id,first_name, last_name,username,email,gender,phone_number,avatar} = res.data
 
                 dispatch({
                     type:'LOGIN_SUCCESS',
@@ -70,6 +71,7 @@ export const loginButton = (email, password,remember_me) =>{
                         last_name: last_name,
                         username: username,
                         email: email,
+                        gender: gender,
                         phone_number: phone_number,
                         avatar: avatar
                     }
@@ -77,7 +79,7 @@ export const loginButton = (email, password,remember_me) =>{
                 
                 if(remember_me === true){
                     //CREATE COOKIE DATA
-                    cookie.set('user', {id,first_name,last_name,username,email,phone_number,avatar} , {path:'/'})
+                    cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar} , {path:'/'})
                 }
                 
 
@@ -111,6 +113,7 @@ export const keepLogin = (objCookie) =>{
             last_name: objCookie.last_name,
             username: objCookie.username,
             email: objCookie.email,
+            gender:objCookie.gender,
             phone_number:objCookie.phone_number,
             avatar: objCookie.avatar
         }
@@ -118,7 +121,7 @@ export const keepLogin = (objCookie) =>{
 }
 
 //UDPATE PROFILE BUTTON
-export const onUpdateProfile = (id,firstName,lastName,username,email,phoneNumber) =>{
+export const onUpdateProfile = (id,firstName,lastName,username,email,gender,phoneNumber) =>{
     return (dispatch) =>{
         axios.patch(`/updateprofile/${id}`,
             {
@@ -126,10 +129,11 @@ export const onUpdateProfile = (id,firstName,lastName,username,email,phoneNumber
                 last_name: lastName,
                 username: username,
                 email: email,
+                gender:gender,
                 phone_number : phoneNumber
             }
         ).then(res=>{
-            const {id,first_name, last_name,username,email,phone_number,avatar} = res.data
+            const {id,first_name, last_name,username,email,gender,phone_number,avatar} = res.data
             console.log(res)
 
             dispatch({
@@ -140,15 +144,51 @@ export const onUpdateProfile = (id,firstName,lastName,username,email,phoneNumber
                     last_name: last_name,
                     username: username,
                     email: email,
+                    gender:gender,
                     phone_number: phone_number,
                     avatar: avatar
                 }
             })
 
-            cookie.set('user', {id,first_name,last_name,username,email,phone_number,avatar} , {path:'/'})
+            cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar} , {path:'/'})
         })
     }
 }
 
 //POST AVATAR TO USER
-export const on
+export const onUpdateAvatar = (id,avatar, objUser) =>{
+    return(dispatch)=>{
+        const formData = new FormData()
+        formData.append('avatar',avatar)
+
+        axios.patch(`/updateavatar/${id}`,formData).then(res=>{
+            if(typeof(res.data)==='number'){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: res.data
+                  })
+            }else{
+                const {id,first_name, last_name,username,email,gender,phone_number} = objUser
+                
+                console.log(res.data)   
+                dispatch({
+                    type:'PROFILE_PICTURE_UPLOADED',
+                    payload:{
+                        avatar: res.data
+                    }
+                })
+
+                cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number, avatar:res.data} , {path:'/'})
+
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Profile Picture Uploaded!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        })
+    }
+}

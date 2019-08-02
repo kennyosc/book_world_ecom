@@ -7,7 +7,6 @@ const user_init ={
     email: '',
     gender: '',
     phone_number: '',
-    password:'',
     avatar:''
 }
 
@@ -21,6 +20,7 @@ const userReducer = (state = user_init, action) =>{
                 last_name: action.payload.last_name,
                 username: action.payload.username,
                 email: action.payload.email,
+                gender: action.payload.gender,
                 phone_number: action.payload.phone_number,
                 avatar: action.payload.avatar
             }
@@ -43,10 +43,17 @@ const userReducer = (state = user_init, action) =>{
                 last_name: action.payload.last_name,
                 username: action.payload.username,
                 email: action.payload.email,
+                gender:action.payload.gender,
                 phone_number: action.payload.phone_number,
                 avatar: action.payload.avatar
             }
             break;
+
+        case 'PROFILE_PICTURE_UPLOADED':
+            return{
+                ...state,
+                avatar : action.payload.avatar
+            }
             
         default:
             return state

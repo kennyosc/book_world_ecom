@@ -47,7 +47,7 @@ class Profile extends Component{
                             </div>
                             <div class="card col-sm-12 col-md-6 col-lg-7">
                                 <div class="card-body">
-                                    <img className='img-thumbnail w-25' src={this.props.user.avatar} alt="Profile Picture" key={new Date()} />
+                                    <img className='img-thumbnail w-25' src={`http://localhost:2019/profile/avatar/${this.props.user.avatar}`} alt="Profile Picture" key={new Date()} />
         
                                         <h2>{this.props.user.first_name.concat(' ' + this.props.user.last_name)}</h2>
                                         <h5 style={{color:'lightgrey', borderBottom:'1px solid lightgrey', paddingBottom:'20px'}}>{this.props.user.username}</h5>

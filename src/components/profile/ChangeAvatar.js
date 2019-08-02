@@ -2,18 +2,20 @@ import React, {Component} from 'react'
 import ProfileNav from './ProfileNav'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
+import {onUpdateAvatar} from '../../actions/index.js'
 
 import blank_avatar from '../../images/profile/blank_profile_picture.png'
 
 class ChangeAvatar extends Component{
 
     handleUpdateAvatar = () =>{
-        const formData = new FormData()
         const avatar = this.avatar.files[0]
+        console.log(avatar)
 
-        formData.append('avatar',avatar)
+        const id = this.props.user.id
+        const objUser = this.props.user
 
-        this.props.onUpdateAvatar(formData)
+        this.props.onUpdateAvatar(id,avatar,objUser)
     }
 
     render(){
@@ -63,7 +65,7 @@ class ChangeAvatar extends Component{
         
                                 <h2 className='mb-4'>Change Profile Picture</h2>
         
-                                <img className='d-block img-thumbnail w-50 mb-5' src={this.props.user.avatar} alt="Profile Picture" key={new Date()} />
+                                <img className='d-block img-thumbnail w-50 mb-5' src={`http://localhost:2019/profile/avatar/${this.props.user.avatar}`} alt="Profile Picture" key={new Date()} />
         
                                 <form>
                                     <div class="form-group">
@@ -89,4 +91,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(ChangeAvatar)
+export default connect(mapStateToProps,{onUpdateAvatar})(ChangeAvatar)

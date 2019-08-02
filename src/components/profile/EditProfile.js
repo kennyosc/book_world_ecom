@@ -13,9 +13,10 @@ class EditProfile extends Component{
         const lastName = this.lastName.value
         const username = this.username.value
         const email = this.email.value
+        const gender = this.gender.value
         const phoneNumber = this.phoneNumber.value
 
-        this.props.onUpdateProfile(id,firstName,lastName,username,email,phoneNumber)
+        this.props.onUpdateProfile(id,firstName,lastName,username,email,gender,phoneNumber)
     }
  
     render(){

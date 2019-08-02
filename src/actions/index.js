@@ -26,13 +26,11 @@ export const registerButton = (firstName,lastName,username,email,gender,phoneNum
                     text: res.data
                   })
             }else{
-                  Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Register Success!',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
+                  Swal.fire(
+                    'Register Success!',
+                    'A verification email has been sent to your email!',
+                    'success'
+                  )
             }
         })
     } else{
@@ -61,35 +59,44 @@ export const loginButton = (email, password,remember_me) =>{
                     text: res.data
                   })
             }else{
-                const {id,first_name, last_name,username,email,gender,phone_number,avatar} = res.data
-
-                dispatch({
-                    type:'LOGIN_SUCCESS',
-                    payload:{
-                        id: id,
-                        first_name: first_name,
-                        last_name: last_name,
-                        username: username,
-                        email: email,
-                        gender: gender,
-                        phone_number: phone_number,
-                        avatar: avatar
+                const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
+                if(verified === 1){
+                    dispatch({
+                        type:'LOGIN_SUCCESS',
+                        payload:{
+                            id: id,
+                            first_name: first_name,
+                            last_name: last_name,
+                            username: username,
+                            email: email,
+                            gender: gender,
+                            phone_number: phone_number,
+                            avatar: avatar,
+                            verified: verified
+                        }
+                    })
+                    
+                    if(remember_me === true){
+                        //CREATE COOKIE DATA
+                        cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
                     }
-                })
-                
-                if(remember_me === true){
-                    //CREATE COOKIE DATA
-                    cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar} , {path:'/'})
+                    
+    
+                      Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Login Success!',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }else{
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Email verification required',
+                        text: 'Please verify your email first'
+                      })
                 }
-                
-
-                  Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Login Success!',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
+               
             }
         })
     }
@@ -115,7 +122,8 @@ export const keepLogin = (objCookie) =>{
             email: objCookie.email,
             gender:objCookie.gender,
             phone_number:objCookie.phone_number,
-            avatar: objCookie.avatar
+            avatar: objCookie.avatar,
+            verified: objCookie.verified
         }
     }
 }
@@ -133,7 +141,7 @@ export const onUpdateProfile = (id,firstName,lastName,username,email,gender,phon
                 phone_number : phoneNumber
             }
         ).then(res=>{
-            const {id,first_name, last_name,username,email,gender,phone_number,avatar} = res.data
+            const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
             console.log(res)
 
             dispatch({
@@ -146,11 +154,12 @@ export const onUpdateProfile = (id,firstName,lastName,username,email,gender,phon
                     email: email,
                     gender:gender,
                     phone_number: phone_number,
-                    avatar: avatar
+                    avatar: avatar,
+                    verified: verified
                 }
             })
 
-            cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar} , {path:'/'})
+            cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
         })
     }
 }
@@ -169,7 +178,7 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
                     text: res.data
                   })
             }else{
-                const {id,first_name, last_name,username,email,gender,phone_number} = objUser
+                const {id,first_name, last_name,username,email,gender,phone_number, verified} = objUser
                 
                 console.log(res.data)   
                 dispatch({
@@ -179,7 +188,7 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
                     }
                 })
 
-                cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number, avatar:res.data} , {path:'/'})
+                cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number, avatar:res.data, verified} , {path:'/'})
 
                 Swal.fire({
                     position: 'center',

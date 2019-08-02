@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
 
 import {registerButton} from '../../actions/index.js'
 
@@ -32,13 +31,10 @@ class Register extends Component{
         const password = this.password.value
         const passwordConfirmation = this.passwordConfirmation.value
 
-        console.log(gender)
+        console.log(password)
+        console.log(passwordConfirmation)
 
         registerButton(firstName,lastName,username,email,gender,phoneNumber,password,passwordConfirmation)
-
-        return(
-            <Redirect to ='/login'/>
-        )
     }
 
     render(){

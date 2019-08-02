@@ -7,7 +7,8 @@ const user_init ={
     email: '',
     gender: '',
     phone_number: '',
-    avatar:''
+    avatar:'',
+    verified: 0
 }
 
 const userReducer = (state = user_init, action) =>{
@@ -22,7 +23,8 @@ const userReducer = (state = user_init, action) =>{
                 email: action.payload.email,
                 gender: action.payload.gender,
                 phone_number: action.payload.phone_number,
-                avatar: action.payload.avatar
+                avatar: action.payload.avatar,
+                verified: action.payload.verified
             }
             break;
 

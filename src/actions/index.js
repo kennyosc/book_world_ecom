@@ -2,6 +2,7 @@ import axios from '../config/axios.js'
 import Swal from 'sweetalert2'
 import cookies from 'universal-cookie'
 
+
 const cookie = new cookies()
 
 // REGISTER BUTTON
@@ -199,5 +200,41 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
                   })
             }
         })
+    }
+}
+
+export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmation) =>{
+    return(dispatch)=>{
+        if(newPassword === newPasswordConfirmation){
+            if(oldPassword !== newPassword){
+                axios.patch(`/updatepassword/${id}`,
+                    {
+                        oldPassword,
+                        newPassword
+                    }
+                ).then(res=>{
+                    console.log(res)
+                    Swal.fire({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Password Updated!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                })
+            }else{
+                Swal.fire({
+                type: 'error',
+                title: 'Password must not be the same',
+                text: 'Please change your password'
+                })
+            }
+        }else{
+            Swal.fire({
+                type: 'error',
+                title: 'New password does not match',
+                text: 'Please match your new password'
+                })
+        }
     }
 }

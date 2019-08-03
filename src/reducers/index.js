@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
 const user_init ={
+    id: '',
     first_name : '',
     last_name : '',
     username: '',
@@ -9,6 +10,10 @@ const user_init ={
     phone_number: '',
     avatar:'',
     verified: 0
+}
+
+const admin_init = {
+    
 }
 
 const userReducer = (state = user_init, action) =>{
@@ -29,12 +34,9 @@ const userReducer = (state = user_init, action) =>{
             break;
 
         case 'LOGOUT_SUCCESS':
-            return{
-                ...state,
-                id: '',
-                username: '',
-                avatar: ''
-            }
+            return(
+                user_init
+            )
             break;
 
         case 'PROFILE_UPDATE_SUCCESS':
@@ -61,6 +63,10 @@ const userReducer = (state = user_init, action) =>{
             return state
             break;
     }
+}
+
+const adminReducer = (state,action)=>{
+
 }
 
 export default combineReducers(

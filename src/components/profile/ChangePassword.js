@@ -3,8 +3,19 @@ import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import ProfileNav from './ProfileNav'
+import {onChangePassword} from '../../actions/index.js'
 
 class ChangePassword extends Component{
+
+    handleChangePassword = () =>{
+        const password = this.password.value
+        const passwordConfirmation = this.passwordConfirmation.value
+        const newPasswordConfirmation = this.newPasswordConfirmation.value
+        const id = this.props.user.id
+
+        this.props.onChangePassword(id,password,passwordConfirmation,newPasswordConfirmation)
+    }
+
     render(){
             if(this.props.user.username === ''){
                 return(
@@ -24,16 +35,21 @@ class ChangePassword extends Component{
                                 <h2 className='mb-4'>Change Password</h2>
         
                                 <form className='input-group'>
-                                    <input className='form-control' type="password" placeholder='*Password'
+                                    <input className='form-control' type="password" placeholder='*Old Password'
                                     ref={(password) => {this.password = password}}></input>
                                 </form>
         
                                 <form className='input-group my-3'>
-                                    <input className='form-control' type="password" placeholder='*Password Confirmation'
+                                    <input className='form-control' type="password" placeholder='*New Password'
                                     ref={(input) => {this.passwordConfirmation = input}}></input>
                                 </form>
+
+                                <form className='input-group my-3'>
+                                    <input className='form-control' type="password" placeholder='*New Password Confirmation'
+                                    ref={(input) => {this.newPasswordConfirmation = input}}></input>
+                                </form>
                                 
-                                <button className='btn btn-primary mt-3' onClick={this.handleRegister}>Change Password</button>
+                                <button className='btn btn-primary mt-3' onClick={this.handleChangePassword}>Change Password</button>
                                 </div>
                             </div>
                         </div>
@@ -49,4 +65,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(ChangePassword)
+export default connect(mapStateToProps,{onChangePassword})(ChangePassword)

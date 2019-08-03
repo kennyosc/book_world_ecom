@@ -26,7 +26,7 @@ class Profile extends Component{
                                         <img className='img-thumbnail w-25' src={blank_avatar} alt="Profile Picture" key={new Date()} />
             
                                             <h2>{this.props.user.first_name.concat(' ' + this.props.user.last_name)}</h2>
-                                            <h5 style={{color:'lightgrey', borderBottom:'1px solid lightgrey', paddingBottom:'20px'}}>{this.props.user.username}</h5>
+                                            <h5 style={{color:'lightgrey', borderBottom:'1px solid lightgrey', paddingBottom:'20px'}}>@{this.props.user.username}</h5>
             
                                             <p className='my-3'><b>Email:</b> {this.props.user.email}</p>
                                             <p><b>Phone Number:</b> {this.props.user.phone_number}</p>
@@ -50,7 +50,7 @@ class Profile extends Component{
                                         <img className='img-thumbnail w-25' src={`http://localhost:2019/profile/avatar/${this.props.user.avatar}`} alt="Profile Picture" key={new Date()} />
             
                                             <h2>{this.props.user.first_name.concat(' ' + this.props.user.last_name)}</h2>
-                                            <h5 style={{color:'lightgrey', borderBottom:'1px solid lightgrey', paddingBottom:'20px'}}>{this.props.user.username}</h5>
+                                            <h5 style={{color:'lightgrey', borderBottom:'1px solid lightgrey', paddingBottom:'20px'}}>@{this.props.user.username}</h5>
             
                                             <p className='my-3'><b>Email:</b> {this.props.user.email}</p>
                                             <p><b>Phone Number:</b> {this.props.user.phone_number}</p>

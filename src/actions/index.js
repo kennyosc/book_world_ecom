@@ -203,6 +203,7 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
     }
 }
 
+//CHANGE USER PASSWORD
 export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmation) =>{
     return(dispatch)=>{
         if(newPassword === newPasswordConfirmation){
@@ -236,5 +237,36 @@ export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmat
                 text: 'Please match your new password'
                 })
         }
+    }
+}
+
+// ============================ADMIN=================================
+//ADMIN LOGIN ROUTE
+export const onAdminLogin = (username,password) =>{
+    return(dispatch)=>{
+        axios.post('/admin/login',
+            {
+                username,
+                password
+            }
+        ).then(res=>{
+            console.log(res)
+            const {id,username,email} = res.data
+            dispatch({
+                type:'ADMIN_LOGIN_SUCCESS',
+                payload:{
+                    id,
+                    username,
+                    email
+                }
+            })
+            Swal.fire({
+                position: 'center',
+                type: 'success',
+                title: 'Login Success!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
     }
 }

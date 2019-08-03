@@ -13,7 +13,9 @@ const user_init ={
 }
 
 const admin_init = {
-    
+    id: '',
+    username: '',
+    email: ''
 }
 
 const userReducer = (state = user_init, action) =>{
@@ -65,12 +67,26 @@ const userReducer = (state = user_init, action) =>{
     }
 }
 
-const adminReducer = (state,action)=>{
-
+const adminReducer = (state = admin_init,action)=>{
+    switch (action.type) {
+        case 'ADMIN_LOGIN_SUCCESS':
+            return{
+                id: action.payload.id,
+                username: action.payload.username,
+                email: action.payload.email
+            }
+            
+            break;
+    
+        default:
+            //this must be se or redux will read it as undefined
+            return state;
+    }
 }
 
 export default combineReducers(
     {
-        auth: userReducer
+        auth: userReducer,
+        admin_auth : adminReducer
     }
 )

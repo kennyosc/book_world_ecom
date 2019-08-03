@@ -4,7 +4,6 @@ import cookies from 'universal-cookie'
 import {keepLogin} from '../actions/index.js'
 import {connect} from 'react-redux'
 
-import Header from './Header'
 import Home from './home/Home'
 import Register from './auth/Register.js'
 import Login from './auth/Login.js'
@@ -15,6 +14,7 @@ import ChangePassword from './profile/ChangePassword.js'
 import ChangeAvatar from './profile/ChangeAvatar.js'
 
 import LoginAdmin from './admin/AdminLogin.js'
+import Admin from './admin/Admin.js'
 
 const cookie = new cookies()
 
@@ -33,7 +33,6 @@ class App extends Component{
         return(
             <BrowserRouter>
                 <div>
-                    <Header/>
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
@@ -45,6 +44,7 @@ class App extends Component{
                 </div>
                 <div>
                         <Route path='/login-admin' component={LoginAdmin}/>
+                        <Route path='/admin' component={Admin}/>
                 </div>
             </BrowserRouter>
         )

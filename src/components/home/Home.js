@@ -1,4 +1,5 @@
 import React,{Component} from 'react'
+import Header from '../headers/Header.js'
 import MainCarousel from './MainCarousel'
 import BestSeller from './BestSeller'
 import NewsReview from './NewsReview'
@@ -15,6 +16,7 @@ class Home extends Component{
     render(){
         return(
             <div>
+                <Header/>
                 <MainCarousel/>
                 <div className='container'>
                     <NewsReview/>

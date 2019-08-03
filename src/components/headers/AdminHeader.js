@@ -30,8 +30,8 @@ class AdminHeader extends Component{
                         </li>
 
                         <li className="nav-item">
-                            <Link to='/admin/manageproduct'>
-                                <a className="nav-link" href="#">Manage Product</a>
+                            <Link to='/admin/manageproducts'>
+                                <a className="nav-link" href="#">Manage Products</a>
                             </Link>
                         </li>
 

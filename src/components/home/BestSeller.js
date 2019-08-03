@@ -25,8 +25,8 @@ class BestSeller extends Component{
                                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                             </div>
                             <div className='text-center'>
-                                <button className='btn btn-outline-danger w-50'>Add to Cart</button>
-                                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                                <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>
+                                <button className='btn btn-danger'><i className="far fa-heart"></i></button>
                             </div>
                         </div>
 
@@ -38,8 +38,8 @@ class BestSeller extends Component{
                                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
                             </div>
                             <div className='text-center'>
-                                <button className='btn btn-outline-danger w-50'>Add to Cart</button>
-                                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                                <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>
+                                <button className='btn btn-danger'><i className="far fa-heart"></i></button>
                             </div>
                         </div>
 
@@ -51,8 +51,8 @@ class BestSeller extends Component{
                                 <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                             </div>
                             <div className='text-center'>
-                                <button className='btn btn-outline-danger w-50'>Add to Cart</button>
-                                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                                <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>
+                                <button className='btn btn-danger'><i className="far fa-heart"></i></button>
                             </div>
                         </div>
                     </div>

@@ -15,6 +15,9 @@ import ChangeAvatar from './profile/ChangeAvatar.js'
 
 import LoginAdmin from './admin/AdminLogin.js'
 import Admin from './admin/Admin.js'
+import ManageProducts from './admin/manageproducts/ManageProducts.js'
+import ManageCategories from './admin/manageproducts/ManageCategories.js'
+import AddProduct from './admin/manageproducts/AddProduct.js'
 
 const cookie = new cookies()
 
@@ -44,7 +47,10 @@ class App extends Component{
                 </div>
                 <div>
                         <Route path='/login-admin' component={LoginAdmin}/>
-                        <Route path='/admin' component={Admin}/>
+                        <Route path='/admin' exact component={Admin}/>
+                        <Route path='/admin/manageproducts' component={ManageProducts}/>
+                        <Route path='/admin/managecategories' component={ManageCategories}/>
+                        <Route path='/admin/addproduct' component={AddProduct}/>
                 </div>
             </BrowserRouter>
         )

@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import AdminHeader from '../headers/AdminHeader.js'
+import {Link} from 'react-router-dom'
 
 import admin_orders from '../../images/admin/admin_orders.jpg'
 import admin_people from '../../images/admin/admin_people.jpg'
@@ -16,22 +17,32 @@ class Admin extends Component{
                             <img className="card-img-top" src={admin_products} alt="Card image cap"/>
                             <div className="card-body">
                             <h5 className="card-title">Products</h5>
-                            <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                            <p className="card-text">This is where you can manage your products and product categories</p>
                             </div>
+                            <Link to='/admin/manageproducts'>
+                                <button className='btn btn-primary btn-block'>Manage Products</button>
+                            </Link>
                         </div>
                         <div className="card">
                             <img className="card-img-top" src={admin_orders} alt="Card image cap"/>
                             <div className="card-body">
                             <h5 className="card-title">Orders</h5>
-                            <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                            <p className="card-text">Manage users orders here!</p>
                             </div>
+                            <Link to='/admin/orders'>
+                                <button className='btn btn-primary btn-block'>Manage Orders</button>
+                            </Link>
+
                         </div>
                         <div className="card">
                             <img className="card-img-top" src={admin_people} alt="Card image cap"/>
                             <div className="card-body">
                             <h5 className="card-title">People</h5>
-                            <p className="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p className="card-text">Here you can see users account and manage admins</p>
                             </div>
+                            <Link to='/admin/people'>
+                                <button className='btn btn-primary btn-block'>Manage People</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

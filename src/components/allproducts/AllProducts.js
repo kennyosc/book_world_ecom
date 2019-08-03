@@ -1,10 +1,13 @@
 import React, {Component} from 'react'
+import Header from '../headers/Header.js'
 
 class AllProducts extends Component{
     render(){
         return(
-            <div className='container'>
-                <div className="row">
+            <div>
+                <Header/>
+                <div className='container'>
+                    <div className="row">
                                 <div className="col-sm-12 col-lg-3 position-sticky">
                                     <div className="mt-4">
                                         <div className="mx-auto card">
@@ -42,6 +45,7 @@ class AllProducts extends Component{
                                 
                             </div>
                         </div>
+                </div>
             </div>
         )
     }

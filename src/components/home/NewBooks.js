@@ -23,7 +23,7 @@ class NewBooks extends Component{
               <h5 className="card-title">Alibaba</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
-              <div className='text-center'>
+              <div className='text-center m-3'>
                   <button className='btn btn-outline-danger'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
@@ -35,7 +35,7 @@ class NewBooks extends Component{
               <h5 className="card-title">Crushing It</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
-              <div className='text-center'>
+              <div className='text-center m-3'>
                   <button className='btn btn-outline-danger'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
@@ -47,7 +47,7 @@ class NewBooks extends Component{
               <h5 className="card-title">Hug Your Haters</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
-              <div className='text-center'>
+              <div className='text-center m-3'>
                   <button className='btn btn-outline-danger'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
@@ -59,7 +59,7 @@ class NewBooks extends Component{
               <h5 className="card-title">Building A Story Brand</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
-              <div className='text-center'>
+              <div className='text-center m-3'>
                   <button className='btn btn-outline-danger'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
@@ -71,7 +71,7 @@ class NewBooks extends Component{
               <h5 className="card-title">The Lean Startup</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
-              <div className='text-center'>
+              <div className='text-center m-3'>
                   <button className='btn btn-outline-danger'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>

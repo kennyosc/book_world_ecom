@@ -4,6 +4,9 @@ import {connect} from 'react-redux'
 import {logoutButton} from '../../actions/index.js'
 import Swal from 'sweetalert2'
 
+import {loginButton} from '../../actions/index.js'
+import LoginDropdown from '../auth/LoginDropdown.js'
+
 
 class Header extends Component{
 
@@ -23,7 +26,7 @@ class Header extends Component{
         if(this.props.user.username === ''){
             return(
                 // NAVBAR BEFORE LOGIN
-                <nav className="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+                <nav className="navbar sticky-top navbar-expand-md navbar-light bg-light border-bottom">
                     <Link to='/'>
                         <a className="navbar-brand" href="#">Book World</a>
                     </Link>
@@ -48,25 +51,26 @@ class Header extends Component{
                             </li>
                         
                         </ul>
-                        <Link to='/login'>
-                            <button className='btn btn-outline-light'>Login</button>
-                        </Link>
+                        
+                        {/* LOGIN DROPDOWN BUTTON */}
+                        <LoginDropdown/>
+
                         <Link to='/register'>
-                            <button className='btn btn-outline-light mx-3'>Register</button>
+                            <button className='btn btn-success mx-3 btn-sm'>Register</button>
                         </Link>
     
                         {/* NAVBAR SEARCH */}
                         <form className="form-inline my-2 my-lg-0">
                             <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                         </form>
-                            <button className="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                            <button className="btn btn-dark my-2 my-sm-0 btn-sm" type="submit">Search</button>
                     </div>
                 </nav>
             )
         }else{
             return(
                 // NAVBAR AFTER LOGIN
-                <nav className="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+                <nav className="navbar sticky-top navbar-expand-md navbar-light bg-light border-bottom">
                     <Link to='/'>
                         <a className="navbar-brand" href="#">Book World</a>
                     </Link>
@@ -106,7 +110,7 @@ class Header extends Component{
                         <form className="form-inline my-2 my-lg-0">
                             <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                         </form>
-                            <button className="btn btn-outline-light my-1 mx-2 my-sm-0" type="submit">Search</button>
+                            <button className="btn btn-success my-1 mx-2 my-sm-0" type="submit">Search</button>
                             <button className='btn btn-outline-danger' onClick={this.handleLogout}><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 </nav>
@@ -121,4 +125,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps, {logoutButton})(Header)
+export default connect(mapStateToProps, {logoutButton, loginButton})(Header)

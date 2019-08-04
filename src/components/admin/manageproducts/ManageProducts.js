@@ -33,10 +33,49 @@ class ManageProducts extends Component{
                             </ul>
                         </div>
 
-                        <div class="card-body">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <div class="card-body p-0">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr className='table-active'>
+                                    <th className='w-25' scope="col">Product Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Stock</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                        <td colspan="2">Larry the Bird</td>
+                                        <td>@twitter</td>
+                                        <td>@twitter</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                        <td colspan="2">Larry the Bird</td>
+                                        <td>@twitter</td>
+                                        <td>@twitter</td>
+                                </tr>
+                            </tbody>
+                            </table>
+                            <div/>
+
+                            
                         </div>
 
                     </div>

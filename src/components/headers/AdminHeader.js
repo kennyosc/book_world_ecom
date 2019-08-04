@@ -11,7 +11,7 @@ class AdminHeader extends Component{
     render(){
         return(
             // NAVBAR AFTER LOGIN
-            <nav className="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+            <nav className="navbar sticky-top navbar-expand-md navbar-light bg-white">
                 <Link to='/admin'>
                     <a className="navbar-brand" href="#">Admin Book World</a>
                 </Link>

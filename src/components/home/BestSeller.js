@@ -15,14 +15,14 @@ class BestSeller extends Component{
                 </div>
 
                 {/*CARD FOR BEST SELLER */}
-                <div class="card-group mb-5">
+                <div className="card-group mb-5">
 
                         {/* FIRST CARD */}
-                        <div class="card pb-4">
-                            <img src={bs1} class="card-img-top" alt="..."/>
-                            <div class="card-body">
-                                <h5 class="card-title">The Ten Types Of Human</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <div className="card pb-4">
+                            <img src={bs1} className="card-img-top" alt="..."/>
+                            <div className="card-body">
+                                <h5 className="card-title">The Ten Types Of Human</h5>
+                                <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                             </div>
                             <div className='text-center'>
                                 <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>
@@ -31,11 +31,11 @@ class BestSeller extends Component{
                         </div>
 
                         {/* SECOND CARD */}
-                        <div class="card pb-4">
-                            <img src={bs2} class="card-img-top" alt="..."/>
-                            <div class="card-body">
-                                <h5 class="card-title">The Key To Happiness</h5>
-                                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+                        <div className="card pb-4">
+                            <img src={bs2} className="card-img-top" alt="..."/>
+                            <div className="card-body">
+                                <h5 className="card-title">The Key To Happiness</h5>
+                                <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
                             </div>
                             <div className='text-center'>
                                 <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>
@@ -44,11 +44,11 @@ class BestSeller extends Component{
                         </div>
 
                         {/* THIRD CARD */}
-                        <div class="card pb-4">
-                            <img src={bs3} class="card-img-top" alt="..."/>
-                            <div class="card-body">
-                                <h5 class="card-title">Everyday Millionaires</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+                        <div className="card pb-4">
+                            <img src={bs3} className="card-img-top" alt="..."/>
+                            <div className="card-body">
+                                <h5 className="card-title">Everyday Millionaires</h5>
+                                <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
                             </div>
                             <div className='text-center'>
                                 <button className='btn btn-danger w-50 mx-1'>Add to Cart</button>

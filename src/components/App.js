@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 
 import Home from './home/Home'
 import Register from './auth/Register.js'
-import Login from './auth/Login.js'
+// import Login from './auth/Login.js'
 import AllProducts from './allproducts/AllProducts.js'
 import Profile from './profile/Profile.js'
 import EditProfile from './profile/EditProfile.js'
@@ -38,7 +38,7 @@ class App extends Component{
                 <div>
                         <Route path='/' exact component={Home}/>
                         <Route path='/register' component={Register}/>
-                        <Route path='/login' component={Login}/>
+                        {/* <Route path='/login' component={Login}/> */}
                         <Route path='/allproduct' component={AllProducts}/>
                         <Route path='/profile' component={Profile}/>
                         <Route path='/editprofile' component={EditProfile}/>

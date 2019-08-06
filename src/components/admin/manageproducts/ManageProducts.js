@@ -1,9 +1,35 @@
 import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
+import axios from '../../../config/axios.js'
 
 import AdminHeader from '../../headers/AdminHeader'
 
 class ManageProducts extends Component{
+
+    state={
+        products: []
+    }
+
+    componentDidMount(){
+        axios.get('/allproducts').then(res=>{
+            this.setState({products: res.data})
+        })
+    }
+
+    renderAllProducts = () =>{
+        return this.state.products.map((val)=>{
+            return(
+                <tr>
+                    <th scope="row">{val.id}</th>
+                    <td>{val.name}</td>
+                    <td>Rp {val.price.toLocaleString('IN')},-</td>
+                    <td>{val.stock}</td>
+                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                </tr>
+            )
+        })
+    }
+
     render(){
         return(
             <div>
@@ -37,7 +63,7 @@ class ManageProducts extends Component{
                         <table class="table table-hover">
                             <thead>
                                 <tr className='table-active'>
-                                    <th className='w-25' scope="col">Product Id</th>
+                                    <th style={{width:'20%'}} scope="col">Product Id</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Stock</th>
@@ -45,32 +71,7 @@ class ManageProducts extends Component{
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                </tr>
+                                {this.renderAllProducts()}
                             </tbody>
                             </table>
                             <div/>

@@ -36,7 +36,7 @@ class NewBooks extends Component{
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
               <div className='text-center m-3'>
-                  <button className='btn btn-outline-danger'>Add to Cart</button>
+                  <button className='btn btn-outline-danger mx-1'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
           </div>
@@ -48,7 +48,7 @@ class NewBooks extends Component{
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
               <div className='text-center m-3'>
-                  <button className='btn btn-outline-danger'>Add to Cart</button>
+                  <button className='btn btn-outline-danger mx-1'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
           </div>
@@ -60,7 +60,7 @@ class NewBooks extends Component{
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
               <div className='text-center m-3'>
-                  <button className='btn btn-outline-danger'>Add to Cart</button>
+                  <button className='btn btn-outline-danger mx-1'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
           </div>
@@ -72,7 +72,7 @@ class NewBooks extends Component{
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             </div>
               <div className='text-center m-3'>
-                  <button className='btn btn-outline-danger'>Add to Cart</button>
+                  <button className='btn btn-outline-danger mx-1'>Add to Cart</button>
                   <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
               </div>
           </div>

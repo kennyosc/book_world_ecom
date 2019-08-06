@@ -67,7 +67,7 @@ class EditProfile extends Component{
                                     </form>
                                     
                                     <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect01" defaultValue={this.props.user.gender}>
+                                        <select class="custom-select" id="inputGroupSelect01" ref={input => this.gender = input} defaultValue={this.props.user.gender}>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                         </select>

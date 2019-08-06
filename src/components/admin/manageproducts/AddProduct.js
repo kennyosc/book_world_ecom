@@ -1,9 +1,79 @@
 import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
+import axios from '../../../config/axios.js'
 
 import AdminHeader from '../../headers/AdminHeader'
 
 class AddProduct extends Component{
+
+    state={
+        categories:[],
+        genres:[]
+    }
+
+    componentDidMount(){
+        //get product categories
+        axios.get('/productcategories').then(res=>{
+            this.setState({categories:res.data})
+        })
+
+        //get product genres
+        axios.get('/productgenres').then(res=>{
+            this.setState({genres:res.data})
+        })
+    }
+
+    renderCategories = () =>{
+        var hasil = this.state.categories.map(val=>{
+            return(
+            <option value={val.id}>{val.category}</option>
+            )
+        })
+
+        return hasil
+    }
+
+    renderGenres = () =>{
+        var hasil = this.state.genres.map(val=>{
+            return(
+                <option value={val.id}>{val.genre}</option>
+            )
+        })
+        return hasil
+    }
+
+    handleAddProduct = () =>{
+        const productName = this.productName.value
+        const productPrice = this.price.value
+        const stock = this.stock.value
+        const productDesc = this.productDescription.value
+        const productCategoryId = this.category.value
+        const genreId = this.genre.value
+        const author = this.author.value
+        const published = this.published.value
+        const weight = this.weight.value
+        const productImage = this.productImage.files[0]
+
+        const formData = new FormData()
+        //products
+        formData.append('name',productName)
+        formData.append('price',productPrice)
+        formData.append('stock',stock)
+        formData.append('productImage',productImage)
+        formData.append('weight',weight)
+        formData.append('description',productDesc)
+        formData.append('author',author)
+        formData.append('published',published)
+        //product_categories
+        formData.append('category_id',productCategoryId)
+        formData.append('genre_id',genreId)
+
+        axios.post('/addproduct',formData).then(res=>{
+            console.log(res)
+        })
+        
+    }
+
     render(){
         return(
             <div>
@@ -48,7 +118,7 @@ class AddProduct extends Component{
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label for="inputEmail4">Price</label>
-                                    <input type="number" min='1' className="form-control" id="inputEmail4" placeholder='Rp'/>
+                                    <input type="number" min='1' className="form-control" id="inputEmail4" placeholder='Rp' ref={input => this.price = input}/>
                                     <small className="form-text text-muted mt-3">
                                     Input only number
                                     {/*  <p className='card-text'>Rp{price.toLocaleString('IN')},-</p> */}
@@ -56,7 +126,7 @@ class AddProduct extends Component{
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label for="inputPassword4">Stock</label>
-                                    <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Min 1" defaultValue='1'/>
+                                    <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Min 1" defaultValue='1' ref={input => this.stock = input}/>
                                     <small className="form-text text-muted mt-3">
                                     Minimum 1 product in stock
                                     </small>
@@ -70,24 +140,51 @@ class AddProduct extends Component{
 
                             <div className="form-row">
                                 
-
-                                <div className="form-group col-md-4">
-                                    <label for="inputPassword4">Weight</label>
-                                    <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue='1'/>
-                                    <small className="form-text text-muted mt-3">
-                                        Default weight is 1 kg
-                                    </small>
-                                </div>
-
                                 <div class="form-group col-md-4">
                                     <label for="inputState">Product Category</label>
-                                    <select id="inputState" class="form-control">
+                                    <select id="inputState" class="form-control" ref={input => this.category = input}>
                                         <option selected>Choose...</option>
-                                        <option>...</option>
+                                        {this.renderCategories()}
+                                    </select>
+                                </div>
+                               
+
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">Genre</label>
+                                    <select id="inputState" class="form-control" ref={input => this.genre = input}>
+                                        <option selected>Choose...</option>
+                                        {this.renderGenres()}
                                     </select>
                                 </div>
                             </div>
-                            </form>
+
+                            <div className='form-row'>
+                                <div className="form-groupcol-md-4">
+                                    <label for="inputPassword4">Author</label>
+                                    <input type="text" className="form-control"  placeholder="Author Name" ref={input => this.author = input}/>
+                                </div>
+
+                                <div className="form-group col-md-6">
+                                    <label for="inputPassword4">Published</label>
+                                    <input type="text" className="form-control"  placeholder="2018" ref={input => this.published = input}/>
+                                </div> 
+                            </div>
+                            
+
+                            <div className="form-group w-25">
+                                <label for="inputPassword4">Weight</label>
+                                <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue='1' ref={input => this.weight = input}/>
+                                <small className="form-text text-muted mt-3">
+                                    Default weight is 1 kg
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">Product Image</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1" ref={input => this.productImage = input}/>
+                            </div>
+
+                            </form>                            
                             
                             <button className='btn btn-success mt-5 btn-block' onClick={this.handleAddProduct}>Add Product</button>
 

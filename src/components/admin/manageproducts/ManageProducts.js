@@ -24,7 +24,7 @@ class ManageProducts extends Component{
                     <td>{val.name}</td>
                     <td>Rp {val.price.toLocaleString('IN')},-</td>
                     <td>{val.stock}</td>
-                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
                 </tr>
             )
         })

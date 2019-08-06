@@ -19,6 +19,7 @@ import ManageProducts from './admin/manageproducts/ManageProducts.js'
 import ManageCategories from './admin/manageproducts/ManageCategories.js'
 import AddProduct from './admin/manageproducts/AddProduct.js'
 import EditProduct from './admin/manageproducts/EditProduct.js'
+import ManagePeople from './admin/people/ManagePeople.js'
 
 const cookie = new cookies()
 
@@ -53,6 +54,7 @@ class App extends Component{
                         <Route path='/admin/managecategories' component={ManageCategories}/>
                         <Route path='/admin/addproduct' component={AddProduct}/>
                         <Route path='/admin/editproduct/:product_id' component={EditProduct}/>
+                        <Route path='/admin/managepeople' component={ManagePeople}/>
                 </div>
             </BrowserRouter>
         )

@@ -16,6 +16,19 @@ class ManageProducts extends Component{
         })
     }
 
+    renderAll = () =>{
+        axios.get('/allproducts').then(res=>{
+            this.setState({products: res.data})
+        })
+    }
+
+    handleDeleteProduct = (id) =>{
+        axios.delete(`/deleteproduct/${id}`).then(res=>{
+            console.log(res)
+            this.renderAll()
+        })
+    }
+
     renderAllProducts = () =>{
         return this.state.products.map((val)=>{
             return(
@@ -24,7 +37,7 @@ class ManageProducts extends Component{
                     <td>{val.name}</td>
                     <td>Rp {val.price.toLocaleString('IN')},-</td>
                     <td>{val.stock}</td>
-                    <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
                 </tr>
             )
         })

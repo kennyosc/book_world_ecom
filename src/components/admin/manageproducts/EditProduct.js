@@ -8,7 +8,6 @@ class EditProduct extends Component{
 
     state={
         editProduct:[],
-        editproduct_category:[],
         categories:[],
         genres:[]
     }
@@ -27,13 +26,8 @@ class EditProduct extends Component{
         })
 
         //get product per id for edit
-        axios.get('/product/' + product_id).then(res=>{
-            this.setState({editProduct:res.data})
-        })
-
-        //get product per id for edit
         axios.get('/productcategory/' + product_id).then(res=>{
-            this.setState({editproduct_category:res.data})
+            this.setState({editProduct:res.data})
         })
     }
 
@@ -56,7 +50,8 @@ class EditProduct extends Component{
         return hasil
     }
 
-    handleAddProduct = () =>{
+    handleEditProduct = () =>{
+        const product_id = this.props.match.params.product_id
         const productName = this.productName.value
         const productPrice = this.price.value
         const stock = this.stock.value
@@ -73,28 +68,18 @@ class EditProduct extends Component{
         formData.append('name',productName)
         formData.append('price',productPrice)
         formData.append('stock',stock)
-        formData.append('productImage',productImage)
+        formData.append('photo',productImage)
         formData.append('weight',weight)
         formData.append('description',productDesc)
         formData.append('author',author)
         formData.append('published',published)
-        //product_categories
-        formData.append('category_id',productCategoryId)
-        formData.append('genre_id',genreId)
-
-        axios.post('/addproduct',formData).then(res=>{
-            console.log(res)
-        })
         
     }
 
     render(){
         const book = this.state.editProduct
-        const cg = this.state.editproduct_category
         console.log(book)
-        console.log(cg)
-        
-
+ 
         return(
             <div>
                 <AdminHeader/>
@@ -166,8 +151,8 @@ class EditProduct extends Component{
                                 
                                 <div className="form-group col-md-4">
                                     <label for="inputState">Product Category</label>
-                                    <select id="inputState" className="form-control" defaultValue={cg.category} ref={input => this.category = input}>
-                                        <option value={cg.category} selected>--{cg.category}</option>
+                                    <select id="inputState" className="form-control" defaultValue={book.category} ref={input => this.category = input}>
+                                        <option value={book.category_id} selected>--{book.category}</option>
                                         {this.renderCategories()}
                                     </select>
                                 </div>
@@ -175,8 +160,8 @@ class EditProduct extends Component{
 
                                 <div className="form-group col-md-4">
                                     <label for="inputState">Genre</label>
-                                    <select id="inputState" className="form-control" defaultValue={cg.genre} ref={input => this.genre = input}>
-                                        <option value={cg.genre} selected>--{cg.genre}</option>
+                                    <select id="inputState" className="form-control" defaultValue={book.genre} ref={input => this.genre = input}>
+                                        <option value={book.genre_id} selected>--{book.genre}</option>
                                         {this.renderGenres()}
                                     </select>
                                 </div>
@@ -210,7 +195,7 @@ class EditProduct extends Component{
 
                             </form>                            
                             
-                            <button className='btn btn-success mt-5 btn-block' onClick={this.handleAddProduct}>Add Product</button>
+                            <button className='btn btn-warning mt-5 btn-block' onClick={this.handleEditProduct}>Edit Product</button>
 
                         </div>
 

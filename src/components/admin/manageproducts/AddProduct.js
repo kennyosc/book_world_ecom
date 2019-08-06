@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {Link} from 'react-router-dom'
 import axios from '../../../config/axios.js'
+import Swal from 'sweetalert2'
 
 import AdminHeader from '../../headers/AdminHeader'
 
@@ -69,7 +70,13 @@ class AddProduct extends Component{
         formData.append('genre_id',genreId)
 
         axios.post('/addproduct',formData).then(res=>{
-            console.log(res)
+            Swal.fire({
+                position: 'center',
+                type: 'success',
+                title: 'Product Added!',
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         
     }

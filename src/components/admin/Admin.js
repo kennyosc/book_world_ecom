@@ -40,7 +40,7 @@ class Admin extends Component{
                             <h5 className="card-title">People</h5>
                             <p className="card-text">Here you can see users account and manage admins</p>
                             </div>
-                            <Link to='/admin/people'>
+                            <Link to='/admin/managepeople'>
                                 <button className='btn btn-primary btn-block'>Manage People</button>
                             </Link>
                         </div>

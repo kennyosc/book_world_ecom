@@ -24,7 +24,7 @@ class AdminHeader extends Component{
                     <ul className="navbar-nav mr-auto">
 
                         <li className="nav-item">
-                            <Link to='/admin/people'>
+                            <Link to='/admin/managepeople'>
                                 <a className="nav-link" href="#">People<span className="sr-only">(current)</span></a>
                             </Link>
                         </li>

@@ -35,13 +35,27 @@ class ManageCategories extends Component{
         })
     }
 
+    handleDeleteCategory = (id) =>{
+        axios.delete(`/deletecategory/${id}`).then(res=>{
+            console.log(res)
+            this.renderAll()
+        })
+    }
+
+    handleDeleteGenre = (id) =>{
+        axios.delete(`/deletegenre/${id}`).then(res=>{
+            console.log(res)
+            this.renderAll()
+        })
+    }
+
     renderCategories = () =>{
         var hasil = this.state.categories.map((val,index)=>{
             return(
                 <tr>
                     <th className='border-right'scope="row">{index+1}</th>
                     <td>{val.category}</td>
-                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button onClick={()=>this.handleDeleteCategory(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
                 </tr>
                 
             )
@@ -55,7 +69,7 @@ class ManageCategories extends Component{
                 <tr>
                     <th className='border-right'scope="row">{index+1}</th>
                     <td>{val.genre}</td>
-                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button onClick={()=>this.handleDeleteGenre(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
                 </tr>
             )
         })

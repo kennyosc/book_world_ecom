@@ -31,15 +31,29 @@ class ManageProducts extends Component{
 
     renderAllProducts = () =>{
         return this.state.products.map((val)=>{
-            return(
-                <tr>
-                    <th scope="row">{val.id}</th>
-                    <td>{val.name}</td>
-                    <td>Rp {val.price.toLocaleString('IN')},-</td>
-                    <td>{val.stock}</td>
-                    <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
-                </tr>
-            )
+            if(val.stock == 0){
+                return(
+                    <tr>
+                        <th scope="row">{val.id}</th>
+                        <td>{val.name}</td>
+                        <td>Rp {val.price.toLocaleString('IN')},-</td>
+                        <td>{val.stock}</td>
+                        <td>Stock Empty</td>
+                        <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    </tr>
+                )
+            } else{
+                return(
+                    <tr>
+                        <th scope="row">{val.id}</th>
+                        <td>{val.name}</td>
+                        <td>Rp {val.price.toLocaleString('IN')},-</td>
+                        <td>{val.stock}</td>
+                        <td>Live</td>
+                        <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                    </tr>
+                )
+            }
         })
     }
 
@@ -80,6 +94,7 @@ class ManageProducts extends Component{
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Stock</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>

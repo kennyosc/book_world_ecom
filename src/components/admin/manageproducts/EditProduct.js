@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import axios from '../../../config/axios.js'
 
 import AdminHeader from '../../headers/AdminHeader'
+import blank_avatar from '../../../images/profile/blank_profile_picture.png'
 
 class EditProduct extends Component{
 
@@ -31,6 +32,13 @@ class EditProduct extends Component{
         })
     }
 
+    renderProductEdit = () =>{
+        var product_id = this.props.match.params.product_id
+        axios.get('/productcategory/' + product_id).then(res=>{
+            this.setState({editProduct:res.data})
+        })
+    }
+
     renderCategories = () =>{
         var hasil = this.state.categories.map(val=>{
             return(
@@ -50,7 +58,22 @@ class EditProduct extends Component{
         return hasil
     }
 
-    handleEditProduct = () =>{
+    handleChangeProductPict = () =>{
+        const product_id = this.props.match.params.product_id
+        const productImage = this.productImage.files[0]
+        const formData = new FormData()
+
+        formData.append('productImage',productImage)
+
+        axios.patch('/editproductimage/' + product_id,formData).then(res=>{
+            this.renderProductEdit()
+        })
+
+    }
+
+    handleEditProduct = (event) =>{
+        event.preventDefault()
+
         const product_id = this.props.match.params.product_id
         const productName = this.productName.value
         const productPrice = this.price.value
@@ -61,19 +84,23 @@ class EditProduct extends Component{
         const author = this.author.value
         const published = this.published.value
         const weight = this.weight.value
-        const productImage = this.productImage.files[0]
 
-        const formData = new FormData()
-        //products
-        formData.append('name',productName)
-        formData.append('price',productPrice)
-        formData.append('stock',stock)
-        formData.append('photo',productImage)
-        formData.append('weight',weight)
-        formData.append('description',productDesc)
-        formData.append('author',author)
-        formData.append('published',published)
-        
+        axios.patch(`/editproduct/${product_id}`,
+            {
+                name: productName,
+                description: productDesc,
+                price: productPrice,
+                stock: stock,
+                weight: weight,
+                published: published,
+                author:author,
+                category_id : productCategoryId,
+                genre_id : genreId
+            }
+        ).then(res=>{
+            console.log(res)
+            this.renderProductEdit()
+        })
     }
 
     render(){
@@ -115,10 +142,19 @@ class EditProduct extends Component{
                         <div className="card-body">
                             <h5 className="card-title">{book.name}</h5>
 
+                            <img style={{width:'20%'}}className='d-block img-thumbnail' src={`http://localhost:2019/geteditproductimage/${book.photo}`} alt="Profile Picture"/>
+
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleFormControlFile1">Product Image</label>
+                                    <input onChange={this.handleChangeProductPict} type="file" class="form-control-file" id="exampleFormControlFile1" ref={input => this.productImage = input}/>
+                                </div>
+                            </form>
+
                             <form>
                             <div className="form-group">
                                 <label for="exampleFormControlInput1">Product Name</label>
-                                <input  type="email" className="form-control w-100" id="exampleFormControlInput1" defaultValue={book.name} ref={(productName) => {this.productName = productName}}/>
+                                <input  type="text" className="form-control w-100" id="exampleFormControlInput1" defaultValue={book.name} ref={(productName) => {this.productName = productName}}/>
                                 <small className="form-text text-muted mt-3">
                                     Product name must be less than 30 characters
                                 </small>
@@ -144,11 +180,12 @@ class EditProduct extends Component{
 
                             <div className="form-group">
                                 <label for="exampleFormControlTextarea1">Product Description</label>
-                                <textarea style={{height:'150px'}} className="form-control" id="exampleFormControlTextarea1" defaultValue={book.description} ref={(input) => {this.productDescription = input}}>{book.description}</textarea>
+                                <input type='text' className="form-control" id="exampleFormControlTextarea1" defaultValue={book.description} ref={input => this.productDescription = input}/>
                             </div>
 
                             <div className="form-row">
                                 
+                               
                                 <div className="form-group col-md-4">
                                     <label for="inputState">Product Category</label>
                                     <select id="inputState" className="form-control" defaultValue={book.category} ref={input => this.category = input}>
@@ -182,20 +219,16 @@ class EditProduct extends Component{
 
                             <div className="form-group w-25">
                                 <label for="inputPassword4">Weight</label>
-                                <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue={book.weight} ref={input => this.weight = input}/>
+                                <input type="number" step='0.1' min='1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue={book.weight} ref={input => this.weight = input}/>
                                 <small className="form-text text-muted mt-3">
                                     Default weight is 1 kg
                                 </small>
                             </div>
-
-                            <div class="form-group">
-                                <label for="exampleFormControlFile1">Product Image</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1" defaultValue={book.photo} ref={input => this.productImage = input}/>
-                            </div>
+                                
+                                <button className='btn btn-primary mt-5 btn-block' onClick={this.handleEditProduct}>Edit Product</button>
 
                             </form>                            
                             
-                            <button className='btn btn-warning mt-5 btn-block' onClick={this.handleEditProduct}>Edit Product</button>
 
                         </div>
 

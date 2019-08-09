@@ -41,7 +41,7 @@ class ChangeAvatar extends Component{
                 
                                         <h2 className='mb-4'>Change Profile Picture</h2>
                 
-                                        <img className='d-block img-thumbnail w-50 mb-5' src={blank_avatar} alt="Profile Picture" key={new Date()} />
+                                        <img className='d-block img-thumbnail w-50 mb-5' src={blank_avatar} alt="Profile Picture"/>
                 
                                         <form>
                                             <div class="form-group">

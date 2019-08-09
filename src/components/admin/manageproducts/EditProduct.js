@@ -66,6 +66,7 @@ class EditProduct extends Component{
         formData.append('productImage',productImage)
 
         axios.patch('/editproductimage/' + product_id,formData).then(res=>{
+            console.log(res)
             this.renderProductEdit()
         })
 

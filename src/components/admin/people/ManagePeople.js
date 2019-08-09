@@ -62,8 +62,8 @@ class ManagePeople extends Component{
                         <td scope="row">{val.first_name}</td>
                         <td scope="row">{val.last_name}</td>
                         <td scope="row">{val.username}</td>
-                        <td scope="row">{val.email}</td>
                         <td scope="row">{val.gender}</td>
+                        <td scope="row">{val.email}</td>
                         <td scope="row">Unverified</td>
                         <td scope="row">Unverified</td>
                         <td><button onClick={()=>this.verifyUser(val.id)} className='btn btn-outline-success btn-sm mx-2'>Verify</button></td>
@@ -76,8 +76,8 @@ class ManagePeople extends Component{
                         <td scope="row">{val.first_name}</td>
                         <td scope="row">{val.last_name}</td>
                         <td scope="row">{val.username}</td>
-                        <td scope="row">{val.email}</td>
                         <td scope="row">{val.gender}</td>
+                        <td scope="row">{val.email}</td>
                         <td scope="row">Verified</td>
                         <td scope="row">Good</td>
                         <td><button onClick={()=>this.suspendUser(val.id)} className='btn btn-outline-danger btn-sm mx-2'>Suspend</button></td>
@@ -90,8 +90,8 @@ class ManagePeople extends Component{
                         <td scope="row">{val.first_name}</td>
                         <td scope="row">{val.last_name}</td>
                         <td scope="row">{val.username}</td>
-                        <td scope="row">{val.email}</td>
                         <td scope="row">{val.gender}</td>
+                        <td scope="row">{val.email}</td>
                         <td scope="row">Verified</td>
                         <td scope="row">Suspended</td>
                         <td><button onClick={()=>this.unSuspendUser(val.id)} className='btn btn-outline-danger btn-sm mx-2'>Unsuspend</button></td>
@@ -118,17 +118,17 @@ class ManagePeople extends Component{
                                 </li>
 
                                 <li class="nav-item">
-                                    <Link style={{color:'black'}} to='/admin/managecategories'>
+                                    <Link style={{color:'black'}} to='/admin/manageadmin'>
                                         <a class="nav-link" href="#">Manage Admins</a>
                                     </Link>
                                 </li>
                             </ul>
                         </div>
 
-                        <div class="card-body p-0">
+                        <div class="card-body">
                         <table class="table table-hover">
                             <thead>
-                                <tr className='table-active'>
+                                <tr>
                                     <th scope="col">Id</th>
                                     <th scope="col">First Name</th>
                                     <th scope="col">Last Name</th>

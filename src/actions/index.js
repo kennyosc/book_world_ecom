@@ -165,7 +165,7 @@ export const onUpdateProfile = (id,firstName,lastName,username,email,gender,phon
     }
 }
 
-//POST AVATAR TO USER
+//UPDATE/POST AVATAR TO USER
 export const onUpdateAvatar = (id,avatar, objUser) =>{
     return(dispatch)=>{
         const formData = new FormData()

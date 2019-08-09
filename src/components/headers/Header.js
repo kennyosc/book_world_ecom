@@ -104,8 +104,12 @@ class Header extends Component{
                             </li>
                         </ul>
 
+                        {/* GO TO MY CART */}
+                        <Link className='mx-3' style={{fontSize:'1.2em'}} to={`/cart/${this.props.user.id}`}>
+                            <i class="fas fa-shopping-cart"></i>
+                        </Link>
                         
-    
+
                         {/* NAVBAR SEARCH */}
                         <form className="form-inline my-2 my-lg-0">
                             <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>

@@ -46,11 +46,11 @@ class ManageProducts extends Component{
                 return(
                     <tr>
                         <th scope="row">{val.id}</th>
-                        <td>{val.name}</td>
-                        <td>Rp {val.price.toLocaleString('IN')},-</td>
+                        <td className='text-left'>{val.name}</td>
+                        <td style={{width:'15%'}}>Rp {val.price.toLocaleString('IN')},-</td>
                         <td>{val.stock}</td>
                         <td>Live</td>
-                        <td><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
+                        <td className='w-25'><Link to={`/admin/editproduct/${val.id}`}><button className='btn btn-outline-success btn-sm mx-2'>Edit</button></Link><button onClick={()=>this.handleDeleteProduct(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
                     </tr>
                 )
             }
@@ -86,10 +86,10 @@ class ManageProducts extends Component{
                             </ul>
                         </div>
 
-                        <div class="card-body p-0">
+                        <div class="card-body">
                         <table class="table table-hover">
                             <thead>
-                                <tr className='table-active'>
+                                <tr>
                                     <th style={{width:'20%'}} scope="col">Product Id</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>

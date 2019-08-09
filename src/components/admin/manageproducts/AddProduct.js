@@ -180,7 +180,7 @@ class AddProduct extends Component{
 
                             <div className="form-group w-25">
                                 <label for="inputPassword4">Weight</label>
-                                <input type="number" min='1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue='1' ref={input => this.weight = input}/>
+                                <input type="number" min='1' step='0.1' className="form-control" id="inputPassword4" placeholder="Kg" defaultValue='1' ref={input => this.weight = input}/>
                                 <small className="form-text text-muted mt-3">
                                     Default weight is 1 kg
                                 </small>

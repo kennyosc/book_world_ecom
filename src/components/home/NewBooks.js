@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import axios from '../../config/axios'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 class NewBooks extends Component{
 
@@ -14,6 +15,24 @@ class NewBooks extends Component{
     })
   }
 
+  renderButton = () =>{
+    if(this.props.user.id === ''){
+        return(
+            <Link to='/login'>
+                <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
+                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+            </Link>
+        )
+    }else{
+        return(
+            <div>
+                <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
+                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+            </div>   
+        )
+    }
+}
+
   renderNewBooks = () =>{
     return this.state.allProducts.map(val=>{
       return(
@@ -26,8 +45,7 @@ class NewBooks extends Component{
               <p className="card-text">{val.description.slice(0,80)}...</p>
             </div>
               <div className='text-center m-3'>
-                  <button className='btn btn-outline-danger mx-1'>Add to Cart</button>
-                  <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                  {this.renderButton()}
               </div>
           </div>
       )
@@ -50,4 +68,10 @@ class NewBooks extends Component{
   }
 }
 
-export default NewBooks
+const mapStateToProps = (state) =>{
+  return{
+    user:state.auth
+  }
+}
+
+export default connect(mapStateToProps)(NewBooks)

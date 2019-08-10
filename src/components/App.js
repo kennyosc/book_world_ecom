@@ -23,6 +23,7 @@ import ManagePeople from './admin/people/ManagePeople.js'
 import ManageAdmin from './admin/people/ManageAdmin.js'
 
 import Cart from './cart/Cart'
+import ProductDetails from './allproducts/ProductDetails'
 
 const cookie = new cookies()
 
@@ -50,6 +51,7 @@ class App extends Component{
                         <Route path='/changepassword' component={ChangePassword}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
                         <Route path='/cart/:user_id' component={Cart}/>
+                        <Route path='/productdetails/:product_id' component={ProductDetails}/>
                 </div>
                 <div>
                         <Route path='/login-admin' component={LoginAdmin}/>

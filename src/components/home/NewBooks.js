@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
-import axios from '../../config/axios';
+import axios from '../../config/axios'
+import {Link} from 'react-router-dom'
 
 class NewBooks extends Component{
 
@@ -19,7 +20,9 @@ class NewBooks extends Component{
         <div className="card">
             <img className="card-img-top" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/>
             <div className="card-body">
-              <h5 className="card-title">{val.name.slice(0,30)}...</h5>
+              <Link to={`/productdetails/${val.id}`} style={{textDecoration:'none', color:'black'}}>
+                <h5 className="card-title">{val.name.slice(0,30)}...</h5>
+              </Link>
               <p className="card-text">{val.description.slice(0,80)}...</p>
             </div>
               <div className='text-center m-3'>

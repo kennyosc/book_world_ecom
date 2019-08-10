@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import axios from '../../config/axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 import Header from '../headers/Header.js'
 import Loader from '../../Loader'
@@ -38,7 +39,50 @@ class ProductDetails extends Component{
     }
 
     handleAddToCart = () =>{
+        const product = this.state.product
+
+        const user_id = this.props.user.id
+        const first_name = this.props.user.first_name
+        const last_name = this.props.user.last_name
+        const total = parseInt(product.price)
+        const phone_number = this.props.user.phone_number
+
+        const product_id = product.id
+        const quantity = parseInt(this.quantity.value)
+        const sub_total = quantity * total
+
         
+
+        axios.post('/handleaddtocart',
+            {
+                user_id,
+                first_name,
+                last_name,
+                total,
+                phone_number,
+                product_id,
+                quantity,
+                sub_total
+            }
+        ).then(res=>{
+            console.log(res)
+            this.renderAll()
+            if(typeof(res.data) === 'string'){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: res.data
+                  })
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Added to cart!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        })
     }
 
     handleAddToWishlist = () =>{
@@ -117,6 +161,11 @@ class ProductDetails extends Component{
                                 <div>
                                     <h5 style={{color:'red'}}>Rp {product.price.toLocaleString('IN')},00</h5>
                                     <p><b>Stock: </b>{product.stock}</p>
+
+                                    <div className="input-group mb-5 w-25">
+                                        <input ref={input=>this.quantity = input} type="number" defaultValue='1' className="form-control" placeholder="Qty"/>
+                                    </div>
+
                                     {this.renderButton()}
                                 </div>
                              </div>

@@ -273,7 +273,7 @@ export const onAdminLogin = (username,password) =>{
     }
 }
 
-// ============================WISHLIST=================================
+// ============================ADD TO CART=================================
 export const onAddToCart = (user_id,first_name,last_name,phone_number,product_id,quantity,sub_total) =>{
 
     axios.post('/handleaddtocart',
@@ -304,6 +304,8 @@ export const onAddToCart = (user_id,first_name,last_name,phone_number,product_id
             }
         })
 }
+
+// ============================WISHLIST=================================
 
 export const onAddToWishlist = (user_id,product_id) =>{
     axios.post('/addwishlist',{user_id,product_id}).then(res=>{

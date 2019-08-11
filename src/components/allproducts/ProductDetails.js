@@ -51,6 +51,8 @@ class ProductDetails extends Component{
         const quantity = parseInt(this.quantity.value)
         const sub_total = quantity * price
 
+        console.log(quantity)
+
         //kalau misalnya mau jalankan function dari actions tanpa menggunakan reducer
         //tidak perlu pakai this.props.onAddToCart dan tidak perlu ke dalam connect
         onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)

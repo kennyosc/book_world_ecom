@@ -5,6 +5,8 @@ import cookies from 'universal-cookie'
 
 const cookie = new cookies()
 
+// ============================USER=================================
+
 // REGISTER BUTTON
 export const registerButton = (firstName,lastName,username,email,gender,phoneNumber,password, passwordConfirmation) =>{
     if(password === passwordConfirmation){
@@ -270,3 +272,48 @@ export const onAdminLogin = (username,password) =>{
         })
     }
 }
+
+// ============================WISHLIST=================================
+export const onAddToCart = (user_id,first_name,last_name,phone_number,product_id,quantity,sub_total) =>{
+
+    axios.post('/handleaddtocart',
+            {
+                user_id,
+                first_name,
+                last_name,
+                phone_number,
+                product_id,
+                quantity,
+                sub_total
+            }
+        ).then(res=>{
+            if(typeof(res.data) === 'string'){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: res.data
+                  })
+            }else{
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Added to cart!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        })
+}
+
+export const onAddToWishlist = (user_id,product_id) =>{
+    axios.post('/addwishlist',{user_id,product_id}).then(res=>{
+        console.log(res)
+    })
+}
+
+export const onRemoveFromWishlist = (user_id,product_id) =>{
+    axios.delete(`/deletewishlist/${user_id}/${product_id}`).then(res=>{
+        console.log(res)
+    })
+}
+

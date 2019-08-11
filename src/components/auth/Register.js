@@ -1,11 +1,10 @@
 import React,{Component} from 'react'
-import {connect} from 'react-redux'
+// import {connect} from 'react-redux'
 
 import {registerButton} from '../../actions/index.js'
 
 import background_image from '../../images/background/register_background.jpg'
 import Footer from '../Footer'
-import axios from '../../config/axios.js'
 import Header from '../headers/Header.js'
 
 // SETTING UP BACKGROUND IMAGE
@@ -102,4 +101,4 @@ class Register extends Component{
     }
 }
 
-export default connect(null,{registerButton})(Register)
+export default Register

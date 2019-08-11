@@ -2,10 +2,10 @@ import React,{Component} from 'react'
 import axios from '../../config/axios'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import Swal from 'sweetalert2'
 
 import Header from '../headers/Header.js'
 import Loader from '../../Loader'
+import {onAddToCart, onAddToWishlist,onRemoveFromWishlist} from '../../actions/index.js'
 
 class ProductDetails extends Component{
 
@@ -44,83 +44,51 @@ class ProductDetails extends Component{
         const user_id = this.props.user.id
         const first_name = this.props.user.first_name
         const last_name = this.props.user.last_name
-        const total = parseInt(product.price)
+        const price = parseInt(product.price)
         const phone_number = this.props.user.phone_number
 
         const product_id = product.id
         const quantity = parseInt(this.quantity.value)
-        const sub_total = quantity * total
+        const sub_total = quantity * price
 
-        
-
-        axios.post('/handleaddtocart',
-            {
-                user_id,
-                first_name,
-                last_name,
-                total,
-                phone_number,
-                product_id,
-                quantity,
-                sub_total
-            }
-        ).then(res=>{
-            console.log(res)
-            this.renderAll()
-            if(typeof(res.data) === 'string'){
-                Swal.fire({
-                    type: 'error',
-                    title: 'Error',
-                    text: res.data
-                  })
-            }else{
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Added to cart!',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-            }
-        })
+        //kalau misalnya mau jalankan function dari actions tanpa menggunakan reducer
+        //tidak perlu pakai this.props.onAddToCart dan tidak perlu ke dalam connect
+        onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
+        this.renderAll()
     }
 
     handleAddToWishlist = () =>{
         const user_id = this.props.user.id
         const product_id = this.props.match.params.product_id
 
-        axios.post('/addwishlist',{user_id,product_id}).then(res=>{
-            this.renderAll()
-            console.log(res)
-        })
+        onAddToWishlist(user_id,product_id)
+        this.renderAll()
     }
 
     handleRemoveFromWishlist = () =>{
         const user_id = this.props.user.id
         const product_id = this.props.match.params.product_id
 
-        axios.delete(`/deletewishlist/${user_id}/${product_id}`).then(res=>{
-            this.renderAll()
-            console.log(res)
-        })
+        onRemoveFromWishlist(user_id,product_id)
+        this.renderAll()
     }
 
     renderButton = () =>{
-        if(this.props.user.id === '' && this.state.wishlist === ''){
+        if(this.props.user.id === ''){
             return(
                 <Link to='/login'>
                     <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
                     <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
                 </Link>
             )
-        }else if(this.state.wishlist === ''){
+        }else if(this.state.wishlist === '' && this.props.user.id !== ''){
             return(
                 <div>
                     <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>
                     <button onClick={this.handleAddToWishlist}className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
                 </div>   
             )
-        }else if(this.state.wishlist !== ''){
+        }else if(this.state.wishlist !== '' && this.props.user.id !== ''){
             return(
                 <div>
                     <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>

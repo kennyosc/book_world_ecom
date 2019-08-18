@@ -1,9 +1,12 @@
 import React,{Component} from 'react'
+import {Link} from 'react-router-dom'
 
 import Header from '../headers/Header'
 import axios from '../../config/axios'
 import Loader from '../../Loader'
 import Swal from 'sweetalert2'
+
+import {deleteFromCart, addCoupon, removeCoupon} from '../../actions/index'
 
 class Cart extends Component{
 
@@ -65,16 +68,18 @@ class Cart extends Component{
         })
     }
 
-    deleteFromCart= (product_id) =>{
+    handleDeleteFromCart= async(product_id) =>{
+
         const user_id = this.props.match.params.user_id
-        axios.delete(`/deletefromcart/${user_id}/${product_id}`).then(res=>{
-            console.log(res)
+        const data = await deleteFromCart(user_id,product_id)
+        console.log(data)
+
+        if(data.affectedRows){
             this.renderAll()
-        })
-        
+        }        
     }
 
-    handleAddCoupon = () =>{
+    handleAddCoupon = async() =>{
         const coupon_code = this.coupon.value
         const user_id = this.props.match.params.user_id
         
@@ -85,17 +90,11 @@ class Cart extends Component{
                     text: 'Please insert coupon'
                   })
         }else{
+            const data = await addCoupon(user_id,coupon_code)
 
-            axios.post('/usecoupon',{user_id,coupon_code}).then(res=>{
-                if(typeof(res.data)==='string'){
-                    console.log(res.data)
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Error',
-                        text: res.data
-                      })
-                }else{
-                    console.log(res)
+            //dari action di return ke depan, karena mau melanjutkan hasil return tsb dengan function lainn
+            if(data.affectedRows){
+                console.log(data)
                     Swal.fire({
                         position: 'center',
                         type: 'success',
@@ -105,43 +104,48 @@ class Cart extends Component{
                       })
                     this.setState({use_coupon:true})
                     this.renderAll()
-                }
-            })
+            }else{
+                console.log(data)
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Error',
+                        text: data
+                      })
+            }
         }
     }
 
-    handleRemoveCoupon = () =>{
+    handleRemoveCoupon = async() =>{
         const user_id = this.props.match.params.user_id
         const coupon_id = this.state.coupon_id
 
-        axios.delete(`/deleteusecoupon/${coupon_id}/${user_id}`).then(res=>{
-            if(typeof(res.data)==='string'){
-                Swal.fire({
-                    type: 'error',
-                    title: 'Error',
-                    text: 'Coupon not deleted'
-                  })
-            }else{
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Coupon removed',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                this.setState({use_coupon:false})
-                this.renderAll()
-            }
-        })
+        const data = await removeCoupon(user_id,coupon_id)
 
+        if(data.affectedRows){
+            Swal.fire({
+                position: 'center',
+                type: 'success',
+                title: 'Coupon removed',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            this.setState({use_coupon:false})
+            this.renderAll()
+        }else{
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Coupon not deleted'
+              })
+        }
     }
 
     renderCart = () =>{
-        if(this.state.cart !== ''){
+        if(this.state.cart.length !== 0){
             var hasil = this.state.cart.map(val=>{
                 return(
                     <tr className='border-bottom'>
-                        <td><button style={{color:'lightgrey'}} className='btn' onClick={()=>this.deleteFromCart(val.id)}><i className="fas fa-window-close"></i></button></td>
+                        <td><button style={{color:'lightgrey'}} className='btn' onClick={()=>this.handleDeleteFromCart(val.id)}><i className="fas fa-window-close"></i></button></td>
                         <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/></td>
                         <td className='w-50'>{val.name}</td>
                         <td className='w-25 text-center'><b>Qty: </b>{val.quantity}</td>
@@ -161,23 +165,38 @@ class Cart extends Component{
 
     renderOrderSummary = () =>{
         const totalOrder = this.state.totalOrder
-        console.log(this.state.use_coupon)
 
-        if(this.state.cart === '' || this.state.cart === []){
+        if(this.state.cart.length === 0){
             return(
-                <div></div>
+                <div>
+                </div>
             )
         }else{
-
             if(this.state.use_coupon !== true){
                 return(
-                    <div className="card">
+                    <div>
+                        <div className="card">
+                            <div className="card-body">
+                                <h5 className="card-title">Order Summary</h5>
+                                Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
+                                <Link to={`/shipment/${this.props.match.params.user_id}`}>
+                                    <button className='btn btn-block btn-primary'>Proceed to shipment</button>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="card mt-3 w-75">
                         <div className="card-body">
-                            <h5 className="card-title">Order Summary</h5>
-                            Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                            <button className='btn btn-block btn-primary'>Proceed to shipment</button>
+                            <h5 className="card-title">Coupon</h5>
+        
+                            <div className="input-group mb-3">
+                            <input ref={input=>this.coupon = input} type="text" className="form-control" placeholder="Coupon code"/>
+                            </div>
+                                <button onClick={this.handleAddCoupon} className='btn  btn-outline-danger'>Use coupon</button>
+                            
                         </div>
                     </div>
+                    </div>
+
                 )
             }else{
                 return(
@@ -186,30 +205,13 @@ class Cart extends Component{
                             <h5 className="card-title">Order Summary</h5>
                             Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
                             Discount: <p style={{color:'red'}} className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
-                            <button className='btn btn-block btn-primary'>Proceed to shipment</button>
+                            <Link to={`/shipment/${this.props.match.params.user_id}`}>
+                                <button className='btn btn-block btn-primary'>Proceed to shipment</button>
+                            </Link>
                         </div>
                     </div>
                 )
             }
-        }
-    }
-
-    renderCouponInput=()=>{
-        if(this.state.use_coupon === false){
-            return(
-            <div className="card mt-3 w-75">
-                <div className="card-body">
-                    <h5 clas    sName="card-title">Coupon</h5>
-
-                    <div className="input-group mb-3">
-                    <input ref={input=>this.coupon = input} type="text" className="form-control" placeholder="Coupon code"/>
-                    </div>
-                        <button onClick={this.handleAddCoupon} className='btn  btn-outline-danger'>Use coupon</button>
-                    
-                </div>
-            </div>
-
-            )
         }
     }
 
@@ -240,10 +242,11 @@ class Cart extends Component{
                             </div>
                             <div className='col'>
                                 {this.renderOrderSummary()}
-                                        {this.renderCouponInput()}
-                                    
                             </div>
                         </div>
+                        {/* Render wishlist */}
+                        
+                        {/* Render related products */}
                     </div>
                 </div>
             )

@@ -19,15 +19,13 @@ class NewBooks extends Component{
     if(this.props.user.id === ''){
         return(
             <Link to='/login'>
-                <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
-                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                <button className='btn btn-danger btn-block mr-1'>Add to Cart</button>
             </Link>
         )
     }else{
         return(
             <div>
-                <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
-                <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                <button className='btn btn-danger btn-block  mr-1'>Add to Cart</button>
             </div>   
         )
     }

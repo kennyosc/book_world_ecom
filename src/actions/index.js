@@ -305,6 +305,33 @@ export const onAddToCart = (user_id,first_name,last_name,phone_number,product_id
         })
 }
 
+export const deleteFromCart= async(user_id,product_id) =>{
+    try{
+        const res = await axios.delete(`/deletefromcart/${user_id}/${product_id}`)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export const addCoupon = async(user_id,coupon_code) =>{
+    try {
+        const res = await axios.post('/usecoupon',{user_id,coupon_code})
+        return res.data
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const removeCoupon = async(user_id,coupon_id) =>{
+    try{
+        const res = await axios.delete(`/deleteusecoupon/${coupon_id}/${user_id}`)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+}
+
 // ============================WISHLIST=================================
 
 export const onAddToWishlist = (user_id,product_id) =>{

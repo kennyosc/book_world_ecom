@@ -22,8 +22,9 @@ import EditProduct from './admin/manageproducts/EditProduct.js'
 import ManagePeople from './admin/people/ManagePeople.js'
 import ManageAdmin from './admin/people/ManageAdmin.js'
 
-import Cart from './cart/Cart'
 import ProductDetails from './allproducts/ProductDetails'
+import Cart from './order/Cart'
+import Shipment from './order/Shipment'
 
 const cookie = new cookies()
 
@@ -50,8 +51,9 @@ class App extends Component{
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
-                        <Route path='/cart/:user_id' component={Cart}/>
                         <Route path='/productdetails/:product_id' component={ProductDetails}/>
+                        <Route path='/cart/:user_id' component={Cart}/>
+                        <Route path='/shipment/:user_id' component={Shipment}/>
                 </div>
                 <div>
                         <Route path='/login-admin' component={LoginAdmin}/>

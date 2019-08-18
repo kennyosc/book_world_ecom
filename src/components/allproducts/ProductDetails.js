@@ -107,6 +107,7 @@ class ProductDetails extends Component{
         if(this.state.product === '' && this.state.wishlist === ''){
             return(
                 <div>
+                     <Header/>                    
                     <Loader/>
                 </div>
             )

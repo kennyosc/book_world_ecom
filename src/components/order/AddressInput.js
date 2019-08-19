@@ -30,37 +30,86 @@ class AddressInput extends Component{
             var main_address = this.main_address.checked
         }
 
+        const order_recipient = this.order_recipient.value
+        const phone_number = this.phone_number.value
         const address = this.address.value
         const city = this.city.value
         const postal_code = this.postal.value
         const user_id = this.props.user_id
 
-        if(address === '' || city === '' || city === 'Choose...' || postal_code === ''){
+        if(phone_number===''||order_recipient === ''||address === '' || city === '' || city === 'Choose...' || postal_code === ''){
             Swal.fire({
                 type: 'error',
                 title: 'Error',
                 text: 'Please insert all the fields'
               })
         }else{
-            axios.post('/newuseraddress',{user_id,address,city,postal_code,main_address}).then(res=>{
-                console.log(res)
-                if(res.data.affectedRows){
-                    Swal.fire({
-                        position: 'center',
-                        type: 'success',
-                        title: 'Address added',
-                        showConfirmButton: false,
-                        timer: 1500
-                      })
-                      window.location.reload()
+            if(this.props.mainAddress === ''){
+                axios.post('/newuseraddress',{user_id,order_recipient,phone_number,address,city,postal_code,main_address}).then(res=>{
+                    console.log(res)
+                    if(res.data.affectedRows){
+                        Swal.fire({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Address added',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                          window.location.reload()
+                    }else{
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Error',
+                            text: res.data
+                          })
+                    }
+                })
+            }else{
+                if(main_address === true){
+                    axios.post('/newuseraddress',{user_id,order_recipient,phone_number,address,city,postal_code,main_address}).then(res=>{
+                        console.log(res)
+                        if(res.data.affectedRows){
+                            // kenapa ini di dalam newuseraddress, karena ada parameter limit new address yaitu 5
+                            axios.patch(`/setaddressasmain/${user_id}/${res.data.insertId}`).then(res=>{
+                                Swal.fire({
+                                    position: 'center',
+                                    type: 'success',
+                                    title: 'Address added',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                  })
+                                window.location.reload()
+                            })
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Error',
+                                text: res.data
+                              })
+                        }
+                    })
                 }else{
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Error',
-                        text: res.data
-                      })
+                    axios.post('/newuseraddress',{user_id,order_recipient,phone_number,address,city,postal_code,main_address}).then(res=>{
+                        console.log(res)
+                        if(res.data.affectedRows){
+                            Swal.fire({
+                                position: 'center',
+                                type: 'success',
+                                title: 'Address added',
+                                showConfirmButton: false,
+                                timer: 1500
+                              })
+                              window.location.reload()
+                        }else{
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Error',
+                                text: res.data
+                              })
+                        }
+                    })
                 }
-            })
+            }
         }
     }
 
@@ -88,6 +137,17 @@ class AddressInput extends Component{
             return(
                 <div>
                     <form>
+
+                        <div className="form-group">
+                            <label for="recipient_name">Recipient name</label>
+                            <input ref={input=>this.recipient_name=input} placeholder='Insert recipient name' type="text" className="form-control" id="recipient_name"/>
+                        </div>
+
+                        <div className="form-group">
+                            <label for="phone_number">Phone Number</label>
+                            <input ref={input=>this.phone_number=input} placeholder='Recipient phone number' type="text" className="form-control" id="phone_number"/>
+                        </div>
+
                         <div className="form-group">
                             <label for="inputAddress">Address</label>
                             <input ref={input=>this.address=input} type="text" className="form-control" id="inputAddress" placeholder="Jl. Jend. Sudirman No.Kav. 21, RT.10/RW.1"/>
@@ -104,7 +164,7 @@ class AddressInput extends Component{
                             </div>
                             <div className="form-group col-md-4">
                                 <label for="inputZip">Postal Code</label>
-                                <input ref={input=>this.postal=input} type="text" className="form-control" id="inputZip"/>
+                                <input ref={input=>this.postal=input} placeholder='Postal code' type="text" className="form-control" id="inputZip"/>
                             </div>
                         </div>
                         {this.renderCheckMain()}

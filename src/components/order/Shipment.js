@@ -16,14 +16,15 @@ class Cart extends Component{
     state={
         cart:'',
         totalOrder: '',
-        coupon_value:'',
+        coupon_value:0,
         coupon_id:'',
         use_coupon: false,
-        main_address:''
+        main_address:'',
+        shipping_cost:0
     }
 
     componentDidMount(){
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
 
         //get cart by user_id
         axios.get(`/getusercart/${user_id}`).then(res=>{
@@ -45,6 +46,8 @@ class Cart extends Component{
         axios.post('/getcouponvalue',{user_id}).then(res=>{
             if(res.data !== ''){
                 this.setState({coupon_value:res.data.coupon_value,coupon_id:res.data.coupon_id, use_coupon:true})
+            }else{
+                this.setState({coupon_value:0,coupon_id:''})
             }
         })
 
@@ -52,10 +55,17 @@ class Cart extends Component{
         axios.get(`/getuseraddress/${user_id}`).then(res=>{
             this.setState({main_address:res.data})
         })
+
+        //get shipping value based on user_address main
+        axios.get(`/shippingvalue/${user_id}`).then(res=>{
+            if(res.data !== ''){
+                this.setState({shipping_cost:res.data})
+            }
+        })
     }
 
     renderAll = () =>{
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
 
         axios.get(`/getusercart/${user_id}`).then(res=>{
             this.setState({cart:res.data})
@@ -73,6 +83,8 @@ class Cart extends Component{
         axios.post('/getcouponvalue',{user_id}).then(res=>{
             if(res.data !== ''){
                 this.setState({coupon_value:res.data.coupon_value,coupon_id:res.data.coupon_id})
+            }else{
+                this.setState({coupon_value:0,coupon_id:''})
             }
         })
 
@@ -80,11 +92,18 @@ class Cart extends Component{
         axios.get(`/getuseraddress/${user_id}`).then(res=>{
             this.setState({main_address:res.data})
         })
+
+        //get shipping value based on user_address main
+        axios.get(`/shippingvalue/${user_id}`).then(res=>{
+            if(res.data !== ''){
+                this.setState({shipping_cost:res.data})
+            }
+        })
     }
 
     handleAddCoupon = async() =>{
         const coupon_code = this.coupon.value
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
         
         if(coupon_code === ''){
             Swal.fire({
@@ -119,7 +138,7 @@ class Cart extends Component{
     }
 
     handleRemoveCoupon = async() =>{
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
         const coupon_id = this.state.coupon_id
 
         const data = await removeCoupon(user_id,coupon_id)
@@ -143,6 +162,8 @@ class Cart extends Component{
         }
     }
 
+    // ===============RENDERING================
+
     renderCart = () =>{
         if(this.state.cart.length !== 0){
             var hasil = this.state.cart.map(val=>{
@@ -151,7 +172,7 @@ class Cart extends Component{
                         <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/></td>
                         <td className='w-50'>{val.name}</td>
                         <td className='w-25 text-center'><b>Qty: </b>{val.quantity}</td>
-                        <td style={{color:'red',fontSize:'0.7em'}} className='text-center'><b>Rp{val.sub_total.toLocaleString('IN')},00</b></td>
+                        <td style={{fontSize:'0.7em'}} className='text-center'><b>Rp{val.sub_total.toLocaleString('IN')},00</b></td>
                     </tr>
                 )
             })
@@ -165,8 +186,86 @@ class Cart extends Component{
         }
     }
 
+    renderShippingCost = () =>{
+        const shipping_cost = this.state.shipping_cost.shipping_cost
+
+        if(!shipping_cost){
+            return(
+                <div></div>
+            )
+        }else{
+            return(
+                <div className='pb-3 mb-3 border-bottom'>
+                    Shipping: <p className="card-text"><b>Rp {shipping_cost.toLocaleString('IN')},00</b></p>
+                </div>
+                )
+        }
+    }
+
+    renderTotalOrder = () =>{
+
+        const shipping_cost = parseInt(this.state.shipping_cost.shipping_cost)
+        const total_order = parseInt(this.state.totalOrder)
+        const discount = parseInt(this.state.coupon_value)
+
+        var summary1 = total_order - discount
+        var summary2 = total_order + shipping_cost - discount
+
+        console.log(summary1)
+        console.log(summary2)
+
+        if(!shipping_cost){
+            return( 
+                <div className='mb-4'>
+                    Summary: <p style={{color:'red'}} className="card-text"><b>Rp {summary1.toLocaleString('IN')},00</b></p>
+                </div>
+            )
+        }else{
+            return(
+                <div className='mb-4'>
+                    Summary: <p style={{color:'red'}} className="card-text"><b>Rp {summary2.toLocaleString('IN')},00</b></p>
+                </div>
+            )
+        }
+    }
+
+    handleCheckoutButton = () =>{
+        const shipping_cost = parseInt(this.state.shipping_cost.shipping_cost)
+        const total_order = parseInt(this.state.totalOrder)
+        const discount = parseInt(this.state.coupon_value)
+        const main_address= this.state.main_address
+
+        const user_id = this.props.user.id
+        const order_recipient = main_address.order_recipient
+        const recipient_address = main_address.address.concat(` , ${main_address.city}, ${main_address.postal_code}`)
+        const phone_number = main_address.phone_number
+        const total = total_order + shipping_cost - discount
+
+        axios.post(`/finalcheckout`,{user_id,order_recipient,recipient_address,phone_number,total}).then(res=>{
+            console.log(res)
+            if(typeof(res.data)==='string'){
+                console.log('error checkout')
+            }else{
+                var cart = this.state.cart
+                //kurangin stock produk
+                for(var i = 0; i<cart.length; i++){
+                    axios.patch(`/checkoutupdatestock`,
+                        {
+                            quantity: cart[i].quantity,
+                            product_id: cart[i].product_id
+                        }
+                    ).then((res)=>{
+                        console.log(res)
+                    })
+                }
+            }
+        })
+    }
+
     renderOrderSummary = () =>{
         const totalOrder = this.state.totalOrder
+        const shipping_cost = this.state.shipping_cost.shipping_cost
+        console.log(shipping_cost)
 
         if(this.state.cart.length === 0){
             return(
@@ -180,10 +279,11 @@ class Cart extends Component{
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">Order Summary</h5>
-                                Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                                <Link to={`/shipment/${this.props.match.params.user_id}`}>
-                                    <button className='btn btn-block btn-warning'>Checkout</button>
-                                </Link>
+                                Total: <p className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
+                                {this.renderShippingCost()}
+                                {this.renderTotalOrder()}
+
+                                <button onClick={this.handleCheckoutButton} className='btn btn-block btn-warning'>Checkout</button>
                             </div>
                         </div>
                         <div className="card mt-3 w-75">
@@ -205,11 +305,12 @@ class Cart extends Component{
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title">Order Summary</h5>
-                            Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                            Discount: <p style={{color:'red'}} className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
-                            <Link to={`/shipment/${this.props.match.params.user_id}`}>
-                                <button className='btn btn-block btn-warning'>Checkout</button>
-                            </Link>
+                            Total: <p className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
+                            Discount: <p className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
+                            {this.renderShippingCost()}
+                            {this.renderTotalOrder()}
+
+                            <button onClick={this.handleCheckoutButton} className='btn btn-block btn-warning'>Checkout</button>
                         </div>
                     </div>
                 )
@@ -226,9 +327,9 @@ class Cart extends Component{
             return(
                 <div className="card mb-5">
                     <div className="card-body">
-                        <h4>Shipping Address</h4>
-                        <p><b>{user.first_name.concat(` ${user.last_name}`)}</b></p>
-                        <p>{user.phone_number}</p>
+                        <h4 className='mb-3 pb-3 border-bottom'>Shipping Address</h4>
+                        <p><b>{main_address.order_recipient}</b></p>
+                        <p>{main_address.phone_number}</p>
                         <p>{main_address.address.concat(` , ${main_address.city}, ${main_address.postal_code}`)}</p>
                         <div className='my-3'>
 
@@ -293,6 +394,7 @@ class Cart extends Component{
             )
         }
     } 
+    
 
     render(){
         const cart = this.state.cart

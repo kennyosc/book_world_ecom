@@ -13,7 +13,7 @@ class Cart extends Component{
     state={
         cart:'',
         totalOrder: '',
-        coupon_value:'',
+        coupon_value:0,
         coupon_id:'',
         use_coupon: false
     }

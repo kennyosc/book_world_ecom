@@ -12,6 +12,7 @@ import Profile from './profile/Profile.js'
 import EditProfile from './profile/EditProfile.js'
 import ChangePassword from './profile/ChangePassword.js'
 import ChangeAvatar from './profile/ChangeAvatar.js'
+import UserOrders from './profile/UserOrders.js'
 
 import LoginAdmin from './admin/AdminLogin.js'
 import Admin from './admin/Admin.js'
@@ -51,6 +52,7 @@ class App extends Component{
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
+                        <Route path='/orders/:user_id' component={UserOrders}/>
                         <Route path='/productdetails/:product_id' component={ProductDetails}/>
                         <Route path='/cart/:user_id' component={Cart}/>
                         <Route path='/shipment/:user_id' component={Shipment}/>

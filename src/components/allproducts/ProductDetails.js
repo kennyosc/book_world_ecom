@@ -104,7 +104,7 @@ class ProductDetails extends Component{
         const product = this.state.product
         console.log(this.state.wishlist)
         
-        if(this.state.product === '' && this.state.wishlist === ''){
+        if(this.state.product === ''){
             return(
                 <div>
                      <Header/>                    

@@ -21,7 +21,7 @@ class ProfileNav extends Component{
                     <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/changepassword'>
                         <li className="list-group-item">Change Password</li>
                     </Link>
-                    <Link style={{color:'grey'}} to={`/profile/${this.props.user.id}/orders`}>
+                    <Link style={{color:'grey'}} to={`/orders/${this.props.user.id}`}>
                         <li className="list-group-item">Orders</li>
                     </Link>
                 </ul>

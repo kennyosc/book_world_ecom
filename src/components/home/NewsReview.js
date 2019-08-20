@@ -13,19 +13,19 @@ class NewsReview extends Component{
                 {/* NEWS REVIEWS */}
                 <div className='row justify-content-center'>
                     <div className='col-lg-2 col-sm-5 col-xs-2 p-3'>
-                        <img src={KompasLogo} className="img-fluid greyscale" alt="Kompas Logo"/>
+                        <img src={KompasLogo} className="img-fluid greyscale w-75" alt="Kompas Logo"/>
                     </div>
                     <div className='col-lg-2 col-sm-5 col-xs-2 mx-4 p-3'>
-                        <img src={DetikLogo} className="img-fluid greyscale" alt="Kompas Logo"/>
+                        <img src={DetikLogo} className="img-fluid greyscale w-75" alt="Kompas Logo"/>
                     </div>
                     <div className='col-lg-2 col-sm-5 col-xs-2 p-3'>
-                        <img src={DsLogo} className="img-fluid greyscale" alt="Kompas Logo"/>
+                        <img src={DsLogo} className="img-fluid greyscale w-75" alt="Kompas Logo"/>
                     </div>
                     <div className='col-lg-2 col-sm-5 col-xs-2 mx-4 p-3'>
-                        <img src={TcLogo} className="img-fluid greyscale" alt="Kompas Logo"/>
+                        <img src={TcLogo} className="img-fluid greyscale w-75" alt="Kompas Logo"/>
                     </div>
                     <div className='col-lg-2 col-sm-5 col-xs-2 p-3'>
-                        <img src={TiaLogo} className="img-fluid greyscale" alt="Kompas Logo"/>
+                        <img src={TiaLogo} className="img-fluid greyscale w-75" alt="Kompas Logo"/>
                     </div>
                 </div>
 

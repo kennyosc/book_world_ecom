@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {onAdminLogout} from '../../actions/index.js'
 
 class AdminHeader extends Component{
 
     handleLogout = () =>{
-
+        this.props.onAdminLogout()
     }
 
     render(){
@@ -61,4 +62,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(AdminHeader)
+export default connect(mapStateToProps,{onAdminLogout})(AdminHeader)

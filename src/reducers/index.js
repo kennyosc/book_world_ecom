@@ -78,6 +78,14 @@ const adminReducer = (state = admin_init,action)=>{
             
             break;
     
+        case 'ADMIN_LOGOUT_SUCCESS':
+            return{
+                ...state,
+                id:'',
+                username:'',
+                email:''
+            }
+            break;
         default:
             //this must be se or redux will read it as undefined
             return state;

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import Header from '../headers/Header'
@@ -293,7 +293,7 @@ class Cart extends Component{
                             <div className="input-group mb-3">
                             <input ref={input=>this.coupon = input} type="text" className="form-control" placeholder="Coupon code"/>
                             </div>
-                                <button onClick={this.handleAddCoupon} className='btn  btn-outline-danger'>Use coupon</button>
+                                <button onClick={this.handleAddCoupon} className='btn btn-light'>Use coupon</button>
                             
                         </div>
                     </div>
@@ -349,7 +349,7 @@ class Cart extends Component{
                                 </div>
                                 <div className="modal-body">
                                     {/* INPUT NEW ADDRESS */}
-                                    <AddressInput mainAddress={this.state.main_address} user_id ={this.props.user.id}
+                                    <AddressInput mainAddress={this.state.main_address} user_id ={user.id}
                                     renderAll={()=>this.renderAll()}/>
                                 </div>
                                 </div>
@@ -371,7 +371,7 @@ class Cart extends Component{
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AllUserAddress user_id={this.props.user.id}/>
+                                    <AllUserAddress user_id={user.id}/>
                                 </div>
                                     </div>
                             </div>
@@ -387,7 +387,7 @@ class Cart extends Component{
                 <div className='card mb-5'>
                     <div className='card-body'>
                         <h4>Shipping Address</h4>
-                        <AddressInput mainAddress={this.state.main_address} user_id ={this.props.user.id}
+                        <AddressInput mainAddress={this.state.main_address} user_id ={user.id}
                         renderAll={()=>this.renderAll()}/>
                     </div>
                 </div>
@@ -401,39 +401,44 @@ class Cart extends Component{
         const totalOrder = this.state.totalOrder
 
         console.log(cart)
-
-        if(totalOrder === ''){
+        if(this.props.user.id === ''){
             return(
-                <div>
-                    <Loader/>
-                </div>
+                <Redirect to = '/'/>
             )
         }else{
-            return(
-                <div>
-                    <Header/>
-                    <div className='container'>
-                        <div className='row mt-5'>
-                            <div className='col-md-8'>
-                                {/* Add Shipping Address */}
-                                {this.renderShippingAddress()}
-
-                                {/* Cart table */}
-                                <table class="table">
-                                    <tbody>
-                                        {this.renderCart()}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            {/* Order Summary*/}
-                            <div className='col'>
-                                {this.renderOrderSummary()}
+            if(totalOrder === ''){
+                return(
+                    <div>
+                        <Loader/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div>
+                        <Header/>
+                        <div className='container'>
+                            <div className='row mt-5'>
+                                <div className='col-md-8'>
+                                    {/* Add Shipping Address */}
+                                    {this.renderShippingAddress()}
+    
+                                    {/* Cart table */}
+                                    <table class="table">
+                                        <tbody>
+                                            {this.renderCart()}
+                                        </tbody>
+                                    </table>
+                                </div>
+    
+                                {/* Order Summary*/}
+                                <div className='col'>
+                                    {this.renderOrderSummary()}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
     }
 }

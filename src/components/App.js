@@ -54,7 +54,7 @@ class App extends Component{
                         <Route path='/changeavatar' component={ChangeAvatar}/>
                         <Route path='/orders/:user_id' component={UserOrders}/>
                         <Route path='/productdetails/:product_id' component={ProductDetails}/>
-                        <Route path='/cart/:user_id' component={Cart}/>
+                        <Route path='/cart' component={Cart}/>
                         <Route path='/shipment/:user_id' component={Shipment}/>
                 </div>
                 <div>

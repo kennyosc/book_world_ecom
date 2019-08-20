@@ -19,13 +19,18 @@ class Profile extends Component{
         })
     }
 
+    /*
+    1. photo not sent and payment status 0
+    2. photo sent and payment status 0
+
+    */
+
     renderOrders=()=>{
         if(this.state.user_orders.length !== 0){
             return this.state.user_orders.map((val,index)=>{
                 if(val.payment_status === 0){
                     return(
                         <tr className='border-bottom'>
-                            <td style={{width:'6%'}}><b>{index + 1}</b></td>
                             <td className='w-25'>{val.created_at}</td>
                             <td className='w-25'>{val.order_recipient}</td>
                             <td className='w-25'>{val.phone_number}</td>
@@ -38,7 +43,6 @@ class Profile extends Component{
                 }else if(val.payment_status === 1 && val.order_status === 0){
                     return(
                         <tr className='border-bottom'>
-                            <td style={{width:'6%'}}><b>{index + 1}</b></td>
                             <td className='w-25'>{val.created_at}</td>
                             <td className='w-25'>{val.order_recipient}</td>
                             <td className='w-25'>{val.phone_number}</td>
@@ -51,7 +55,6 @@ class Profile extends Component{
                 }else if(val.payment_status === 1 && val.order_status === 1){
                     return(
                         <tr className='border-bottom'>
-                            <td style={{width:'6%'}}><b>{index + 1}</b></td>
                             <td className='w-25'>{val.created_at}</td>
                             <td className='w-25'>{val.order_recipient}</td>
                             <td className='w-25'>{val.phone_number}</td>
@@ -75,9 +78,9 @@ class Profile extends Component{
     render(){
         if(this.props.user.id === ''){
             return(
-                <Redirect to='/'/>
+                <Redirect to ='/'/>
             )
-        } else{
+        }else{
             return(
                 <div>
                 <Header/>
@@ -92,7 +95,6 @@ class Profile extends Component{
                                     <table class="table table-hover">
                                         <tbody>
                                             <tr>
-                                                <th>Order Id</th>
                                                 <th>Date</th>
                                                 <th>Recipient</th>
                                                 <th>Phone Number</th>

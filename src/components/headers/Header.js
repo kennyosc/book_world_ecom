@@ -105,7 +105,7 @@ class Header extends Component{
                         </ul>
 
                         {/* GO TO MY CART */}
-                        <Link className='mx-3' style={{fontSize:'1.2em'}} to={`/cart/${this.props.user.id}`}>
+                        <Link className='mx-3' style={{fontSize:'1.2em', color:'grey'}} to={`/cart`}>
                             <i class="fas fa-shopping-cart"></i>
                         </Link>
                         
@@ -114,7 +114,7 @@ class Header extends Component{
                         <form className="form-inline my-2 my-lg-0">
                             <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                         </form>
-                            <button className="btn btn-success my-1 mx-2 my-sm-0" type="submit">Search</button>
+                            <button className="btn btn-outline-secondary my-1 mx-2 my-sm-0" type="submit">Search</button>
                             <button className='btn btn-outline-danger' onClick={this.handleLogout}><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 </nav>

@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import Header from '../headers/Header'
 import axios from '../../config/axios'
@@ -19,7 +20,7 @@ class Cart extends Component{
     }
 
     componentDidMount(){
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
 
         //get cart by user_id
         axios.get(`/getusercart/${user_id}`).then(res=>{
@@ -46,7 +47,7 @@ class Cart extends Component{
     }
 
     renderAll = () =>{
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
 
         axios.get(`/getusercart/${user_id}`).then(res=>{
             this.setState({cart:res.data})
@@ -70,7 +71,7 @@ class Cart extends Component{
 
     handleDeleteFromCart= async(product_id) =>{
 
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
         const data = await deleteFromCart(user_id,product_id)
         console.log(data)
 
@@ -81,7 +82,7 @@ class Cart extends Component{
 
     handleAddCoupon = async() =>{
         const coupon_code = this.coupon.value
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
         
         if(coupon_code === ''){
             Swal.fire({
@@ -116,7 +117,7 @@ class Cart extends Component{
     }
 
     handleRemoveCoupon = async() =>{
-        const user_id = this.props.match.params.user_id
+        const user_id = this.props.user.id
         const coupon_id = this.state.coupon_id
 
         const data = await removeCoupon(user_id,coupon_id)
@@ -149,7 +150,7 @@ class Cart extends Component{
                         <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/></td>
                         <td className='w-50'>{val.name}</td>
                         <td className='w-25 text-center'><b>Qty: </b>{val.quantity}</td>
-                        <td style={{color:'red',fontSize:'0.7em'}} className='text-center'><b>Rp{val.sub_total.toLocaleString('IN')},00</b></td>
+                        <td style={{fontSize:'0.7em'}} className='text-center'><b>Rp{val.sub_total.toLocaleString('IN')},00</b></td>
                     </tr>
                 )
             })
@@ -178,8 +179,8 @@ class Cart extends Component{
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">Order Summary</h5>
-                                Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                                <Link to={`/shipment/${this.props.match.params.user_id}`}>
+                                Total: <p className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
+                                <Link to={`/shipment/${this.props.user.id}`}>
                                     <button className='btn btn-block btn-primary'>Proceed to shipment</button>
                                 </Link>
                             </div>
@@ -191,7 +192,7 @@ class Cart extends Component{
                             <div className="input-group mb-3">
                             <input ref={input=>this.coupon = input} type="text" className="form-control" placeholder="Coupon code"/>
                             </div>
-                                <button onClick={this.handleAddCoupon} className='btn  btn-outline-danger'>Use coupon</button>
+                                <button onClick={this.handleAddCoupon} className='btn  btn-light'>Use coupon</button>
                             
                         </div>
                     </div>
@@ -204,8 +205,8 @@ class Cart extends Component{
                         <div className="card-body">
                             <h5 className="card-title">Order Summary</h5>
                             Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                            Discount: <p style={{color:'red'}} className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
-                            <Link to={`/shipment/${this.props.match.params.user_id}`}>
+                            Discount: <p className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
+                            <Link to={`/shipment/${this.props.user.id}`}>
                                 <button className='btn btn-block btn-primary'>Proceed to shipment</button>
                             </Link>
                         </div>
@@ -221,39 +222,46 @@ class Cart extends Component{
 
         console.log(cart)
 
-        if(totalOrder === ''){
+        if(this.props.user.id === ''){
             return(
-                <div>
-                    <Loader/>
-                </div>
+                <Redirect to = '/'/>
             )
         }else{
-            return(
-                <div>
-                    <Header/>
-                    <div className='container'>
-                        <div className='row mt-5'>
-                            <div className='col-md-8'>
-                                <table class="table">
-                                    <tbody>
-                                        {this.renderCart()}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div className='col'>
-                                {this.renderOrderSummary()}
+            if(totalOrder === ''){
+                return(
+                    <div>
+                        <Loader/>
+                    </div>
+                )
+            }else{
+                return(
+                    <div>
+                        <Header/>
+                        <div className='container'>
+                            <div className='row mt-5'>
+                                <div className='col-md-8'>
+                                    <table class="table">
+                                        <tbody>
+                                            {this.renderCart()}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className='col'>
+                                    {this.renderOrderSummary()}
+                                </div>
                             </div>
                         </div>
-                        {/* Render wishlist */}
-                        
-                        {/* Render related products */}
                     </div>
-                </div>
-            )
+                )
+            }
         }
-
-        
     }
 }
 
-export default Cart
+const mapStateToProps = (state) =>{
+    return{
+        user: state.auth
+    }
+}
+
+export default connect(mapStateToProps)(Cart)

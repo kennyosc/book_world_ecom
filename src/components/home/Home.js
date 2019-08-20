@@ -13,8 +13,8 @@ class Home extends Component{
         return(
             <div>
                 <Header/>
-                <MainCarousel/>
                 <div className='container'>
+                    <MainCarousel/>
                     <NewsReview/>
                     <BestSeller/>
                     <NewBooks/>

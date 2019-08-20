@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import axios from '../../../config/axios.js'
 import {logoutButton} from '../../../actions/index.js'
@@ -103,57 +103,69 @@ class ManagePeople extends Component{
     }
 
     render(){
-        return(
-            <div>
-                <AdminHeader/>
-                <div className='container'>
-                    <div class="card text-center mt-3">
-
-                        <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs">
-                                <li class="nav-item">
-                                    <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageproducts'>
-                                        <a class="nav-link active" href="#">Manage Users</a>
-                                    </Link>
-                                </li>
-
-                                <li class="nav-item">
-                                    <Link style={{color:'black'}} to='/admin/manageadmin'>
-                                        <a class="nav-link" href="#">Manage Admins</a>
-                                    </Link>
-                                </li>
-                            </ul>
+        if(this.props.admin.id === ''){
+            return(
+                <Redirect to = '/login-admin'/>
+            )
+        }else{
+            return(
+                <div>
+                    <AdminHeader/>
+                    <div className='container'>
+                        <div class="card text-center mt-3">
+    
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs">
+                                    <li class="nav-item">
+                                        <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageproducts'>
+                                            <a class="nav-link active" href="#">Manage Users</a>
+                                        </Link>
+                                    </li>
+    
+                                    <li class="nav-item">
+                                        <Link style={{color:'black'}} to='/admin/manageadmin'>
+                                            <a class="nav-link" href="#">Manage Admins</a>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+    
+                            <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Gender</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Verified</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.renderAllUsers()}
+                                </tbody>
+                                </table>
+                                <div/>
+    
+                                
+                            </div>
+    
                         </div>
-
-                        <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Gender</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Verified</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.renderAllUsers()}
-                            </tbody>
-                            </table>
-                            <div/>
-
-                            
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
-export default connect(null,{logoutButton})(ManagePeople)
+const mapStateToProps = (state) =>{
+    return{
+        admin : state.admin_auth
+    }
+}
+
+export default connect(mapStateToProps,{logoutButton})(ManagePeople)

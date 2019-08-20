@@ -246,30 +246,59 @@ export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmat
 //ADMIN LOGIN ROUTE
 export const onAdminLogin = (username,password) =>{
     return(dispatch)=>{
-        axios.post('/admin/login',
-            {
-                username,
-                password
-            }
-        ).then(res=>{
-            console.log(res)
-            const {id,username,email} = res.data
-            dispatch({
-                type:'ADMIN_LOGIN_SUCCESS',
-                payload:{
-                    id,
+        if(username === '' || password === ''){
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Please insert your username and password'
+              })
+        }else{
+            axios.post('/admin/login',
+                {
                     username,
-                    email
+                    password
+                }
+            ).then(res=>{
+                if(typeof(res.data) === 'string'){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: res.data
+                      })
+                }else{
+                    console.log(res)
+                    const {id,username,email} = res.data
+                    dispatch({
+                        type:'ADMIN_LOGIN_SUCCESS',
+                        payload:{
+                            id,
+                            username,
+                            email
+                        }
+                    })
+                    Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Login Success!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             })
-            Swal.fire({
-                position: 'center',
-                type: 'success',
-                title: 'Login Success!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        })
+        }
+    }
+}
+
+export const onAdminLogout = () =>{
+    Swal.fire({
+        position: 'center',
+        type: 'success',
+        title: 'Admin Logged Out!',
+        showConfirmButton: false,
+        timer: 1500
+    })
+    return{
+        type:'ADMIN_LOGOUT_SUCCESS'
     }
 }
 

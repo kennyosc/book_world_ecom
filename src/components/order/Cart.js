@@ -180,7 +180,7 @@ class Cart extends Component{
                             <div className="card-body">
                                 <h5 className="card-title">Order Summary</h5>
                                 Total: <p className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
-                                <Link to={`/shipment/${this.props.user.id}`}>
+                                <Link to={`/shipment`}>
                                     <button className='btn btn-block btn-primary'>Proceed to shipment</button>
                                 </Link>
                             </div>
@@ -206,7 +206,7 @@ class Cart extends Component{
                             <h5 className="card-title">Order Summary</h5>
                             Total: <p style={{color:'red'}} className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
                             Discount: <p className="card-text"><b>-Rp {this.state.coupon_value.toLocaleString('IN')},00 <button onClick={this.handleRemoveCoupon} className='btn btn-sm btn-light ml-3'>cancel</button></b></p>
-                            <Link to={`/shipment/${this.props.user.id}`}>
+                            <Link to={`/shipment`}>
                                 <button className='btn btn-block btn-primary'>Proceed to shipment</button>
                             </Link>
                         </div>

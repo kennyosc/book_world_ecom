@@ -276,6 +276,9 @@ export const onAdminLogin = (username,password) =>{
                             email
                         }
                     })
+
+                    cookie.set('admin',{id,username,email}, {path:'/'})
+
                     Swal.fire({
                         position: 'center',
                         type: 'success',
@@ -299,6 +302,17 @@ export const onAdminLogout = () =>{
     })
     return{
         type:'ADMIN_LOGOUT_SUCCESS'
+    }
+}
+
+export const keepLogin_admin = (objCookie_admin) =>{
+    return{
+        type:'ADMIN_LOGIN_SUCCESS',
+        payload:{
+            id: objCookie_admin.id,
+            username: objCookie_admin.username,
+            email: objCookie_admin.email
+        }
     }
 }
 

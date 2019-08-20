@@ -35,7 +35,7 @@ class Admin extends Component{
                                 <h5 className="card-title">Orders</h5>
                                 <p className="card-text">Manage users orders here!</p>
                                 </div>
-                                <Link to='/admin/orders'>
+                                <Link to='/admin/manageorders'>
                                     <button className='btn btn-primary btn-block'>Manage Orders</button>
                                 </Link>
     

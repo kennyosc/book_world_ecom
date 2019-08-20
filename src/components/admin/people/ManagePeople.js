@@ -101,7 +101,7 @@ class ManagePeople extends Component{
            
         })
     }
-
+    
     render(){
         if(this.props.admin.id === ''){
             return(

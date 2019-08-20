@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {BrowserRouter, Route} from 'react-router-dom'
 import cookies from 'universal-cookie'
-import {keepLogin} from '../actions/index.js'
+import {keepLogin, keepLogin_admin} from '../actions/index.js'
 import {connect} from 'react-redux'
 
 import Home from './home/Home'
@@ -22,6 +22,7 @@ import AddProduct from './admin/manageproducts/AddProduct.js'
 import EditProduct from './admin/manageproducts/EditProduct.js'
 import ManagePeople from './admin/people/ManagePeople.js'
 import ManageAdmin from './admin/people/ManageAdmin.js'
+import ManageOrders from './admin/manageorders/ManageOrders.js'
 
 import ProductDetails from './allproducts/ProductDetails'
 import Cart from './order/Cart'
@@ -32,11 +33,17 @@ const cookie = new cookies()
 class App extends Component{
 
     componentWillMount(){
-        const objCookie = cookie.get('user')
-        console.log(objCookie)
+        const objCookie_user = cookie.get('user')
+        const objCookie_admin = cookie.get('admin')
+        console.log(objCookie_user)
+        console.log(objCookie_admin)
 
-        if(objCookie !== undefined){
-            this.props.keepLogin(objCookie)
+        if(objCookie_user !== undefined){
+            this.props.keepLogin(objCookie_user)
+        }
+
+        if(objCookie_admin !== undefined){
+            this.props.keepLogin_admin(objCookie_admin)
         }
     }
 
@@ -52,10 +59,10 @@ class App extends Component{
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
-                        <Route path='/orders/:user_id' component={UserOrders}/>
+                        <Route path='/orders' component={UserOrders}/>
                         <Route path='/productdetails/:product_id' component={ProductDetails}/>
                         <Route path='/cart' component={Cart}/>
-                        <Route path='/shipment/:user_id' component={Shipment}/>
+                        <Route path='/shipment' component={Shipment}/>
                 </div>
                 <div>
                         <Route path='/login-admin' component={LoginAdmin}/>
@@ -66,10 +73,11 @@ class App extends Component{
                         <Route path='/admin/editproduct/:product_id' component={EditProduct}/>
                         <Route path='/admin/managepeople' component={ManagePeople}/>
                         <Route path='/admin/manageadmin' component={ManageAdmin}/>
+                        <Route path='/admin/manageorders' component={ManageOrders}/>
                 </div>
             </BrowserRouter>
         )
     }
 }
 
-export default connect(null,{keepLogin})(App)
+export default connect(null,{keepLogin, keepLogin_admin})(App)

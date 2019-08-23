@@ -12,7 +12,7 @@ class ChangeAvatar extends Component{
 
     handleUpdateAvatar = () =>{
         const avatar = this.avatar.files[0]
-        console.log(avatar)
+        console.log(this.avatar.files)
 
         const id = this.props.user.id
         const objUser = this.props.user

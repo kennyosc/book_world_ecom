@@ -10,12 +10,18 @@ import Loader from '../../Loader'
 class AllProducts extends Component{
 
     state={
-        products:''
+        searchProducts:''
     }
 
     componentDidMount(){
-        axios.get(`/allproducts`).then(res=>{
-            this.setState({products: res.data})
+        axios.get(`/search/${this.props.match.params.search}`).then(res=>{
+            this.setState({searchProducts: res.data})
+        })
+    }
+
+    handleSearch = (query) =>{
+        axios.get(`/search/${query}`).then(res=>{
+            this.setState({searchProducts: res.data})
         })
     }
 
@@ -36,14 +42,14 @@ class AllProducts extends Component{
     }
 
     renderItem = () =>{
-        if(this.state.products === ''){
+        if(this.state.searchProducts === ''){
             return(
                 <div>
                     <Loader/>
                 </div>
             )
         }else{
-            return this.state.products.map(val=>{
+            return this.state.searchProducts.map(val=>{
                 return(
                     <div className="card col-3 mt-5 mx-3">
                         <img className="card-img-top" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/>
@@ -68,7 +74,7 @@ class AllProducts extends Component{
     render(){
         return(
             <div>
-                <Header/>
+                <Header handleSearch={(query)=>{this.handleSearch(query)}} searchProducts={this.state.searchProducts}/>
                 <div className='container'>
                     <div className="row">
                                 <div className="col-sm-12 col-lg-3 position-sticky">

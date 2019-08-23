@@ -17,6 +17,30 @@ class ManageOrders extends Component{
         })
     }
 
+    renderAll = () =>{
+        axios.get(`/admin/alluserorders`).then(res=>{
+            this.setState({allorders:res.data})
+        })
+    }
+
+    handleAcceptPayment=(order_id)=>{
+        const user_id = this.props.user.id
+
+        axios.patch('/acceptuserpayment',{id:order_id,user_id:user_id}).then(res=>{
+            console.log(res)
+            this.renderAll()
+        })
+    }
+
+    handleRejectPayment=(order_id)=>{
+        const user_id = this.props.user.id
+
+        axios.patch('/rejectuserpayment',{id:order_id,user_id:user_id}).then(res=>{
+            console.log(res)
+            this.renderAll()
+        })
+    }
+
     renderAllOrders = () =>{
         if(this.state.allorders.length !== 0){
             return this.state.allorders.map((val)=>{
@@ -40,20 +64,20 @@ class ManageOrders extends Component{
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                             <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                             <td style={{width:'13%'}} className='text-center'>
-                                <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={this.handleAcceptPayment}>Accept</button>
-                                <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={this.handleRejectPayment}>Reject</button>
+                                <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id)}>Accept</button>
+                                <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id)}>Reject</button>
                             </td>
                         </tr>
                     )
-                }else if(val.payment_confirmation === null && val.order_status === 1){
+                }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
                         <tr className='border-bottom text-center'>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'></td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                            <td style={{width:'10%'}} className='text-center'>Order Completed</td>
+                            <td style={{width:'10%'}} className='text-center'>Order Completed</td>
                         </tr>
                     )
                 }
@@ -118,7 +142,8 @@ class ManageOrders extends Component{
 
 const mapStateToProps = (state) =>{
     return{
-        admin: state.admin_auth
+        admin: state.admin_auth,
+        user:state.auth
     }
 }
 

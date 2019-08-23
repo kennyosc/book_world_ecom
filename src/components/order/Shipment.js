@@ -328,9 +328,9 @@ class Cart extends Component{
                 <div className="card mb-5">
                     <div className="card-body">
                         <h4 className='mb-3 pb-3 border-bottom'>Shipping Address</h4>
-                        <p><b>{main_address.order_recipient}</b></p>
-                        <p>{main_address.phone_number}</p>
-                        <p>{main_address.address.concat(` , ${main_address.city}, ${main_address.postal_code}`)}</p>
+                        <p><b>Recipient: </b>{main_address.order_recipient}</p>
+                        <p><b>Phone number: </b>{main_address.phone_number}</p>
+                        <p><b>Address: </b>{main_address.address.concat(` , ${main_address.city}, ${main_address.postal_code}`)}</p>
                         <div className='my-3'>
 
                         {/* ADD NEW ADDRESS MODAL */}

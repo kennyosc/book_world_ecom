@@ -300,6 +300,7 @@ export const onAdminLogout = () =>{
         showConfirmButton: false,
         timer: 1500
     })
+    cookie.remove('admin')
     return{
         type:'ADMIN_LOGOUT_SUCCESS'
     }

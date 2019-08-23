@@ -30,7 +30,7 @@ class AddressInput extends Component{
             var main_address = this.main_address.checked
         }
 
-        const order_recipient = this.order_recipient.value
+        const order_recipient = this.recipient_name.value
         const phone_number = this.phone_number.value
         const address = this.address.value
         const city = this.city.value

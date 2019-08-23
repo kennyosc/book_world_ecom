@@ -10,6 +10,10 @@ import LoginDropdown from '../auth/LoginDropdown.js'
 
 class Header extends Component{
 
+    state={
+        search:''
+    }
+
     handleLogout = () =>{
         this.props.logoutButton()
           Swal.fire({
@@ -20,8 +24,35 @@ class Header extends Component{
             timer: 1500
           })
     }
+
+    renderSearchButton=()=>{
+        var query = this.state.search
+        if(!window.location.href.includes('/search')){
+            return(
+                <Link to={`/search/${query}`}>
+                    <button className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
+                </Link>
+            )
+        }else{
+            return(
+                <button onClick={()=>this.props.handleSearch(query)} className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
+            )
+        }
+        // if(this.props.searchProducts !== ''){
+        //     return(
+        //         <button onClick={()=>this.props.handleSearch(query)} className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
+        //     )
+        // }else{
+        //     return(
+        //         <Link to={`/search/${this.state.search}`}>
+        //             <button className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
+        //         </Link>
+        //     )
+        // }
+    }
     
     render(){
+        console.log(this.state.search)
 
         if(this.props.user.username === ''){
             return(
@@ -112,9 +143,9 @@ class Header extends Component{
 
                         {/* NAVBAR SEARCH */}
                         <form className="form-inline my-2 my-lg-0">
-                            <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
+                            <input onChange={(input)=>this.setState({search:input.target.value})} className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                         </form>
-                            <button className="btn btn-outline-secondary my-1 mx-2 my-sm-0" type="submit">Search</button>
+                        {this.renderSearchButton()}
                             <button className='btn btn-outline-danger' onClick={this.handleLogout}><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 </nav>

@@ -4,6 +4,8 @@ import cookies from 'universal-cookie'
 import {keepLogin, keepLogin_admin} from '../actions/index.js'
 import {connect} from 'react-redux'
 
+import SearchProducts from './allproducts/SearchProducts'
+
 import Home from './home/Home'
 import Register from './auth/Register.js'
 import Login from './auth/Login.js'
@@ -55,6 +57,7 @@ class App extends Component{
                         <Route path='/register' component={Register}/>
                         <Route path='/login' component={Login}/>
                         <Route path='/allproduct' component={AllProducts}/>
+                        <Route path='/search/:search' component={SearchProducts}/>
                         <Route path='/profile' component={Profile}/>
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>

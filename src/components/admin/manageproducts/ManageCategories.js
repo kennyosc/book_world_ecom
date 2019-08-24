@@ -9,7 +9,9 @@ class ManageCategories extends Component{
 
     state={
         categories:[],
-        genres:[]
+        genres:[],
+        selectedCategory:0,
+        selectedGenre:0
     }
 
     componentDidMount(){
@@ -51,30 +53,61 @@ class ManageCategories extends Component{
     }
 
     renderCategories = () =>{
-        var hasil = this.state.categories.map((val,index)=>{
-            return(
-                <tr>
-                    <th className='border-right'scope="row">{index+1}</th>
-                    <td>{val.category}</td>
-                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button onClick={()=>this.handleDeleteCategory(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
-                </tr>
-                
-            )
+        return this.state.categories.map((val,index)=>{
+            if(this.state.selectedCategory !== val.id){
+                return(
+                    <tr>
+                        <th className='border-right'scope="row">{index+1}</th>
+                        <td>{val.category}</td>
+                        <td>
+                            <button className='btn btn-outline-success btn-sm mx-2' onClick={()=>this.setState({selectedCategory: val.id})}>Edit</button>
+                            <button onClick={()=>this.handleDeleteCategory(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button>
+                        </td>
+                    </tr>
+                    
+                )
+            }else{
+                return(
+                    <tr>
+                        <th className='border-right'scope="row">{index+1}</th>
+                        <td><input className='form-control' defaultValue={val.category}/></td>
+                        <td>
+                            <button className='btn btn-success btn-sm mx-2'>Save</button>
+                            <button onClick={()=>this.setState({selectedCategory:0})} className='btn btn-warning btn-sm'>cancel</button>
+                        </td>
+                    </tr>
+                    
+                )
+            }
         })
-        return hasil
     }
 
     renderGenres = () =>{
-        var hasil = this.state.genres.map((val,index)=>{
-            return(
-                <tr>
-                    <th className='border-right'scope="row">{index+1}</th>
-                    <td>{val.genre}</td>
-                    <td><button className='btn btn-outline-success btn-sm mx-2'>Edit</button><button onClick={()=>this.handleDeleteGenre(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button></td>
-                </tr>
-            )
+        return this.state.genres.map((val,index)=>{
+            if(this.state.selectedGenre !== val.id){
+                return(
+                    <tr>
+                        <th className='border-right'scope="row">{index+1}</th>
+                        <td>{val.genre}</td>
+                        <td>
+                            <button className='btn btn-outline-success btn-sm mx-2' onClick={()=>{this.setState({selectedGenre:val.id})}}>Edit</button>
+                            <button onClick={()=>this.handleDeleteGenre(val.id)} className='btn btn-outline-danger btn-sm'>Delete</button>
+                        </td>
+                    </tr>
+                )
+            }else{
+                return(
+                    <tr>
+                        <th className='border-right'scope="row">{index+1}</th>
+                        <td><input className='form-control' defaultValue={val.genre}/></td>
+                        <td>
+                            <button className='btn btn-success btn-sm mx-2'>Save</button>
+                            <button onClick={()=>this.setState({selectedGenre:0})} className='btn btn-warning btn-sm'>cancel</button>
+                        </td>
+                    </tr>
+                )
+            }
         })
-        return hasil
     }
 
     handleNewCategory = (event) =>{

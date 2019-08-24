@@ -5,12 +5,15 @@ import {connect} from 'react-redux'
 import Header from '../headers/Header.js'
 import axios from '../../config/axios.js';
 import Loader from '../../Loader'
+import ProductItem from './ProductItem'
+
 
 
 class AllProducts extends Component{
 
     state={
-        products:''
+        products:'',
+        unit:0
     }
 
     componentDidMount(){
@@ -19,19 +22,16 @@ class AllProducts extends Component{
         })
     }
 
-    renderButton = () =>{
-        if(this.props.user.id === ''){
-            return(
-                <Link to='/login'>
-                    <button className='btn btn-danger btn-block mr-1'>Add to Cart</button>
-                </Link>
-            )
+    
+    handleSearch = (query) =>{
+        if(query === ''){
+            axios.get('allproducts').then(res=>{
+                this.setState({products:res.data})
+            })
         }else{
-            return(
-                <div>
-                    <button className='btn btn-danger btn-block  mr-1'>Add to Cart</button>
-                </div>   
-            )
+            axios.get(`/search/${query}`).then(res=>{
+                this.setState({products: res.data})
+            })
         }
     }
 
@@ -45,27 +45,14 @@ class AllProducts extends Component{
         }else{
             return this.state.products.map(val=>{
                 return(
-                    <div className="card col-3 mt-5 mx-3">
-                        <img className="card-img-top" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt="Card image cap"/>
-                        <div className="card-body">
-                            <Link to={`/productdetails/${val.id}`} style={{textDecoration:'none', color:'black'}}>
-                                <h5 style={{fontSize:'1em'}} className="card-title">{val.name.slice(0,40)}...</h5>
-                            </Link>
-                            <p>Rp{val.price.toLocaleString('IN')},00</p>
-                            <form>
-                                <input className='form-control' placeholder='Qty' type='number' min='1' onChange={this.handleChange}/>    
-                            </form>
-                        </div>
-                        <div className='text-center mb-3'>
-                            {this.renderButton()}
-                        </div>
-                    </div>
+                    <ProductItem val={val}/>
                 )
             })
         }
     }
 
     render(){
+        console.log(this.state.unit)
         return(
             <div>
                 <Header/>
@@ -81,7 +68,7 @@ class AllProducts extends Component{
                                                 <div className="card-title mt-1">
                                                     <h4>Name</h4>
                                                 </div>
-                                                <form className="input-group"><input placeholder='Name'ref={input => this.name = input} className="form-control" type="text"/></form>
+                                                <form className="input-group"><input placeholder='Name' onChange={(event)=>this.handleSearch(event.target.value)} className="form-control" type="text"/></form>
                                                 <div className="card-title mt-1">
                                                     <h4>Price</h4>
                                                 </div>

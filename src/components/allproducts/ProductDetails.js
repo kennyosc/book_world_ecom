@@ -11,7 +11,8 @@ class ProductDetails extends Component{
 
     state={
         product:'',
-        wishlist:''
+        wishlist:'',
+        productReview:[]
     }
 
     componentDidMount(){
@@ -23,6 +24,10 @@ class ProductDetails extends Component{
 
         axios.get(`/productwishlist/${this.props.user.id}/${product_id}`).then(res=>{
             this.setState({wishlist:res.data})
+        })
+
+        axios.get(`/productreviews/${product_id}`).then(res=>{
+            this.setState({productReview : res.data})
         })
     }
 
@@ -100,6 +105,27 @@ class ProductDetails extends Component{
         }
     }
 
+    renderProductReview = () =>{
+        if(this.state.productReview.length === 0){
+            return(
+                <tr className='border-bottom'>
+                    <td className='text-center'>There are no reviews</td>
+                </tr>
+            )
+        }else{
+            return this.state.productReview.map(val=>{
+                return(
+                    <tr className='border-bottom'>
+                        <td>{val.created_at}</td>
+                        <td>By: <b>{val.username}</b></td>
+                        <td><b>{val.rating_value}</b>/5 <i style={{color:'grey'}} class="fas fa-star"></i></td>
+                        <td>"{val.review}"</td>
+                    </tr>
+                )
+            })
+        }
+    }
+
     render(){
         const product = this.state.product
         console.log(this.state.wishlist)
@@ -141,6 +167,16 @@ class ProductDetails extends Component{
                                 </div>
                              </div>
     
+                         </div>
+
+                         {/* product reviews */}
+                         <div>
+                             <h5 className='mb-3'>Book Reviews</h5>
+                            <table class="table">
+                                <tbody>
+                                    {this.renderProductReview()}
+                                </tbody>
+                            </table>
                          </div>
                         
                      </div>

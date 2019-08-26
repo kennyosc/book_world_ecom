@@ -132,13 +132,12 @@ export const keepLogin = (objCookie) =>{
 }
 
 //UDPATE PROFILE BUTTON
-export const onUpdateProfile = (id,firstName,lastName,username,email,gender,phoneNumber) =>{
+export const onUpdateProfile = (id,firstName,lastName,email,gender,phoneNumber) =>{
     return (dispatch) =>{
         axios.patch(`/updateprofile/${id}`,
             {
                 first_name: firstName,
                 last_name: lastName,
-                username: username,
                 email: email,
                 gender:gender,
                 phone_number : phoneNumber

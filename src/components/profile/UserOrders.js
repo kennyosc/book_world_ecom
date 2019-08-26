@@ -12,7 +12,11 @@ class Profile extends Component{
 
     state={
         user_orders:'',
-        selectedOrder:''
+        selectedOrder:'',
+        product_review:'',
+        addProductReview: 0,
+        review:'',
+        rating:''
     }
 
     componentDidMount(){
@@ -45,6 +49,121 @@ class Profile extends Component{
         })
     }
 
+    handleRatingInput = (event) =>{
+        this.setState({rating: event.target.value})
+    }
+
+    handleSubmitReview =(order_id,product_id) =>{
+        const user_id = this.props.user.id
+        const review = this.state.review
+        const rating = this.state.rating
+
+        if(rating === '' || review === ''){
+            console.log('Please insert all fields')
+        }else{
+            if(review.length < 20){
+                console.log('Review must be 20 characters long')
+            }else{
+                axios.post(`/addproductreview`,{order_id,user_id,product_id,rating_value:rating,review}).then(res=>{
+                    console.log(res)
+                    window.location.reload()
+                })
+            }
+        }
+    }
+
+    /*
+    1. select all from orders_details where order_id = ...
+    2. render all products when button is pressed (modal)
+    3. products have inputs where it will insert into product_reviews.review
+    */
+
+    //to get product data from order_details
+    handleGetProductReview = (order_id) =>{
+        const user_id = this.props.user.id
+
+        axios.get(`/userproductreview/${user_id}/${order_id}`,).then(res=>{
+            this.setState({product_review:res.data})
+        })
+    }
+
+    renderProductReview = () =>{
+        console.log(this.state.product_review)
+        if(this.state.product_review === ''){
+            return(
+                <Loader/>
+            )
+        }else{
+            return this.state.product_review.map(val=>{
+                if(this.state.addProductReview !== val.order_details_id){
+                    if(val.review_status === 0){
+                        return(
+                            <tr className='border-bottom'>
+                                <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
+                                <td className='w-50'>
+                                    <p><b>Title: </b>{val.name}</p>
+                                    <p><b>Price: </b>Rp{val.price.toLocaleString('IN')},00</p>
+                                    <p><b>Author: </b>{val.author}</p>
+                                    <p><b>Published: </b>{val.published}</p>
+                                </td>
+                                <td><button className='btn btn-primary btn-sm mt-3' onClick={()=>this.setState({addProductReview:val.order_details_id})}>Add Review</button></td>
+                            </tr>
+                            )
+                    }else{
+                        return(
+                            <tr className='border-bottom'>
+                                <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
+                                <td className='w-50'>
+                                    <p><b>Title: </b>{val.name}</p>
+                                    <p><b>Price: </b>Rp{val.price.toLocaleString('IN')},00</p>
+                                    <p><b>Author: </b>{val.author}</p>
+                                    <p><b>Published: </b>{val.published}</p>
+                                </td>
+                                <td>Thank you for your review!</td>
+                            </tr>
+                            )
+                    }
+                }else{
+                    return(
+                        <tr className='border-bottom mb-3'>
+                            <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
+                            <td className='w-50'>
+                                <form>
+                                    Review your book: <input onChange={(event)=>{this.setState({review: event.target.value})}} className='form-control mb-3' placeholder='Min. 20 characters'/>
+                                    Give your rating: 
+                                    <div class="form-check">
+                                        <input onChange={this.handleRatingInput} class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"/>
+                                        <label class="form-check-label" for="inlineRadio1">1 (Very Bad)</label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input onChange={this.handleRatingInput} class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"/>
+                                        <label class="form-check-label" for="inlineRadio2">2 (Bad)</label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input onChange={this.handleRatingInput} class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3"/>
+                                        <label class="form-check-label" for="inlineRadio3">3 (Okay)</label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input onChange={this.handleRatingInput} class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="4"/>
+                                        <label class="form-check-label" for="inlineRadio4">4 (Good!)</label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input onChange={this.handleRatingInput} class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="5"/>
+                                        <label class="form-check-label" for="inlineRadio5">5 (Very Good!)</label>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <button className='btn btn-success btn-sm mt-3 mr-2' onClick={()=>this.handleSubmitReview(val.order_id, val.product_id)}>Submit</button>
+                                <button className='btn btn-danger btn-sm mt-3' onClick={()=>{this.setState({addProductReview:0})}}>Cancel</button>
+                            </td>
+                        </tr>
+                    )
+                }
+            })
+        }
+    }
+
     /*
     1. photo not sent and order_status 0 => payment pending
     2. photo sent and order_status 0 => waiting for payment confirmation
@@ -52,8 +171,6 @@ class Profile extends Component{
     */
 
     renderOrders=()=>{
-        console.log(this.state.user_orders)
-        console.log(this.state.selectedOrder)
         if(this.state.user_orders.length !== 0){
             return this.state.user_orders.map((val)=>{
                 if(val.payment_confirmation === null){
@@ -107,15 +224,39 @@ class Profile extends Component{
                     )
                 }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
-                        <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.created_at}</td>
-                            <td style={{width:'13%'}}>{val.order_recipient}</td>
-                            <td style={{width:'10%'}}>{val.phone_number}</td>
-                            <td className='w-25'>{val.recipient_address}</td>
-                            <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                            <td style={{width:'10%'}} className='text-center'>Order completed</td>
-                            <td style={{width:'10%'}} className='text-center'>Order completed</td>
-                        </tr>
+                            <tr className='border-bottom'>
+                                <td style={{width:'10%'}} className='text-center'>{val.created_at}</td>
+                                <td style={{width:'13%'}} className='text-center'>{val.order_recipient}</td>
+                                <td style={{width:'10%'}} className='text-center'>{val.phone_number}</td>
+                                <td className='w-25 text-center'>{val.recipient_address}</td>
+                                <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                                <td style={{width:'10%'}} className='text-center'>Order completed</td>
+                                <td style={{width:'17%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-success btn-sm text-center" data-toggle="modal" data-target="#prouct_review">
+                                        Review Book
+                                    </button>
+                                </td>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="prouct_review" tabindex="-1" role="dialog" aria-labelledby="prouct_reviewTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderProductReview()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </tr>
                     )
                 }
             })
@@ -129,6 +270,7 @@ class Profile extends Component{
     }
 
     render(){
+        console.log(this.state.rating)
         if(this.props.user.id === ''){
             return(
                 <Redirect to ='/'/>

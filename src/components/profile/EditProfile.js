@@ -14,12 +14,11 @@ class EditProfile extends Component{
         const id = this.props.user.id
         const firstName = this.firstName.value
         const lastName = this.lastName.value
-        const username = this.username.value
         const email = this.email.value
         const gender = this.gender.value
         const phoneNumber = this.phoneNumber.value
 
-        this.props.onUpdateProfile(id,firstName,lastName,username,email,gender,phoneNumber)
+        this.props.onUpdateProfile(id,firstName,lastName,email,gender,phoneNumber)
     }
     render(){
 
@@ -46,15 +45,8 @@ class EditProfile extends Component{
                                     <input type="text" className="form-control" defaultValue={this.props.user.first_name} placeholder='*First Name' ref={(firstName) => {this.firstName = firstName}}/>
                                     <input type="text" className="form-control" defaultValue={this.props.user.last_name} placeholder='Last Name' ref={(lastName) => {this.lastName = lastName}}/>
                                 </div>
-        
-                                
-                                <form className='input-group my-3'>
-                                    <input className='form-control' placeholder='*Username' defaultValue={this.props.user.username}
-                                    ref={(username) => {this.username = username}}></input>
-                                </form>
-        
-                                
-                                <form className='input-group'>
+
+                                <form className='input-group mt-3'>
                                     <input className='form-control' placeholder='*Email' type="email" defaultValue={this.props.user.email}
                                     ref={(email) => {this.email = email}}></input>
                                 </form>

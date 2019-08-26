@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom'
 
 import Header from '../headers/Header.js'
 import Loader from '../../Loader'
+import blank_avatar from '../../images/profile/blank_profile_picture.png'
 import {onAddToCart, onAddToWishlist,onRemoveFromWishlist} from '../../actions/index.js'
 
 class ProductDetails extends Component{
@@ -12,7 +13,8 @@ class ProductDetails extends Component{
     state={
         product:'',
         wishlist:'',
-        productReview:[]
+        productReview:[],
+        product_rating:0
     }
 
     componentDidMount(){
@@ -28,6 +30,10 @@ class ProductDetails extends Component{
 
         axios.get(`/productreviews/${product_id}`).then(res=>{
             this.setState({productReview : res.data})
+        })
+
+        axios.get(`/averageproductrating/${product_id}`).then(res=>{
+            this.setState({product_rating: res.data})
         })
     }
 
@@ -114,15 +120,50 @@ class ProductDetails extends Component{
             )
         }else{
             return this.state.productReview.map(val=>{
-                return(
+                if(val.avatar === null){
+                    return(
                     <tr className='border-bottom'>
-                        <td>{val.created_at}</td>
-                        <td>By: <b>{val.username}</b></td>
-                        <td><b>{val.rating_value}</b>/5 <i style={{color:'grey'}} class="fas fa-star"></i></td>
-                        <td>"{val.review}"</td>
+                        <td className='text-center' style={{width:'5%'}}>
+                            <img className='img-thumbnail' src={blank_avatar} alt="Profile Picture" />                            
+                            <p><b>{val.username}</b></p>
+                            
+                        </td>
+                        <td>
+                            <p style={{fontSize:'0.7em'}}>Posted at {val.created_at}</p>
+                            <b>{val.rating_value}</b>/5 <i style={{color:'grey'}} class="fas fa-star"></i>
+                            <p>"{val.review}"</p>
+                        </td>
                     </tr>
-                )
+                    )
+                }else{
+                    return(
+                        <tr className='border-bottom'>
+                            <td className='text-center' style={{width:'5%'}}>
+                                <img className='img-thumbnail' src={`http://localhost:2019/profile/avatar/${val.avatar}`} alt="Profile Picture"/>
+                                <p><b>{val.username}</b></p>
+                                
+                            </td>
+                            <td>
+                                <p style={{fontSize:'0.7em'}}>Posted at {val.created_at}</p>
+                                <b>{val.rating_value}</b>/5 <i style={{color:'grey'}} class="fas fa-star"></i>
+                                <p>"{val.review}"</p>
+                            </td>
+                        </tr>
+                    )
+                }
             })
+        }
+    }
+
+    renderAvgReviews = () =>{
+        if(this.state.productReview.length > 0){
+            return(
+                <p style={{fontSize:'0.7em'}}>{this.state.product_rating.ratings} <i style={{color:'grey'}} class="fas fa-star"></i> (out of {this.state.productReview.length} reviews)</p>
+            )
+        }else{
+            return(
+                <p style={{fontSize:'0.7em'}}>This book have not been reviewed yet</p>
+            )
         }
     }
 
@@ -149,6 +190,7 @@ class ProductDetails extends Component{
                              <div className='col ml-0'>
                                  <div className='mb-4'>
                                     <h3>{product.name}</h3>
+                                    {this.renderAvgReviews()}
                                  </div>
     
                                 <div className='mb-4'>

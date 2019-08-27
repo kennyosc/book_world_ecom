@@ -19,7 +19,9 @@ class Admin extends Component{
                 <div>
                     <AdminHeader/>
                     <div className='container mt-5'>
-                        <div className="card-deck">
+
+
+                        <div className="card-deck mt-3">
                             <div className="card">
                                 <img className="card-img-top" src={admin_products} alt="Card image cap"/>
                                 <div className="card-body">
@@ -52,9 +54,9 @@ class Admin extends Component{
                                 </Link>
                             </div>
                         </div>
+                        
                         {/* RENDER STATS */}
-                        <div className='mt-5'>
-                            <h5>Statistics</h5>
+                        <div className='mt-4'>
                             <Stats/>
                         </div>
 

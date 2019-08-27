@@ -34,6 +34,7 @@ class Profile extends Component{
     handleUploadPaymentProof = (order_id) =>{
         const payment_proof = this.payment_proof.files[0]
         const user_id = this.props.user.id
+        const username = this.props.user.username
         const formData = new FormData()
         
         console.log(payment_proof)
@@ -42,6 +43,7 @@ class Profile extends Component{
         formData.append('payment_proof', payment_proof)
         formData.append('order_id',order_id)
         formData.append('user_id',user_id)
+        formData.append('username',username)
     
         axios.patch('/uploadpaymentproof', formData).then(res=>{
             console.log(res)

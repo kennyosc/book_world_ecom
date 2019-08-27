@@ -13,9 +13,24 @@ class AllUserAddress extends Component{
         })
     }
 
+    renderAddress = () =>{
+        axios.get(`/getalluseraddress/${this.props.user_id}`).then(res=>{
+            this.setState({address_list:res.data})
+        })
+    }
+
     handleSelectAsMain = (address_id) =>{
         axios.patch(`/setaddressasmain/${this.props.user_id}/${address_id}`).then(res=>{
-            window.location.reload()
+            this.renderAddress()
+            this.props.renderAll()
+        })
+    }
+
+    handleDeleteAddress = (address_id) =>{
+        axios.delete(`/deleteuseraddress/${this.props.user_id}/${address_id}`).then(res=>{
+            console.log(res)
+            this.renderAddress()
+            this.props.renderAll()
         })
     }
 
@@ -27,6 +42,7 @@ class AllUserAddress extends Component{
                         <li class="list-group-item"><b>{index+1}. {val.order_recipient}, ({val.phone_number}): </b>{val.address.concat(` , ${val.city}, ${val.postal_code}`)}
                         <p className='mt-2'>
                             <b><button onClick={()=>this.handleSelectAsMain(val.id)} style={{fontSize:'0.7em'}} className='btn btn-light mr-3'>Set as main address</button></b>
+                            <b><button onClick={()=>this.handleDeleteAddress(val.id)} style={{fontSize:'0.7em'}} className='btn btn-light mr-3'>Delete Address</button></b>
                         </p>
                         </li>
                     </div>

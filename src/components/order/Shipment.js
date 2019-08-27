@@ -371,7 +371,7 @@ class Cart extends Component{
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AllUserAddress user_id={user.id}/>
+                                    <AllUserAddress renderAll={()=>{this.renderAll()}} user_id={user.id}/>
                                 </div>
                                     </div>
                             </div>

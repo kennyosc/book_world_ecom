@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import admin_orders from '../../images/admin/admin_orders.jpg'
 import admin_people from '../../images/admin/admin_people.jpg'
 import admin_products from '../../images/admin/admin_products.jpg'
+import Stats from './Stats'
 
 class Admin extends Component{
     render(){
@@ -51,6 +52,12 @@ class Admin extends Component{
                                 </Link>
                             </div>
                         </div>
+                        {/* RENDER STATS */}
+                        <div className='mt-5'>
+                            <h5>Statistics</h5>
+                            <Stats/>
+                        </div>
+
                     </div>
                 </div>
             )

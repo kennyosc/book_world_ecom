@@ -241,7 +241,7 @@ export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmat
     }
 }
 
-// ============================ADMIN=================================
+// ============================ADMIN==================================
 //ADMIN LOGIN ROUTE
 export const onAdminLogin = (username,password) =>{
     return(dispatch)=>{

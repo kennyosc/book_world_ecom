@@ -15,6 +15,7 @@ import EditProfile from './profile/EditProfile.js'
 import ChangePassword from './profile/ChangePassword.js'
 import ChangeAvatar from './profile/ChangeAvatar.js'
 import UserOrders from './profile/UserOrders.js'
+import Wishlist from './profile/Wishlist'
 
 import LoginAdmin from './admin/AdminLogin.js'
 import Admin from './admin/Admin.js'
@@ -25,6 +26,7 @@ import EditProduct from './admin/manageproducts/EditProduct.js'
 import ManagePeople from './admin/people/ManagePeople.js'
 import ManageAdmin from './admin/people/ManageAdmin.js'
 import ManageOrders from './admin/manageorders/ManageOrders.js'
+import ManageCoupons from './admin/managecoupons/ManageCoupons.js'
 
 import ProductDetails from './allproducts/ProductDetails'
 import Cart from './order/Cart'
@@ -62,6 +64,7 @@ class App extends Component{
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
+                        <Route path='/wishlist' component={Wishlist}/>
                         <Route path='/orders' component={UserOrders}/>
                         <Route path='/productdetails/:product_id' component={ProductDetails}/>
                         <Route path='/cart' component={Cart}/>
@@ -77,6 +80,7 @@ class App extends Component{
                         <Route path='/admin/managepeople' component={ManagePeople}/>
                         <Route path='/admin/manageadmin' component={ManageAdmin}/>
                         <Route path='/admin/manageorders' component={ManageOrders}/>
+                        <Route path='/admin/managecoupons' component={ManageCoupons}/>
                 </div>
             </BrowserRouter>
         )

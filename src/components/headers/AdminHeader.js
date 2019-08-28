@@ -112,7 +112,13 @@ class AdminHeader extends Component{
                     
                         <li className="nav-item">
                             <Link to='/admin/managepeople'>
-                                <a className="nav-link" href="#">People<span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="#">People</a>
+                            </Link>
+                        </li>
+
+                        <li className="nav-item">
+                            <Link to='/admin/managecoupons'>
+                                <a className="nav-link" href="#">Coupons</a>
                             </Link>
                         </li>
                     </ul>

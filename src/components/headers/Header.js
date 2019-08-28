@@ -38,17 +38,6 @@ class Header extends Component{
                 <button onClick={()=>this.props.handleSearch(query)} className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
             )
         }
-        // if(this.props.searchProducts !== ''){
-        //     return(
-        //         <button onClick={()=>this.props.handleSearch(query)} className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
-        //     )
-        // }else{
-        //     return(
-        //         <Link to={`/search/${this.state.search}`}>
-        //             <button className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
-        //         </Link>
-        //     )
-        // }
     }
     
     render(){
@@ -92,9 +81,10 @@ class Header extends Component{
     
                         {/* NAVBAR SEARCH */}
                         <form className="form-inline my-2 my-lg-0">
-                            <input className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
+                            <input onChange={(input)=>this.setState({search:input.target.value})} className="form-control mr-sm-2" type="search" placeholder="Find Books" aria-label="Search"/>
                         </form>
-                            <button className="btn btn-dark my-2 my-sm-0 btn-sm" type="submit">Search</button>
+                        {this.renderSearchButton()}
+                        
                     </div>
                 </nav>
             )

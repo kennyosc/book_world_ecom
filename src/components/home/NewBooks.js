@@ -51,18 +51,32 @@ class NewBooks extends Component{
   }
 
   render(){
-    return(
-      <div>
-        {/* BEST SELLER PRODUCTS */}
-        <div style={{width:"30%"}} className="display-4 my-3 border-bottom">
-          <h1>New Books</h1>
+    if(this.state.allProducts.length !== 0){
+      return(
+        <div>
+          {/* BEST SELLER PRODUCTS */}
+          <div style={{width:"30%"}} className="display-4 my-3 border-bottom">
+            <h1>New Books</h1>
+          </div>
+  
+          <div className="card-deck">
+            {this.renderNewBooks()}
+          </div>
         </div>
-
-        <div className="card-deck">
-          {this.renderNewBooks()}
+      )
+    }else{
+      return(
+        <div>
+          <div style={{width:"30%"}} className="display-4 my-3 border-bottom">
+              <h1>New Books</h1>
+            </div>
+            
+            <div class="spinner-border text-secondary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 

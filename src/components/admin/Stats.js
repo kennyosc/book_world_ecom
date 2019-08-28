@@ -50,7 +50,7 @@ class Stats extends Component{
             )
         } else{
             return(
-                <div className='row'>
+                <div style={{fontSize:'0.9em'}} className='row mb-5'>
                     <div className="card col-2 mt-3 mx-3">
                         <div className="card-body">
                             <p className="card-title">Total 1 Month Sales</p>

@@ -18,8 +18,7 @@ class Admin extends Component{
             return(
                 <div>
                     <AdminHeader/>
-                    <div className='container mt-5'>
-
+                    <div className='container mt-4'>
 
                         <div className="card-deck mt-3">
                             <div className="card">

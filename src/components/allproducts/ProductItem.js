@@ -19,10 +19,17 @@ class ProductItem extends Component{
         const quantity = parseInt(this.state.unit)
         const sub_total = quantity * price
 
-        onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
+        if(quantity === 0){
+            console.log(quantity)
+            console.log('Please insert quantity')
+        }else{
+            console.log(quantity)
+            onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
+        }
     }
 
     render(){
+        console.log(this.state.unit)
         let val = this.props.val
 
         if(this.props.user.id === ''){
@@ -34,7 +41,7 @@ class ProductItem extends Component{
                             <h5 style={{fontSize:'1em'}} className="card-title">{val.name.slice(0,40)}...</h5>
                         </Link>
                         <p>Rp{val.price.toLocaleString('IN')},00</p>
-                        <p><b>stock: </b>{val.stock}</p>
+                        <p><b>stock: </b> { val.stock === 0 ? 'Out of stock' : val.stock } </p>
                         <form>
                             <input className='form-control' placeholder='Qty' type='number' min='1' onChange={this.handleChange}/>    
                         </form>
@@ -55,7 +62,7 @@ class ProductItem extends Component{
                             <h5 style={{fontSize:'1em'}} className="card-title">{val.name.slice(0,40)}...</h5>
                         </Link>
                         <p>Rp{val.price.toLocaleString('IN')},00</p>
-                        <p><b>stock: </b>{val.stock}</p>
+                        <p><b>stock: </b>{ val.stock === 0 ? 'Out of stock' : val.stock }</p>
                         <form>
                             <input className='form-control' placeholder='Qty' type='number' min='1' onChange={(event)=>{this.setState({unit:event.target.value})}}/>    
                         </form>

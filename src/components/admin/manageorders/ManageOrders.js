@@ -8,7 +8,8 @@ import axios from '../../../config/axios';
 class ManageOrders extends Component{
 
     state={
-        allorders:''
+        allorders:'',
+        payment_proof:''
     }
 
     componentDidMount(){
@@ -47,6 +48,7 @@ class ManageOrders extends Component{
                 if(val.payment_confirmation === null){
                     return(
                         <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
@@ -58,12 +60,16 @@ class ManageOrders extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 0){
                     return(
                         <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                             <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                             <td style={{width:'13%'}} className='text-center'>
+                                <Link to={`/admin/paymentproof/${val.payment_confirmation}`}>
+                                    <button style={{fontSize:'0.7em'}} className='btn btn-outline-primary btn-sm mr-1'>Detail</button>
+                                </Link>
                                 <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id)}>Accept</button>
                                 <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id)}>Reject</button>
                             </td>
@@ -72,6 +78,7 @@ class ManageOrders extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
                         <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
@@ -106,7 +113,7 @@ class ManageOrders extends Component{
                             <div class="card-header">
                                 <ul class="nav nav-tabs card-header-tabs">
                                     <li class="nav-item">
-                                        <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageproducts'>
+                                        <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageorders'>
                                             <a class="nav-link active" href="#">Manage Orders</a>
                                         </Link>
                                     </li>
@@ -117,15 +124,16 @@ class ManageOrders extends Component{
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>Order Id</th>
                                         <th>Date</th>
                                         <th>User</th>
                                         <th>Order Recipient</th>
                                         <th>Total</th>
-                                        <th>Proof of Payment</th>
-                                        <th>Action</th>
+                                        <th style={{width:'15%'}}>Proof of Payment</th>
+                                        <th style={{width:'15%'}}>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style={{fontSize:'0.9em'}}>
                                     {this.renderAllOrders()}
                                 </tbody>
                                 </table>

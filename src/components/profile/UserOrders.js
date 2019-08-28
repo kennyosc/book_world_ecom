@@ -102,7 +102,7 @@ class Profile extends Component{
                         return(
                             <tr className='border-bottom'>
                                 <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
-                                <td className='w-50'>
+                                <td className='w-50 text-left'>
                                     <p><b>Title: </b>{val.name}</p>
                                     <p><b>Price: </b>Rp{val.price.toLocaleString('IN')},00</p>
                                     <p><b>Author: </b>{val.author}</p>
@@ -115,13 +115,13 @@ class Profile extends Component{
                         return(
                             <tr className='border-bottom'>
                                 <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
-                                <td className='w-50'>
+                                <td className='w-50 text-left'>
                                     <p><b>Title: </b>{val.name}</p>
                                     <p><b>Price: </b>Rp{val.price.toLocaleString('IN')},00</p>
                                     <p><b>Author: </b>{val.author}</p>
                                     <p><b>Published: </b>{val.published}</p>
                                 </td>
-                                <td>Thank you for your review!</td>
+                                <td className='text-left'>Thank you for your review!</td>
                             </tr>
                             )
                     }
@@ -129,7 +129,7 @@ class Profile extends Component{
                     return(
                         <tr className='border-bottom mb-3'>
                             <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
-                            <td className='w-50'>
+                            <td className='w-50 text-left'>
                                 <form>
                                     Review your book: <input onChange={(event)=>{this.setState({review: event.target.value})}} className='form-control mb-3' placeholder='Min. 20 characters'/>
                                     Give your rating: 
@@ -179,10 +179,13 @@ class Profile extends Component{
                     if(val.id !== this.state.selectedOrder){
                         return(
                             <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
-                            <td style={{width:'10%'}}>{val.phone_number}</td>
-                            <td className='w-25'>{val.recipient_address}</td>
+                            <td className='w-25 text-left'>
+                                <p>{val.recipient_address}</p>
+                                <p>{val.phone_number}</p>
+                            </td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                             <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                             <td className='text-center w-75'>
@@ -194,10 +197,13 @@ class Profile extends Component{
                     }else{
                         return(
                             <tr className='border-bottom text-center'>
+                                <td style={{width:'10%'}}>{val.id}</td>
                                 <td style={{width:'10%'}}>{val.created_at}</td>
                                 <td style={{width:'13%'}}>{val.order_recipient}</td>
-                                <td style={{width:'10%'}}>{val.phone_number}</td>
-                                <td className='w-25'>{val.recipient_address}</td>
+                                <td className='w-25 text-left'>
+                                    <p>{val.recipient_address}</p>
+                                    <p>{val.phone_number}</p>
+                                </td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                                 <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                                 <td className='text-center w-75'>
@@ -215,10 +221,13 @@ class Profile extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 0){
                     return(
                         <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
-                            <td style={{width:'10%'}}>{val.phone_number}</td>
-                            <td className='w-25'>{val.recipient_address}</td>
+                            <td className='w-25 text-left'>
+                                <p>{val.recipient_address}</p>
+                                <p>{val.phone_number}</p>
+                            </td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                             <td style={{width:'10%'}} className='text-center'>Waiting for payment confirmation</td>
                             <td style={{width:'10%'}} className='text-center'>Waiting for payment confirmation</td>
@@ -227,17 +236,19 @@ class Profile extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
                             <tr className='border-bottom'>
+                                <td style={{width:'10%'}} className='text-center'>{val.id}</td>
                                 <td style={{width:'10%'}} className='text-center'>{val.created_at}</td>
                                 <td style={{width:'13%'}} className='text-center'>{val.order_recipient}</td>
-                                <td style={{width:'10%'}} className='text-center'>{val.phone_number}</td>
-                                <td className='w-25 text-center'>{val.recipient_address}</td>
+                                <td className='w-25 text-left'>
+                                    <p>{val.recipient_address}</p>
+                                    <p>{val.phone_number}</p>
+                                </td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                                 <td style={{width:'10%'}} className='text-center'>Order completed</td>
                                 <td style={{width:'17%'}} className='text-center'>
                                     <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-success btn-sm text-center" data-toggle="modal" data-target="#prouct_review">
                                         Review Book
                                     </button>
-                                </td>
                                 {/* LAUNCH MODAL */}
                                     <div class="modal fade" id="prouct_review" tabindex="-1" role="dialog" aria-labelledby="prouct_reviewTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -258,6 +269,7 @@ class Profile extends Component{
                                             </div>
                                         </div>
                                     </div>
+                                </td>
                             </tr>
                     )
                 }
@@ -293,9 +305,9 @@ class Profile extends Component{
                                         <table class="table table-hover">
                                             <tbody>
                                                 <tr className='text-center'>
+                                                    <th>Order Id</th>
                                                     <th>Date</th>
                                                     <th>Recipient</th>
-                                                    <th>Phone Number</th>
                                                     <th>Address</th>
                                                     <th>Total</th>
                                                     <th>Status</th>

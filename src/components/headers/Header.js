@@ -6,12 +6,26 @@ import Swal from 'sweetalert2'
 
 import {loginButton} from '../../actions/index.js'
 import LoginDropdown from '../auth/LoginDropdown.js'
+import axios from '../../config/axios.js';
 
 
 class Header extends Component{
 
     state={
+        user_notification:[],
         search:''
+    }
+
+    componentDidMount(){
+        axios.get(`/usernotifications/${this.props.user.id}`).then(res=>{
+            this.setState({user_notification: res.data})
+        })
+    }
+
+    renderNotif = () =>{
+        axios.get(`/usernotifications/${this.props.user.id}`).then(res=>{
+            this.setState({user_notification: res.data})
+        })
     }
 
     handleLogout = () =>{
@@ -36,6 +50,56 @@ class Header extends Component{
         }else{
             return(
                 <button onClick={()=>this.props.handleSearch(query)} className="btn btn-outline-secondary my-1 mx-2 my-sm-0">Search</button>
+            )
+        }
+    }
+
+    //NOTIFICATIONS
+    handleDeleteNotification = (notif_id)=>{
+        const user_id = this.props.user.id
+        axios.delete(`/deleteusernotification/${user_id}/${notif_id}`).then(res=>{
+            console.log(res)
+            this.renderNotif()
+        })
+    }
+
+    handleClearAllNotif = () =>{
+        axios.delete(`/deleteallusernotification/${this.props.user.id}`).then(res=>{
+            console.log(res)
+            this.renderNotif()
+        })
+    }
+
+    renderNotifications = () =>{
+        if(this.state.user_notification.length === 0){
+            return(
+                <li className="list-group-item">No notifications</li>
+            )
+        }else{
+            return this.state.user_notification.map(val=>{
+                return(
+                    <tr>
+                        <td className='border-top-0'>
+                            <button style={{color:'lightgrey'}} className='btn' onClick={()=>this.handleDeleteNotification(val.id)}><i className="fas fa-window-close"></i></button>
+                        </td>
+                        <td className='border-top-0 border-bottom' style={{fontSize:'0.9em'}}>
+                            <p>{val.notification}</p>
+                            <p style={{fontSize:'0.8em',color:'grey',marginBottom:'1%'}}>At {val.created_at}</p>
+                        </td>
+                    </tr>
+                )
+            })
+        }
+    }
+
+    renderBellIcon = () =>{
+        if(this.state.user_notification.length === 0){
+            return(
+                <i style={{color:'grey'}} className="fas fa-bell"></i>
+            )
+        }else{
+            return(
+                <i style={{color:'red'}} className="fas fa-bell"></i>
             )
         }
     }
@@ -124,6 +188,22 @@ class Header extends Component{
                                 </Link>
                             </li>
                         </ul>
+
+                        <div className="dropdown dropleft">
+                            <button className="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {this.renderBellIcon()}
+                            </button>
+                            <div style={{width:'500px'}} className="dropdown-menu table-responsive" aria-labelledby="dropdownMenuButton">
+                                <h6 className="dropdown-header d-inline">Notifications</h6>
+                                <button onClick={this.handleClearAllNotif}  style={{fontSize:'0.6em'}} className='btn btn-light btn-sm'>Clear All</button>
+
+                                <table className='table table-hover table-sm mt-3'>
+                                    <tbody>
+                                        {this.renderNotifications()}  
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
                         {/* GO TO MY CART */}
                         <Link className='mx-3' style={{fontSize:'1.2em', color:'grey'}} to={`/cart`}>

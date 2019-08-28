@@ -26,6 +26,7 @@ import EditProduct from './admin/manageproducts/EditProduct.js'
 import ManagePeople from './admin/people/ManagePeople.js'
 import ManageAdmin from './admin/people/ManageAdmin.js'
 import ManageOrders from './admin/manageorders/ManageOrders.js'
+import PaymentProof from './admin/manageorders/PaymentProof.js'
 import ManageCoupons from './admin/managecoupons/ManageCoupons.js'
 
 import ProductDetails from './allproducts/ProductDetails'
@@ -80,6 +81,7 @@ class App extends Component{
                         <Route path='/admin/managepeople' component={ManagePeople}/>
                         <Route path='/admin/manageadmin' component={ManageAdmin}/>
                         <Route path='/admin/manageorders' component={ManageOrders}/>
+                        <Route path='/admin/paymentproof/:imagename' component={PaymentProof}/>
                         <Route path='/admin/managecoupons' component={ManageCoupons}/>
                 </div>
             </BrowserRouter>

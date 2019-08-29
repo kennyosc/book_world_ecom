@@ -62,6 +62,7 @@ export const loginButton = (email, password,remember_me) =>{
                     text: res.data
                   })
             }else{
+                
                 const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
                 if(verified === 1){
                     dispatch({
@@ -84,14 +85,14 @@ export const loginButton = (email, password,remember_me) =>{
                         cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
                     }
                     
-    
-                      Swal.fire({
+                    Swal.fire({
                         position: 'center',
                         type: 'success',
                         title: 'Login Success!',
                         showConfirmButton: false,
                         timer: 1500
                       })
+
                 }else{
                     Swal.fire({
                         type: 'error',
@@ -319,33 +320,47 @@ export const keepLogin_admin = (objCookie_admin) =>{
 // ============================ADD TO CART=================================
 export const onAddToCart = (user_id,first_name,last_name,phone_number,product_id,quantity,sub_total) =>{
 
-    axios.post('/handleaddtocart',
-            {
-                user_id,
-                first_name,
-                last_name,
-                phone_number,
-                product_id,
-                quantity,
-                sub_total
-            }
-        ).then(res=>{
-            if(typeof(res.data) === 'string'){
-                Swal.fire({
-                    type: 'error',
-                    title: 'Error',
-                    text: res.data
-                  })
-            }else{
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: 'Added to cart!',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-            }
-        })
+    if(quantity === 0 || isNaN(quantity)){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Please insert quantity'
+          })
+    }else if(quantity < 0){
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Quantity must be more than 0'
+          })
+    }else{
+        axios.post('/handleaddtocart',
+                {
+                    user_id,
+                    first_name,
+                    last_name,
+                    phone_number,
+                    product_id,
+                    quantity,
+                    sub_total
+                }
+            ).then(res=>{
+                if(typeof(res.data) === 'string'){
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Error',
+                        text: res.data
+                      })
+                }else{
+                    Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Added to cart!',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }
+            })
+    }
 }
 
 export const deleteFromCart= async(user_id,product_id) =>{

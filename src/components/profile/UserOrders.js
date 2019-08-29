@@ -91,9 +91,11 @@ class Profile extends Component{
 
     renderProductReview = () =>{
         console.log(this.state.product_review)
-        if(this.state.product_review === ''){
+        if(this.state.product_review.length === 0){
             return(
-                <Loader/>
+                <tr className='text-center'>
+                    <td>Item unavailable</td>
+                </tr>
             )
         }else{
             return this.state.product_review.map(val=>{

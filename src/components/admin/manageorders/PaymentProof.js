@@ -34,6 +34,7 @@ class PaymentProof extends Component{
                             <div className="card-body">
                                 <div className="text-center">
                                     <img src={`http://localhost:2019/adminpaymentproof/${this.props.match.params.imagename}`} className="rounded img-fluid img-thumbnails" alt={this.props.match.params.imagename}/>
+                                    <p style={{fontSize:'0.8em',color:'grey'}} className='mt-3'>{this.props.match.params.imagename}</p>
                                 </div>
                                 <div/>
                             </div>

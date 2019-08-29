@@ -71,6 +71,8 @@ class AddProduct extends Component{
         formData.append('genre_id',genreId)
 
         axios.post('/addproduct',formData).then(res=>{
+            console.log(res)
+            
             Swal.fire({
                 position: 'center',
                 type: 'success',

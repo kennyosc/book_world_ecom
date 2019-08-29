@@ -21,6 +21,9 @@ class ProfileNav extends Component{
                     <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/changepassword'>
                         <li className="list-group-item">Change Password</li>
                     </Link>
+                    <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/inbox'>
+                        <li className="list-group-item">Inbox</li>
+                    </Link>
                     <Link style={{color:'grey', borderBottom:'1px solid lightgrey'}} to='/wishlist'>
                         <li className="list-group-item">Wishlist</li>
                     </Link>

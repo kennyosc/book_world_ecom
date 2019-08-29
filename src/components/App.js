@@ -13,6 +13,7 @@ import AllProducts from './allproducts/AllProducts.js'
 import Profile from './profile/Profile.js'
 import EditProfile from './profile/EditProfile.js'
 import ChangePassword from './profile/ChangePassword.js'
+import Inbox from './profile/Inbox.js'
 import ChangeAvatar from './profile/ChangeAvatar.js'
 import UserOrders from './profile/UserOrders.js'
 import Wishlist from './profile/Wishlist'
@@ -64,6 +65,7 @@ class App extends Component{
                         <Route path='/profile' component={Profile}/>
                         <Route path='/editprofile' component={EditProfile}/>
                         <Route path='/changepassword' component={ChangePassword}/>
+                        <Route path='/inbox' component={Inbox}/>
                         <Route path='/changeavatar' component={ChangeAvatar}/>
                         <Route path='/wishlist' component={Wishlist}/>
                         <Route path='/orders' component={UserOrders}/>

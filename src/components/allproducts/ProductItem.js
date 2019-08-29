@@ -19,13 +19,9 @@ class ProductItem extends Component{
         const quantity = parseInt(this.state.unit)
         const sub_total = quantity * price
 
-        if(quantity === 0){
-            console.log(quantity)
-            console.log('Please insert quantity')
-        }else{
-            console.log(quantity)
-            onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
-        }
+        console.log(quantity)
+        onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
+        
     }
 
     render(){
@@ -42,14 +38,18 @@ class ProductItem extends Component{
                         </Link>
                         <p>Rp{val.price.toLocaleString('IN')},00</p>
                         <p><b>stock: </b> { val.stock === 0 ? 'Out of stock' : val.stock } </p>
+                        {val.stock === 0? 'Out of stock' :
                         <form>
                             <input className='form-control' placeholder='Qty' type='number' min='1' onChange={this.handleChange}/>    
                         </form>
+                    }
                     </div>
                     <div className='text-center mb-3'>
+                        {val.stock === 0 ? 'We will replenish soon!' : 
                     <Link to='/login'>
                         <button className='btn btn-danger btn-block mr-1'>Add to Cart</button>
                     </Link>
+                    }
                     </div>
                 </div>
             )
@@ -63,14 +63,16 @@ class ProductItem extends Component{
                         </Link>
                         <p>Rp{val.price.toLocaleString('IN')},00</p>
                         <p><b>stock: </b>{ val.stock === 0 ? 'Out of stock' : val.stock }</p>
+                        {val.stock === 0 ? '' : 
                         <form>
                             <input className='form-control' placeholder='Qty' type='number' min='1' onChange={(event)=>{this.setState({unit:event.target.value})}}/>    
-                        </form>
+                        </form>}
                     </div>
                     <div className='text-center mb-3'>
+                        {val.stock === 0 ? 'We will replenish soon!' : 
                         <div>
                             <button onClick={()=>this.handleAddToCart(val.id, val.price)} className='btn btn-danger btn-block  mr-1'>Add to Cart</button>
-                        </div>   
+                        </div>    }
                     </div>
                 </div>
             )

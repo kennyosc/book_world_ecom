@@ -55,52 +55,60 @@ export const loginButton = (email, password,remember_me) =>{
                 password: password
             }
         ).then(res=>{
-            if(typeof(res.data) == 'string'){
+            if(res.data.suspended === 1){
                 Swal.fire({
                     type: 'error',
                     title: 'Oops...',
-                    text: res.data
+                    text: "You're account has been suspended. Please contact our customer support for more information"
                   })
             }else{
-                
-                const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
-                if(verified === 1){
-                    dispatch({
-                        type:'LOGIN_SUCCESS',
-                        payload:{
-                            id: id,
-                            first_name: first_name,
-                            last_name: last_name,
-                            username: username,
-                            email: email,
-                            gender: gender,
-                            phone_number: phone_number,
-                            avatar: avatar,
-                            verified: verified
-                        }
-                    })
-                    
-                    if(remember_me === true){
-                        //CREATE COOKIE DATA
-                        cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
-                    }
-                    
-                    Swal.fire({
-                        position: 'center',
-                        type: 'success',
-                        title: 'Login Success!',
-                        showConfirmButton: false,
-                        timer: 1500
-                      })
-
-                }else{
+                if(typeof(res.data) == 'string'){
                     Swal.fire({
                         type: 'error',
-                        title: 'Email verification required',
-                        text: 'Please verify your email first'
+                        title: 'Oops...',
+                        text: res.data
                       })
+                }else{
+                    
+                    const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
+                    if(verified === 1){
+                        dispatch({
+                            type:'LOGIN_SUCCESS',
+                            payload:{
+                                id: id,
+                                first_name: first_name,
+                                last_name: last_name,
+                                username: username,
+                                email: email,
+                                gender: gender,
+                                phone_number: phone_number,
+                                avatar: avatar,
+                                verified: verified
+                            }
+                        })
+                        
+                        if(remember_me === true){
+                            //CREATE COOKIE DATA
+                            cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
+                        }
+                        
+                        Swal.fire({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Login Success!',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+    
+                    }else{
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Email verification required',
+                            text: 'Please verify your email first'
+                          })
+                    }
+                   
                 }
-               
             }
         })
     }
@@ -315,6 +323,83 @@ export const keepLogin_admin = (objCookie_admin) =>{
             email: objCookie_admin.email
         }
     }
+}
+
+export const onAddProduct = (productName,productPrice,stock,productDesc,productCategoryId,genreId,author,published, weight,productImage) =>{
+
+    const formData = new FormData()
+        //products
+        formData.append('name',productName)
+        formData.append('price',productPrice)
+        formData.append('stock',stock)
+        formData.append('productImage',productImage)
+        formData.append('weight',weight)
+        formData.append('description',productDesc)
+        formData.append('author',author)
+        formData.append('published',published)
+        //product_categories
+        formData.append('category_id',productCategoryId)
+        formData.append('genre_id',genreId)
+
+        /*
+        1. product name < 30 char
+        2. price is only number
+        3. stock > 0
+        4. description, category, genre, author, published, weight and productImage cannot be empty
+        */
+
+        console.log(productImage)
+
+        if(productName === '' || productPrice === '' || stock === '' || productDesc === '' || productCategoryId === '' || genreId === '' || author === '' || published === '' || weight === '' || productImage === undefined){
+            Swal.fire({
+                type: 'error',
+                title: 'Insert product failed',
+                text: 'Please insert all fields'
+              })
+        }else if(productName.length > 30){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Product Name must be less than 30 characters'
+              })
+        }else if(isNaN(productPrice) || isNaN(stock) || isNaN(weight) || isNaN(published)){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Product price, stock, weight and published must be a number'
+              })
+        }else if(stock < 0){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Stock must be more than 0'
+              })
+        }else if(weight < 0){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Weight must be more than 0'
+              })
+        }else if(!isNaN(author)){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Author must be a string'
+              })
+        }else{
+            axios.post('/addproduct',formData).then(res=>{
+                if(res.data.affectedRows){
+                    console.log(res)
+                    Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Product Added!',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }
+            })
+        }
 }
 
 // ============================ADD TO CART=================================

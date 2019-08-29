@@ -34,6 +34,7 @@ class ManagePeople extends Component{
             }
         ).then(res=>{
             this.renderAll()
+            this.props.logoutButton()
         })
     }
 

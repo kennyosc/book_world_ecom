@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Link,Redirect} from 'react-router-dom'
 import axios from '../../../config/axios.js'
-import Swal from 'sweetalert2'
+import {onAddProduct} from '../../../actions/index'
 
 import AdminHeader from '../../headers/AdminHeader'
 
@@ -45,43 +45,18 @@ class AddProduct extends Component{
     }
 
     handleAddProduct = () =>{
-        const productName = this.productName.value
-        const productPrice = this.price.value
-        const stock = this.stock.value
+        const productName = this.productName.value.trim()
+        const productPrice = parseInt(this.price.value)
+        const stock = parseInt(this.stock.value)
         const productDesc = this.productDescription.value
         const productCategoryId = this.category.value
         const genreId = this.genre.value
         const author = this.author.value
-        const published = this.published.value
-        const weight = this.weight.value
+        const published = parseInt(this.published.value)
+        const weight = parseInt(this.weight.value)
         const productImage = this.productImage.files[0]
 
-        const formData = new FormData()
-        //products
-        formData.append('name',productName)
-        formData.append('price',productPrice)
-        formData.append('stock',stock)
-        formData.append('productImage',productImage)
-        formData.append('weight',weight)
-        formData.append('description',productDesc)
-        formData.append('author',author)
-        formData.append('published',published)
-        //product_categories
-        formData.append('category_id',productCategoryId)
-        formData.append('genre_id',genreId)
-
-        axios.post('/addproduct',formData).then(res=>{
-            console.log(res)
-            
-            Swal.fire({
-                position: 'center',
-                type: 'success',
-                title: 'Product Added!',
-                showConfirmButton: false,
-                timer: 1500
-              })
-        })
-        
+        onAddProduct(productName,productPrice,stock,productDesc,productCategoryId,genreId,author,published, weight,productImage)
     }
 
     render(){

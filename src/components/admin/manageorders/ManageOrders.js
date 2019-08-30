@@ -45,7 +45,7 @@ class ManageOrders extends Component{
     renderAllOrders = () =>{
         if(this.state.allorders.length !== 0){
             return this.state.allorders.map((val)=>{
-                if(val.payment_confirmation === null){
+                if(val.canceled === 1){
                     return(
                         <tr className='border-bottom text-center'>
                             <td style={{width:'10%'}}>{val.id}</td>
@@ -53,40 +53,54 @@ class ManageOrders extends Component{
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                            <td style={{width:'10%',color:'red'}} className='text-center'>Order Cancelled</td>
+                            <td style={{width:'10%',color:'red'}} className='text-center'>Order Cancelled</td>
                         </tr>
                     )
-                }else if(val.payment_confirmation !== null && val.order_status === 0){
-                    return(
-                        <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
-                            <td style={{width:'10%'}}>{val.created_at}</td>
-                            <td style={{width:'10%'}}>@{val.username}</td>
-                            <td style={{width:'13%'}}>{val.order_recipient}</td>
-                            <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
-                            <td style={{width:'13%'}} className='text-center'>
-                                <Link to={`/admin/paymentproof/${val.payment_confirmation}`}>
-                                    <button style={{fontSize:'0.7em'}} className='btn btn-outline-primary btn-sm mr-1'>Detail</button>
-                                </Link>
-                                <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id)}>Accept</button>
-                                <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id)}>Reject</button>
-                            </td>
-                        </tr>
-                    )
-                }else if(val.payment_confirmation !== null && val.order_status === 1){
-                    return(
-                        <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
-                            <td style={{width:'10%'}}>{val.created_at}</td>
-                            <td style={{width:'10%'}}>@{val.username}</td>
-                            <td style={{width:'13%'}}>{val.order_recipient}</td>
-                            <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                            <td style={{width:'10%'}} className='text-center'>Order Completed</td>
-                            <td style={{width:'10%'}} className='text-center'>Order Completed</td>
-                        </tr>
-                    )
+                }else{
+                    if(val.payment_confirmation === null){
+                        return(
+                            <tr className='border-bottom text-center'>
+                                <td style={{width:'10%'}}>{val.id}</td>
+                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>@{val.username}</td>
+                                <td style={{width:'13%'}}>{val.order_recipient}</td>
+                                <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                            </tr>
+                        )
+                    }else if(val.payment_confirmation !== null && val.order_status === 0){
+                        return(
+                            <tr className='border-bottom text-center'>
+                                <td style={{width:'10%'}}>{val.id}</td>
+                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>@{val.username}</td>
+                                <td style={{width:'13%'}}>{val.order_recipient}</td>
+                                <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                                <td style={{width:'13%'}} className='text-center'>
+                                    <Link to={`/admin/paymentproof/${val.payment_confirmation}`}>
+                                        <button style={{fontSize:'0.7em'}} className='btn btn-outline-primary btn-sm mr-1'>Detail</button>
+                                    </Link>
+                                    <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id)}>Accept</button>
+                                    <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id)}>Reject</button>
+                                </td>
+                            </tr>
+                        )
+                    }else if(val.payment_confirmation !== null && val.order_status === 1){
+                        return(
+                            <tr className='border-bottom text-center'>
+                                <td style={{width:'10%'}}>{val.id}</td>
+                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>@{val.username}</td>
+                                <td style={{width:'13%'}}>{val.order_recipient}</td>
+                                <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                                <td style={{width:'10%'}} className='text-center'>Order Completed</td>
+                                <td style={{width:'10%'}} className='text-center'>Order Completed</td>
+                            </tr>
+                        )
+                    }
                 }
             })
         }else{

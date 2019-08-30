@@ -11,7 +11,7 @@ class ManageCategories extends Component{
         categories:[],
         genres:[],
         selectedCategory:0,
-        selectedGenre:0
+        selectedGenre:0,
     }
 
     componentDidMount(){
@@ -52,6 +52,29 @@ class ManageCategories extends Component{
         })
     }
 
+    handleSaveCategory = (category_id) =>{
+        const category = this.editcategory.value
+
+        axios.patch('/saveeditedcategory',{category, id:category_id}).then(res=>{
+            if(res.data.affectedRows){
+                console.log(res)
+                this.renderAll()
+                this.setState({selectedCategory:0})
+            }
+        })
+    }
+
+    handleSaveGenre = (genre_id) =>{
+        const genre = this.editgenre.value
+        axios.patch('/saveeditedgenre',{genre, id: genre_id}).then(res=>{
+            if(res.data.affectedRows){
+                console.log(res)
+                this.renderAll()
+                this.setState({selectedGenre:0})
+            }
+        })
+    }
+
     renderCategories = () =>{
         return this.state.categories.map((val,index)=>{
             if(this.state.selectedCategory !== val.id){
@@ -70,9 +93,9 @@ class ManageCategories extends Component{
                 return(
                     <tr>
                         <th className='border-right'scope="row">{index+1}</th>
-                        <td><input className='form-control' defaultValue={val.category}/></td>
+                        <td><input ref={(input)=>this.editcategory=input} className='form-control' defaultValue={val.category}/></td>
                         <td>
-                            <button className='btn btn-success btn-sm mx-2'>Save</button>
+                            <button onClick={()=>{this.handleSaveCategory(val.id)}} className='btn btn-success btn-sm mx-2'>Save</button>
                             <button onClick={()=>this.setState({selectedCategory:0})} className='btn btn-warning btn-sm'>cancel</button>
                         </td>
                     </tr>
@@ -99,9 +122,9 @@ class ManageCategories extends Component{
                 return(
                     <tr>
                         <th className='border-right'scope="row">{index+1}</th>
-                        <td><input className='form-control' defaultValue={val.genre}/></td>
+                        <td><input  ref={(input)=>this.editgenre=input} className='form-control' defaultValue={val.genre}/></td>
                         <td>
-                            <button className='btn btn-success btn-sm mx-2'>Save</button>
+                            <button onClick={()=>{this.handleSaveGenre(val.id)}} className='btn btn-success btn-sm mx-2'>Save</button>
                             <button onClick={()=>this.setState({selectedGenre:0})} className='btn btn-warning btn-sm'>cancel</button>
                         </td>
                     </tr>
@@ -131,6 +154,7 @@ class ManageCategories extends Component{
     }
 
     render(){
+
         if(this.props.admin.id === ''){
             return(
                 <Redirect to ='/login-admin'/>

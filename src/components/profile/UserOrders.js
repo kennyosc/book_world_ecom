@@ -21,6 +21,7 @@ class Profile extends Component{
 
     componentDidMount(){
         axios.get(`/userorders/${this.props.user.id}`).then(res=>{
+            console.log(res)
             this.setState({user_orders:res.data})
         })
     }
@@ -89,6 +90,7 @@ class Profile extends Component{
         })
     }
 
+    //RENDERING PRODUCT REVIEW (INSIDE THE MODAL)
     renderProductReview = () =>{
         console.log(this.state.product_review)
         if(this.state.product_review.length === 0){
@@ -99,6 +101,7 @@ class Profile extends Component{
             )
         }else{
             return this.state.product_review.map(val=>{
+                // BOOK REVIEW STEP 1 (WHICH BOOK DO YOU WANT TO REVIEW)
                 if(this.state.addProductReview !== val.order_details_id){
                     if(val.review_status === 0){
                         return(
@@ -114,6 +117,7 @@ class Profile extends Component{
                             </tr>
                             )
                     }else{
+                        // IF ALREADY REVIEWED, THEN CANNOT REVIEW ANYMORE
                         return(
                             <tr className='border-bottom'>
                                 <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
@@ -128,6 +132,7 @@ class Profile extends Component{
                             )
                     }
                 }else{
+                    //INPUT TO REVIEW THE BOOK
                     return(
                         <tr className='border-bottom mb-3'>
                             <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
@@ -168,6 +173,51 @@ class Profile extends Component{
         }
     }
 
+    handleCancelOrder =(order_id) =>{
+        const user_id = this.props.user.id
+        const username = this.props.user.username
+
+        /*
+        (2 route yang berbeda)
+        1. update stock dari tiap product id (loop)
+        2. update orders.canceled true
+        3. delete order_details (loop)
+        4. delete used_coupons by order_id
+
+        features effected
+        1. stats
+        2. manageorders
+        3. user orders
+        */
+
+        //update stock
+       axios.get(`/userproductreview/${user_id}/${order_id}`,).then(res1=>{
+           console.log(res1)
+            for(var i = 0; i<res1.data.length; i++){
+                var product_id = res1.data[i].product_id
+                var product_stock = res1.data[i].stock
+                var order_quantity = res1.data[i].quantity
+
+                axios.patch(`/cancelorderupdatestock`,{product_stock,order_quantity,product_id}).then(res2=>{
+                    console.log(res2)
+                })
+            }
+
+            //update order details
+            for(var j = 0; j<res1.data.length; j++){
+                var product_id = res1.data[j].product_id
+                axios.patch('/canderorderupdatedetails',{order_id,user_id,product_id}).then(res4=>{
+                    console.log(res4)
+                })
+            }
+
+            //update orders.canceled, delete used_coupons
+            axios.patch('/cancelorder',{order_id,user_id,username}).then(res3=>{
+                    this.renderAll()
+            })
+        })
+    }
+
     /*
     1. photo not sent and order_status 0 => payment pending
     2. photo sent and order_status 0 => waiting for payment confirmation
@@ -177,6 +227,23 @@ class Profile extends Component{
     renderOrders=()=>{
         if(this.state.user_orders.length !== 0){
             return this.state.user_orders.map((val)=>{
+                if(val.canceled === 1){
+                    return(
+                        <tr className='border-bottom text-center'>
+                            <td style={{width:'10%'}}>{val.id}</td>
+                            <td style={{width:'10%'}}>{val.created_at}</td>
+                            <td style={{width:'13%'}}>{val.order_recipient}</td>
+                            <td className='w-25 text-left'>
+                                <p>{val.recipient_address}</p>
+                                <p>{val.phone_number}</p>
+                            </td>
+                            <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                            <td style={{width:'10%', color:'red'}} className='text-center'>Order Cancelled</td>
+                            <td style={{width:'10%', color:'red'}} className='text-center'>Order Cancelled</td>
+                        </tr>
+                    )
+                }else{
+                    // UPLOAD PROOF OF PAYMENT 1 (CHANGE STATE)
                 if(val.payment_confirmation === null){
                     if(val.id !== this.state.selectedOrder){
                         return(
@@ -192,11 +259,12 @@ class Profile extends Component{
                             <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                             <td className='text-center w-75'>
                                 <button style={{fontSize:'0.8em'}} className='btn btn-primary btn-sm mr-2' onClick={()=>this.setState({selectedOrder:val.id})}>Upload</button>
-                                <button style={{fontSize:'0.8em'}} className='btn btn-danger btn-sm'>Cancel Order</button>
+                                <button onClick={()=>this.handleCancelOrder(val.id, val.product_id, val.quantity,val.stock)} style={{fontSize:'0.8em'}} className='btn btn-danger btn-sm'>Cancel Order</button>
                             </td>
                         </tr>
                         )
                     }else{
+                    // UPLOAD PROOF OF PAYMENT 2 (HANDLE UPLOAD)
                         return(
                             <tr className='border-bottom text-center'>
                                 <td style={{width:'10%'}}>{val.id}</td>
@@ -220,6 +288,7 @@ class Profile extends Component{
                             </tr>
                         )
                     }
+                    // ALREADY SEND PROOF OF PAYMENT AND WAITING FOR CONFIRMATION
                 }else if(val.payment_confirmation !== null && val.order_status === 0){
                     return(
                         <tr className='border-bottom text-center'>
@@ -235,6 +304,7 @@ class Profile extends Component{
                             <td style={{width:'10%'}} className='text-center'>Waiting for payment confirmation</td>
                         </tr>
                     )
+                    // ORDER IS COMPLETED AND REVIEW BOOKS
                 }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
                             <tr className='border-bottom'>
@@ -274,6 +344,7 @@ class Profile extends Component{
                                 </td>
                             </tr>
                     )
+                }
                 }
             })
         }else{

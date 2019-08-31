@@ -77,14 +77,26 @@ class Profile extends Component{
                   })
             }else{
                 axios.post(`/addproductreview`,{order_id,user_id,product_id,rating_value:rating,review}).then(res=>{
-                    Swal.fire({
-                        position: 'center',
-                        type: 'success',
-                        title: 'Review Submitted!',
-                        showConfirmButton: false,
-                        timer: 1500
-                      })
-                   window.location.reload()
+                      if(res.data.affectedRows){
+                        Swal.fire({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Review Submitted!',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                          axios.get(`/userproductreview/${user_id}/${order_id}`,).then(res2=>{
+                                this.setState({product_review:res2.data})
+                                this.setState({addProductReview:0})
+                            })
+                      }else{
+                          console.log(res)
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Insert product failed',
+                            text: res.data
+                          })
+                      }
                 })
             }
         }

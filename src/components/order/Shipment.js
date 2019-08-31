@@ -21,7 +21,8 @@ class Cart extends Component{
         use_coupon: false,
         main_address:'',
         shipping_cost:0,
-        orderCompleted:0
+        orderCompleted:0,
+        address_list:[]
     }
 
     componentDidMount(){
@@ -325,6 +326,40 @@ class Cart extends Component{
         }
     }
 
+    //FOR RENDERING ALL USER ADDRESS
+
+    getAllUserAddress = () =>{
+        axios.get(`/getalluseraddress/${this.props.user.id}`).then(res=>{
+            this.setState({address_list:res.data})
+        })
+    }
+
+    renderAllUserAddress = () =>{
+        const user = this.props.user
+        if(this.state.address_list.length === 0){
+            return(
+
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            )
+        }else{
+            return this.state.address_list.map((val,index)=>{
+                return(
+                    <AllUserAddress renderAll={()=>{this.renderAll()}} getAllUserAddress={()=>{this.getAllUserAddress()}} val={val} index={index} user_id={user.id}/>
+                )
+            })
+        }
+    }
+
     renderShippingAddress = () =>{
         const user = this.props.user
         const main_address = this.state.main_address
@@ -366,7 +401,7 @@ class Cart extends Component{
                         </div>
 
                         {/* SEE ALL ADDRESS */}
-                        <button type="button" className="btn btn-outline-secondary" data-toggle="modal" data-target="#renderUserAddress">
+                        <button onClick={this.getAllUserAddress} type="button" className="btn btn-outline-secondary" data-toggle="modal" data-target="#renderUserAddress">
                         Choose another address
                         </button>
 
@@ -380,7 +415,7 @@ class Cart extends Component{
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <AllUserAddress renderAll={()=>{this.renderAll()}} user_id={user.id}/>
+                                    {this.renderAllUserAddress()}
                                 </div>
                                     </div>
                             </div>
@@ -410,6 +445,7 @@ class Cart extends Component{
         const totalOrder = this.state.totalOrder
 
         console.log(cart)
+        console.log(this.state.address_list)
         if(this.props.user.id === ''){
             return(
                 <Redirect to = '/'/>

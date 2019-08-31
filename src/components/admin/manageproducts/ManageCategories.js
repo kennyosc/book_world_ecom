@@ -213,19 +213,21 @@ class ManageCategories extends Component{
                                     <div className='col-sm-12 col-md-6'>
                                         <h5 className="card-title">Categories</h5>
     
-                                        <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                            <th scope="col">Id</th>
-                                            <th className='w-50' scope="col">Category Name</th>
-                                            <th className='w-100' scope="col">Edit / Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.renderCategories()}
-                                            
-                                        </tbody>
-                                        </table>
+                                            <div className='table-responsive'>
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                        <th scope="col">Id</th>
+                                                        <th className='w-50' scope="col">Category Name</th>
+                                                        <th className='w-100' scope="col">Edit / Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {this.renderCategories()}
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                     </div>
     
                                     <div className='col-sm-12 col-md-6'>

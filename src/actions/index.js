@@ -2,7 +2,6 @@ import axios from '../config/axios.js'
 import Swal from 'sweetalert2'
 import cookies from 'universal-cookie'
 
-
 const cookie = new cookies()
 
 // ============================USER=================================
@@ -143,35 +142,52 @@ export const keepLogin = (objCookie) =>{
 //UDPATE PROFILE BUTTON
 export const onUpdateProfile = (id,firstName,lastName,email,gender,phoneNumber) =>{
     return (dispatch) =>{
-        axios.patch(`/updateprofile/${id}`,
-            {
-                first_name: firstName,
-                last_name: lastName,
-                email: email,
-                gender:gender,
-                phone_number : phoneNumber
-            }
-        ).then(res=>{
-            const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
-            console.log(res)
-
-            dispatch({
-                type:'PROFILE_UPDATE_SUCCESS',
-                payload:{
-                    id: id,
-                    first_name: first_name,
-                    last_name: last_name,
-                    username: username,
+            axios.patch(`/updateprofile/${id}`,
+                {
+                    first_name: firstName,
+                    last_name: lastName,
                     email: email,
                     gender:gender,
-                    phone_number: phone_number,
-                    avatar: avatar,
-                    verified: verified
+                    phone_number : phoneNumber
+                }
+            ).then(res=>{
+                if(typeof(res.data) === 'string'){
+                    console.log(res.data)
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: res.data
+                      })
+                }else{
+                const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
+                console.log(res)
+    
+                dispatch({
+                    type:'PROFILE_UPDATE_SUCCESS',
+                    payload:{
+                        id: id,
+                        first_name: first_name,
+                        last_name: last_name,
+                        username: username,
+                        email: email,
+                        gender:gender,
+                        phone_number: phone_number,
+                        avatar: avatar,
+                        verified: verified
+                    }
+                })
+
+                cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
+
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Profile updated',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 }
             })
-
-            cookie.set('user', {id,first_name,last_name,username,email,gender,phone_number,avatar,verified} , {path:'/'})
-        })
     }
 }
 
@@ -356,11 +372,11 @@ export const onAddProduct = (productName,productPrice,stock,productDesc,productC
                 title: 'Insert product failed',
                 text: 'Please insert all fields'
               })
-        }else if(productName.length > 30){
+        }else if(productName.length > 60){
             Swal.fire({
                 type: 'error',
                 title: 'Product Name Error',
-                text: 'Product Name must be less than 30 characters'
+                text: 'Product Name must be less than 60 characters'
               })
         }else if(isNaN(productPrice) || isNaN(stock) || isNaN(weight) || isNaN(published)){
             Swal.fire({
@@ -385,6 +401,12 @@ export const onAddProduct = (productName,productPrice,stock,productDesc,productC
                 type: 'error',
                 title: 'Product Name Error',
                 text: 'Author must be a string'
+              })
+        }else if(published < 1901 || published > 2155){
+            Swal.fire({
+                type: 'error',
+                title: 'Product Name Error',
+                text: 'Published must be between 1901 and 2155'
               })
         }else{
             axios.post('/addproduct',formData).then(res=>{

@@ -43,6 +43,30 @@ class AddressInput extends Component{
                 title: 'Error',
                 text: 'Please insert all the fields'
               })
+        }else if(phone_number.length > 15){
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Phone number must be less than 15 numbers'
+              })
+        }else if(postal_code.length > 7){
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Postal code must be less than 7 numbers'
+              })
+        }else if(isNaN(phone_number)){
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Phone number must be a number'
+              })
+        }else if(isNaN(postal_code)){
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Postal Code must be a number'
+              })
         }else{
             if(this.props.mainAddress === ''){
                 axios.post('/newuseraddress',{user_id,order_recipient,phone_number,address,city,postal_code,main_address}).then(res=>{
@@ -55,7 +79,7 @@ class AddressInput extends Component{
                             showConfirmButton: false,
                             timer: 1500
                           })
-                          window.location.reload()
+                          this.props.renderAll()
                     }else{
                         Swal.fire({
                             type: 'error',
@@ -78,7 +102,7 @@ class AddressInput extends Component{
                                     showConfirmButton: false,
                                     timer: 1500
                                   })
-                                window.location.reload()
+                            this.props.renderAll()
                             })
                         }else{
                             Swal.fire({
@@ -99,7 +123,7 @@ class AddressInput extends Component{
                                 showConfirmButton: false,
                                 timer: 1500
                               })
-                              window.location.reload()
+                          this.props.renderAll()
                         }else{
                             Swal.fire({
                                 type: 'error',

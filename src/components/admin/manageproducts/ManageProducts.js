@@ -123,47 +123,48 @@ class ManageProducts extends Component{
                 <div>
                     <AdminHeader/>
                     <div className='container'>
-                        <div class="card text-center mt-3">
+                        <div className="card text-center mt-3">
     
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
-                                    <li class="nav-item">
+                            <div className="card-header">
+                                <ul className="nav nav-tabs card-header-tabs">
+                                    <li className="nav-item">
                                         <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageproducts'>
-                                            <a class="nav-link active" href="#">Manage Products</a>
+                                            <a className="nav-link active" href="#">Manage Products</a>
                                         </Link>
                                     </li>
     
-                                    <li class="nav-item">
+                                    <li className="nav-item">
                                         <Link style={{color:'black'}} to='/admin/managecategories'>
-                                            <a class="nav-link" href="#">Manage Categories</a>
+                                            <a className="nav-link" href="#">Manage Categories</a>
                                         </Link>
                                     </li>
     
-                                    <li class="nav-item">
+                                    <li className="nav-item">
                                         <Link style={{color:'black'}} to='/admin/addproduct'>
-                                            <a class="nav-link" href="#">Add Product</a>
+                                            <a className="nav-link" href="#">Add Product</a>
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
     
-                            <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th style={{width:'12%'}} scope="col">Product Id</th>
-                                        <th style={{width:'30%'}} scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Stock</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.renderAllProducts()}
-                                </tbody>
-                                </table>
-                                <div/>
+                            <div className="card-body">
+                                <div className='table-responsive'>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style={{width:'12%'}} scope="col">Product Id</th>
+                                                <th style={{width:'30%'}} scope="col">Name</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Stock</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.renderAllProducts()}
+                                        </tbody>
+                                    </table>
+                                </div>
     
                                 
                             </div>

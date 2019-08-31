@@ -118,35 +118,37 @@ class ManageOrders extends Component{
                 <div>
                     <AdminHeader/>
                     <div className='container'>
-                        <div class="card text-center mt-3">
+                        <div className="card text-center mt-3">
     
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
-                                    <li class="nav-item">
+                            <div className="card-header">
+                                <ul className="nav nav-tabs card-header-tabs">
+                                    <li className="nav-item">
                                         <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageorders'>
-                                            <a class="nav-link active" href="#">Manage Orders</a>
+                                            <a className="nav-link active" href="#">Manage Orders</a>
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
     
-                            <div class="card-body">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Order Id</th>
-                                        <th>Date</th>
-                                        <th>User</th>
-                                        <th>Order Recipient</th>
-                                        <th>Total</th>
-                                        <th style={{width:'15%'}}>Proof of Payment</th>
-                                        <th style={{width:'15%'}}>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody style={{fontSize:'0.9em'}}>
-                                    {this.renderAllOrders()}
-                                </tbody>
-                                </table>
+                            <div className="card-body">
+                                <div className='table-responsive'>
+                                    <table className="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Order Id</th>
+                                                <th>Date</th>
+                                                <th>User</th>
+                                                <th>Order Recipient</th>
+                                                <th>Total</th>
+                                                <th style={{width:'15%'}}>Proof of Payment</th>
+                                                <th style={{width:'15%'}}>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style={{fontSize:'0.9em'}}>
+                                            {this.renderAllOrders()}
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div/>
                             </div>
                         </div>

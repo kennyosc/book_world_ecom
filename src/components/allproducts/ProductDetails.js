@@ -99,26 +99,46 @@ class ProductDetails extends Component{
     }
 
     renderButton = () =>{
-        if(this.props.user.id === ''){
+        if(this.state.product.stock === 0){
             return(
-                <Link to='/login'>
-                    <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
-                    <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
-                </Link>
+                <div></div>
             )
-        }else if(this.state.wishlist === '' && this.props.user.id !== ''){
+        }else{
+            if(this.props.user.id === ''){
+                return(
+                    <Link to='/login'>
+                        <button className='btn btn-outline-danger mr-1'>Add to Cart</button>
+                        <button className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                    </Link>
+                )
+            }else if(this.state.wishlist === '' && this.props.user.id !== ''){
+                return(
+                    <div>
+                        <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>
+                        <button onClick={this.handleAddToWishlist}className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
+                    </div>   
+                )
+            }else if(this.state.wishlist !== '' && this.props.user.id !== ''){
+                return(
+                    <div>
+                        <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>
+                        <button onClick={this.handleRemoveFromWishlist}className='btn btn-danger'><i className="far fa-heart"></i></button>
+                    </div>   
+                )
+            }
+        }
+    }
+
+    renderInput = () =>{
+        if(this.state.product.stock === 0){
+            return(
+                <div></div>
+            )
+        }else{
             return(
                 <div>
-                    <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>
-                    <button onClick={this.handleAddToWishlist}className='btn btn-outline-danger'><i className="far fa-heart"></i></button>
-                </div>   
-            )
-        }else if(this.state.wishlist !== '' && this.props.user.id !== ''){
-            return(
-                <div>
-                    <button onClick={this.handleAddToCart}className='btn btn-outline-danger mr-1'>Add to Cart</button>
-                    <button onClick={this.handleRemoveFromWishlist}className='btn btn-danger'><i className="far fa-heart"></i></button>
-                </div>   
+                    <input ref={input=>this.quantity = input} type="number" defaultValue='1' className="form-control" placeholder="Qty"/>
+                </div>
             )
         }
     }
@@ -182,6 +202,7 @@ class ProductDetails extends Component{
     render(){
         const product = this.state.product
         console.log(this.state.wishlist)
+        console.log(product)
         
         if(this.state.product === ''){
             return(
@@ -211,10 +232,10 @@ class ProductDetails extends Component{
     
                                 <div>
                                     <h5 style={{color:'red'}}>Rp {product.price.toLocaleString('IN')},00</h5>
-                                    <p><b>Stock: </b>{product.stock}</p>
+                                    <p><b>Stock: </b>{product.stock === 0 ? 'Out of stock' : `${product.stock}`}</p>
 
                                     <div className="input-group mb-5 w-25">
-                                        <input ref={input=>this.quantity = input} type="number" defaultValue='1' className="form-control" placeholder="Qty"/>
+                                    {this.renderInput()}
                                     </div>
 
                                     {this.renderButton()}

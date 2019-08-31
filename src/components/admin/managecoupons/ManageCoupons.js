@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 import AdminHeader from '../../headers/AdminHeader'
 import axios from '../../../config/axios';
@@ -44,10 +45,50 @@ class ManageCoupons extends Component{
         const quantity = this.state.coupon_quantity
         const coupon_limit = this.state.coupon_limit
 
-        axios.post(`/submitnewcoupon`,{promotion_title,coupon_code,coupon_value,quantity,coupon_limit}).then(res=>{
-            console.log(res)
-            this.renderAll()
-        })
+        if(promotion_title === '' || coupon_code === '' || coupon_value === '' || quantity === '' || coupon_limit === ''){
+            Swal.fire({
+                type: 'error',
+                title: 'Error',
+                text: 'Please insert all the required field'
+              })
+        }else{
+            if(promotion_title.length > 15){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Title must be less than 16 characters'
+                  })
+            }else if(coupon_code.length > 8){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Coupon code must be less than 9 characters'
+                  })
+            }else if(coupon_value < 10000){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Minimum coupon value is Rp 10.000,-'
+                  })
+            }else if(quantity < 10){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Minimum coupon quantity is 10'
+                  })
+            }else if(coupon_limit < 1 && coupon_limit >100){
+                Swal.fire({
+                    type: 'error',
+                    title: 'Error',
+                    text: 'Minimum coupon quantity is 10 and maximum is 100'
+                  })
+            }else{
+                axios.post(`/submitnewcoupon`,{promotion_title,coupon_code,coupon_value,quantity,coupon_limit}).then(res=>{
+                    console.log(res)
+                    this.renderAll()
+                })
+            }
+        }
     }
 
     renderAllCoupons= () =>{
@@ -110,45 +151,46 @@ class ManageCoupons extends Component{
                             <div className='mb-4'>
                                 <h5 className='mb-3'>Insert New Coupon</h5>
                                 <form>
-                                    <div class="form-row">
-                                        <div class="col-3">
-                                            <input onChange={(event)=>this.setState({promotion_name: event.target.value})} type="text" class="form-control" placeholder="Promotion Name"/>
+                                    <div className="form-row justify-content-md-center">
+                                        <div className="col-3 mb-3">
+                                            <input onChange={(event)=>this.setState({promotion_name: event.target.value})} type="text" className="form-control" placeholder="Promotion Name (Max 15 char)"/>
                                         </div>
-                                        <div class="col-2">
-                                            <input onChange={(event)=>this.setState({coupon_code: event.target.value})} type="text" class="form-control" placeholder="Coupon Code"/>
+                                        <div className="col-3 mb-3">
+                                            <input onChange={(event)=>this.setState({coupon_code: event.target.value})} type="text" className="form-control" placeholder="Coupon Code (Max 8 code)"/>
                                         </div>
-                                        <div class="col-2">
-                                            <input onChange={(event)=>this.setState({coupon_value: event.target.value})} type="number" min='10000' max='1000000' step='1000' class="form-control" placeholder="Promotion Value"/>
+                                        <div className="col-4 mb-3">
+                                            <input onChange={(event)=>this.setState({coupon_value: event.target.value})} type="number" min='10000' max='1000000' step='1000' className="form-control" placeholder="Promotion Value (Min Rp10.000,-)"/>
                                         </div>
-                                        <div class="col-2">
-                                            <input onChange={(event)=>this.setState({coupon_quantity: event.target.value})} type="number" min='1' class="form-control" placeholder="Coupon Quantity"/>
+                                        <div className="col-3 mb-3">
+                                            <input onChange={(event)=>this.setState({coupon_quantity: event.target.value})} type="number" min='1' className="form-control" placeholder="Coupon Quantity (Min 10)"/>
                                         </div>
-                                        <div class="col-2">
-                                            <input onChange={(event)=>this.setState({coupon_limit: event.target.value})} type="number" min='1' class="form-control" placeholder="Limit Per user"/>
+                                        <div className="col-3 mb-3">
+                                            <input onChange={(event)=>this.setState({coupon_limit: event.target.value})} type="number" min='1' className="form-control" placeholder="Limit Per user(Min 1, Max 100)"/>
                                         </div>
                                         
-                                        <div class="col-auto">
-                                            <button onClick={(event)=>this.handleSubmitNewCoupon(event)} type="submit" class="btn btn-primary mb-2">Submit</button>
+                                        <div className="col-auto">
+                                            <button onClick={(event)=>this.handleSubmitNewCoupon(event)} type="submit" className="btn btn-primary mb-2">Submit</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
-
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Promotion Title</th>
-                                        <th>Coupon Code</th>
-                                        <th>Value</th>
-                                        <th>Quantity</th>
-                                        <th>Usage Limit</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.renderAllCoupons()}
-                                </tbody>
+                            <div className='table-responsive'>
+                                <table className="table table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th>Promotion Title</th>
+                                            <th>Coupon Code</th>
+                                            <th>Value</th>
+                                            <th>Quantity</th>
+                                            <th>Usage Limit</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.renderAllCoupons()}
+                                    </tbody>
                                 </table>
+                            </div>
                                 <div/>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 import {loginButton} from '../../actions/index.js'
 
@@ -41,6 +42,13 @@ class LoginDropdown extends Component{
                             </label>
                         </div>
                         <button type="submit" className="btn btn-primary mt-3" onClick={this.handleLogin}>Sign in</button>
+
+                        <div class="dropdown-divider"></div>
+                            <p className="m-0 p-0" href="#">New around here?  
+                            <Link to='/register'>
+                             Register Here
+                            </Link>
+                            </p>
                     </form>
             </div>
         )

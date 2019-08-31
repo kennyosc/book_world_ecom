@@ -134,19 +134,21 @@ class ManageAdmins extends Component{
                                 <button onClick={this.handleAddAdmin} className='btn btn-primary mb-5'>Add New Admin</button>
                             </form>
     
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.renderAllAdmins()}
-                                </tbody>
+                            <div className='table-responsive'>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.renderAllAdmins()}
+                                    </tbody>
                                 </table>
+                            </div>
                                 <div/>
                             </div>
                         </div>

@@ -3,25 +3,9 @@ import axios from '../../config/axios';
 
 class AllUserAddress extends Component{
 
-    state={
-        address_list:[]
-    }
-
-    componentDidMount(){
-        axios.get(`/getalluseraddress/${this.props.user_id}`).then(res=>{
-            this.setState({address_list:res.data})
-        })
-    }
-
-    renderAddress = () =>{
-        axios.get(`/getalluseraddress/${this.props.user_id}`).then(res=>{
-            this.setState({address_list:res.data})
-        })
-    }
-
     handleSelectAsMain = (address_id) =>{
         axios.patch(`/setaddressasmain/${this.props.user_id}/${address_id}`).then(res=>{
-            this.renderAddress()
+            this.props.getAllUserAddress()
             this.props.renderAll()
         })
     }
@@ -29,13 +13,15 @@ class AllUserAddress extends Component{
     handleDeleteAddress = (address_id) =>{
         axios.delete(`/deleteuseraddress/${this.props.user_id}/${address_id}`).then(res=>{
             console.log(res)
-            this.renderAddress()
+            this.props.getAllUserAddress()
             this.props.renderAll()
         })
     }
 
     renderList = () =>{
-        return this.state.address_list.map((val,index)=>{
+        const val = this.props.val
+        const index = this.props.index
+
             if(val.main_address === 0){
                 return(
                     <div>
@@ -58,7 +44,6 @@ class AllUserAddress extends Component{
                     </div>
                 )
             }
-        })
     }
 
     render(){

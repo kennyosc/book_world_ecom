@@ -113,44 +113,46 @@ class ManagePeople extends Component{
                 <div>
                     <AdminHeader/>
                     <div className='container'>
-                        <div class="card text-center mt-3">
+                        <div className="card text-center mt-3">
     
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
-                                    <li class="nav-item">
+                            <div className="card-header">
+                                <ul className="nav nav-tabs card-header-tabs">
+                                    <li className="nav-item">
                                         <Link style={{color:'black', textDecoration:'none'}} to='/admin/manageproducts'>
-                                            <a class="nav-link active" href="#">Manage Users</a>
+                                            <a className="nav-link active" href="#">Manage Users</a>
                                         </Link>
                                     </li>
     
-                                    <li class="nav-item">
+                                    <li className="nav-item">
                                         <Link style={{color:'black'}} to='/admin/manageadmin'>
-                                            <a class="nav-link" href="#">Manage Admins</a>
+                                            <a className="nav-link" href="#">Manage Admins</a>
                                         </Link>
                                     </li>
                                 </ul>
                             </div>
     
-                            <div class="card-body">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Id</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Gender</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Verified</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.renderAllUsers()}
-                                </tbody>
-                                </table>
-                                <div/>
+                            <div className="card-body">
+                            
+                                <div className='table-responsive'>
+                                    <table className="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">First Name</th>
+                                                <th scope="col">Last Name</th>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Gender</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Verified</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.renderAllUsers()}
+                                        </tbody>
+                                    </table>
+                                </div>
     
                                 
                             </div>

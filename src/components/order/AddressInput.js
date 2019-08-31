@@ -168,8 +168,8 @@ class AddressInput extends Component{
                             </div>
                         </div>
                         {this.renderCheckMain()}
-                        <button onClick={this.handleAddAddress} type="submit" className="btn btn-secondary mb-3" data-dismiss="modal">Add address</button>
                         </form>
+                        <button onClick={this.handleAddAddress} type="submit" className="btn btn-secondary mb-3" data-dismiss="modal">Add address</button>
                 </div>
             )
         }else{

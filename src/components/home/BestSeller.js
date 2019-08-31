@@ -17,7 +17,13 @@ class BestSeller extends Component{
     componentDidMount(){
         axios.get(`/bestsellers`).then(res=>{
             console.log(res)
-            this.setState({bestSellers: res.data})
+            if(res.data.length === 3){
+                this.setState({bestSellers: res.data})
+            }else{
+                axios.get(`/bestseller2`).then(res=>{
+                    this.setState({bestSellers: res.data})
+                })
+            }
         })
     }
 

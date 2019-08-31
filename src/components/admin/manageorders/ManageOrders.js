@@ -24,18 +24,14 @@ class ManageOrders extends Component{
         })
     }
 
-    handleAcceptPayment=(order_id)=>{
-        const user_id = this.props.user.id
-
+    handleAcceptPayment=(order_id,user_id)=>{
         axios.patch('/acceptuserpayment',{id:order_id,user_id:user_id}).then(res=>{
             console.log(res)
             this.renderAll()
         })
     }
 
-    handleRejectPayment=(order_id)=>{
-        const user_id = this.props.user.id
-
+    handleRejectPayment=(order_id, user_id)=>{
         axios.patch('/rejectuserpayment',{id:order_id,user_id:user_id}).then(res=>{
             console.log(res)
             this.renderAll()
@@ -48,56 +44,56 @@ class ManageOrders extends Component{
                 if(val.canceled === 1){
                     return(
                         <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
-                            <td style={{width:'10%'}}>{val.created_at}</td>
+                            <td style={{width:'10%'}}>#bw_{val.id}</td>
+                            <td style={{width:'13%'}}>{val.created_at}</td>
                             <td style={{width:'10%'}}>@{val.username}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                             <td style={{width:'10%',color:'red'}} className='text-center'>Order Cancelled</td>
-                            <td style={{width:'10%',color:'red'}} className='text-center'>Order Cancelled</td>
+                            <td  className='text-center'>-</td>
                         </tr>
                     )
                 }else{
                     if(val.payment_confirmation === null){
                         return(
                             <tr className='border-bottom text-center'>
-                                <td style={{width:'10%'}}>{val.id}</td>
-                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>#bw_{val.id}</td>
+                                <td style={{width:'13%'}}>{val.created_at}</td>
                                 <td style={{width:'10%'}}>@{val.username}</td>
                                 <td style={{width:'13%'}}>{val.order_recipient}</td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
-                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                                <td style={{width:'10%',color:'orange'}} className='text-center'>Payment pending</td>
+                                <td  className='text-center'>-</td>
                             </tr>
                         )
                     }else if(val.payment_confirmation !== null && val.order_status === 0){
                         return(
                             <tr className='border-bottom text-center'>
-                                <td style={{width:'10%'}}>{val.id}</td>
-                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>#bw_{val.id}</td>
+                                <td style={{width:'13%'}}>{val.created_at}</td>
                                 <td style={{width:'10%'}}>@{val.username}</td>
                                 <td style={{width:'13%'}}>{val.order_recipient}</td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                                <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                                <td style={{width:'10%',color:'blue'}} className='text-center'>Payment Confirmation</td>
                                 <td style={{width:'13%'}} className='text-center'>
                                     <Link to={`/admin/paymentproof/${val.payment_confirmation}`}>
                                         <button style={{fontSize:'0.7em'}} className='btn btn-outline-primary btn-sm mr-1'>Detail</button>
                                     </Link>
-                                    <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id)}>Accept</button>
-                                    <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id)}>Reject</button>
+                                    <button style={{fontSize:'0.7em'}} className='btn btn-success btn-sm mr-1' onClick={()=>this.handleAcceptPayment(val.id,val.user_id)}>Accept</button>
+                                    <button style={{fontSize:'0.7em'}} className='btn btn-danger btn-sm' onClick={()=>this.handleRejectPayment(val.id,val.user_id)}>Reject</button>
                                 </td>
                             </tr>
                         )
                     }else if(val.payment_confirmation !== null && val.order_status === 1){
                         return(
                             <tr className='border-bottom text-center'>
-                                <td style={{width:'10%'}}>{val.id}</td>
-                                <td style={{width:'10%'}}>{val.created_at}</td>
+                                <td style={{width:'10%'}}>#bw_{val.id}</td>
+                                <td style={{width:'13%'}}>{val.created_at}</td>
                                 <td style={{width:'10%'}}>@{val.username}</td>
                                 <td style={{width:'13%'}}>{val.order_recipient}</td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
-                                <td style={{width:'10%'}} className='text-center'>Order Completed</td>
-                                <td style={{width:'10%'}} className='text-center'>Order Completed</td>
+                                <td style={{width:'10%'}} style={{color:'green'}} className='text-center'>Order Completed</td>
+                                <td style={{width:'10%'}}  className='text-center'>-</td>
                             </tr>
                         )
                     }

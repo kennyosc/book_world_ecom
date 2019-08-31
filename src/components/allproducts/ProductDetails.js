@@ -70,20 +70,32 @@ class ProductDetails extends Component{
         this.renderAll()
     }
 
-    handleAddToWishlist = () =>{
+    handleAddToWishlist = async() =>{
         const user_id = this.props.user.id
         const product_id = this.props.match.params.product_id
 
-        onAddToWishlist(user_id,product_id)
-        this.renderAll()
+        var res = await onAddToWishlist(user_id,product_id)
+
+        if(res.affectedRows){
+            console.log(res)
+            this.renderAll()
+        }else{
+            console.log(res)
+        }
     }
 
-    handleRemoveFromWishlist = () =>{
+    handleRemoveFromWishlist = async() =>{
         const user_id = this.props.user.id
         const product_id = this.props.match.params.product_id
 
-        onRemoveFromWishlist(user_id,product_id)
-        this.renderAll()
+        var res = await onRemoveFromWishlist(user_id,product_id)
+
+        if(res.affectedRows){
+            console.log(res)
+            this.renderAll()
+        }else{
+            console.log(res)
+        }
     }
 
     renderButton = () =>{

@@ -18,7 +18,7 @@ class Inbox extends Component{
         })
     }
 
-    renderInbox = () =>{
+    renderAll = () =>{
         axios.get(`/usernotifications/${this.props.user.id}`).then(res=>{
             this.setState({user_notification: res.data})
         })
@@ -27,16 +27,19 @@ class Inbox extends Component{
     //NOTIFICATIONS
     handleDeleteNotification = (notif_id)=>{
         const user_id = this.props.user.id
+
+        console.log(notif_id)
+        console.log(user_id)
         axios.delete(`/deleteusernotification/${user_id}/${notif_id}`).then(res=>{
             console.log(res)
-            this.renderInbox()
+            this.renderAll()
         })
     }
 
     handleClearAllNotif = () =>{
         axios.delete(`/deleteallusernotification/${this.props.user.id}`).then(res=>{
             console.log(res)
-            this.renderInbox()
+            this.renderAll()
         })
     }
 

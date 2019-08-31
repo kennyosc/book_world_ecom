@@ -477,15 +477,15 @@ export const removeCoupon = async(user_id,coupon_id) =>{
 
 // ============================WISHLIST=================================
 
-export const onAddToWishlist = (user_id,product_id) =>{
-    axios.post('/addwishlist',{user_id,product_id}).then(res=>{
-        console.log(res)
-    })
+export const onAddToWishlist = async(user_id,product_id) =>{
+   var res = await axios.post('/addwishlist',{user_id,product_id})
+
+   return res.data
 }
 
-export const onRemoveFromWishlist = (user_id,product_id) =>{
-    axios.delete(`/deletewishlist/${user_id}/${product_id}`).then(res=>{
-        console.log(res)
-    })
+export const onRemoveFromWishlist = async(user_id,product_id) =>{
+    var res = await axios.delete(`/deletewishlist/${user_id}/${product_id}`)
+
+    return res.data
 }
 

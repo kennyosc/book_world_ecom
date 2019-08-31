@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Redirect} from 'react-router-dom'
+import {Redirect,Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 import Header from '../headers/Header'
@@ -20,7 +20,8 @@ class Cart extends Component{
         coupon_id:'',
         use_coupon: false,
         main_address:'',
-        shipping_cost:0
+        shipping_cost:0,
+        orderCompleted:0
     }
 
     componentDidMount(){
@@ -28,6 +29,7 @@ class Cart extends Component{
 
         //get cart by user_id
         axios.get(`/getusercart/${user_id}`).then(res=>{
+            console.log(res)
             this.setState({cart:res.data})
         })
 
@@ -236,14 +238,15 @@ class Cart extends Component{
         const main_address= this.state.main_address
 
         const user_id = this.props.user.id
+        const username = this.props.user.username
         const order_recipient = main_address.order_recipient
         const recipient_address = main_address.address.concat(` , ${main_address.city}, ${main_address.postal_code}`)
         const phone_number = main_address.phone_number
         const total = total_order + shipping_cost - discount
 
-        axios.post(`/finalcheckout`,{user_id,order_recipient,recipient_address,phone_number,total}).then(res=>{
+        axios.post(`/finalcheckout`,{user_id,username,order_recipient,recipient_address,phone_number,total}).then(res=>{
             console.log(res)
-            if(typeof(res.data)==='string'){
+            if(res.data.sqlMessage){
                 console.log('error checkout')
             }else{
                 var cart = this.state.cart
@@ -255,7 +258,10 @@ class Cart extends Component{
                             product_id: cart[i].product_id
                         }
                     ).then((res)=>{
-                        console.log(res)
+                        if(res.data.affectedRows){
+                            console.log(res)
+                            this.setState({orderCompleted:1})
+                        }
                     })
                 }
             }
@@ -282,11 +288,12 @@ class Cart extends Component{
                                 Total: <p className="card-text"><b>Rp {totalOrder.toLocaleString('IN')},00</b></p>
                                 {this.renderShippingCost()}
                                 {this.renderTotalOrder()}
+                                
+                                <button onClick={this.handleCheckoutButton} className="btn btn-block btn-warning">Checkout</button>
 
-                                <button onClick={this.handleCheckoutButton} className='btn btn-block btn-warning'>Checkout</button>
                             </div>
                         </div>
-                        <div className="card mt-3 w-75">
+                        <div NameName="card mt-3 w-75">
                         <div className="card-body">
                             <h5 className="card-title">Coupon</h5>
         
@@ -343,9 +350,11 @@ class Cart extends Component{
                                 <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="exampleModalLongTitle">Add New Address</h5>
+
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
+
                                 </div>
                                 <div className="modal-body">
                                     {/* INPUT NEW ADDRESS */}
@@ -410,6 +419,19 @@ class Cart extends Component{
                 return(
                     <div>
                         <Loader/>
+                    </div>
+                )
+            }else if(this.state.orderCompleted === 1){
+                return(
+                    <div>
+                        <Header/>
+                        <div className='container'>
+                            <h3 className='mt-5'>Thank you for your order</h3>
+                            <p>Please verify your order by sending us your payment confirmation proof in your orders page</p>
+                            <Link to='/orders'>
+                                <button className='btn btn-primary'>Orders Page</button>
+                            </Link>
+                        </div>
                     </div>
                 )
             }else{

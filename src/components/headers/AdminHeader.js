@@ -32,9 +32,7 @@ class AdminHeader extends Component{
     2. product review?
     */
 
-    handleDeleteNotification = (notif_id)=>{
-        const user_id = this.props.user.id
-
+    handleDeleteNotification = (notif_id,user_id)=>{
         axios.delete(`/deletenotification/${user_id}/${notif_id}`).then(res=>{
             console.log(res)
             this.renderNotif()
@@ -58,7 +56,7 @@ class AdminHeader extends Component{
                 return(
                     <tr>
                         <td className='border-top-0'>
-                            <button style={{color:'lightgrey'}} className='btn' onClick={()=>this.handleDeleteNotification(val.id)}><i className="fas fa-window-close"></i></button>
+                            <button style={{color:'lightgrey'}} className='btn' onClick={()=>this.handleDeleteNotification(val.id,val.user_id)}><i className="fas fa-window-close"></i></button>
                         </td>
                         <td className='border-top-0 border-bottom' style={{fontSize:'0.9em'}}>
                             <p>{val.notification}</p>

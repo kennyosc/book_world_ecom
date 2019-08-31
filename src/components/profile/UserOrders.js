@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
+import Swal from 'sweetalert2'
 
 import Header from '../headers/Header.js'
 
@@ -62,14 +63,28 @@ class Profile extends Component{
         const rating = this.state.rating
 
         if(rating === '' || review === ''){
-            console.log('Please insert all fields')
+            Swal.fire({
+                type: 'error',
+                title: 'Email verification required',
+                text: 'Please insert all fields'
+              })
         }else{
             if(review.length < 20){
-                console.log('Review must be 20 characters long')
+                Swal.fire({
+                    type: 'error',
+                    title: 'Email verification required',
+                    text: 'Review must be 20 characters long'
+                  })
             }else{
                 axios.post(`/addproductreview`,{order_id,user_id,product_id,rating_value:rating,review}).then(res=>{
-                    console.log(res)
-                    window.location.reload()
+                    Swal.fire({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Review Submitted!',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                   window.location.reload()
                 })
             }
         }
@@ -230,7 +245,7 @@ class Profile extends Component{
                 if(val.canceled === 1){
                     return(
                         <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
+                            <td style={{width:'10%'}}>#bw_{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td className='w-25 text-left'>
@@ -248,7 +263,7 @@ class Profile extends Component{
                     if(val.id !== this.state.selectedOrder){
                         return(
                             <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
+                            <td style={{width:'10%'}}>#bw_{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td className='w-25 text-left'>
@@ -267,7 +282,7 @@ class Profile extends Component{
                     // UPLOAD PROOF OF PAYMENT 2 (HANDLE UPLOAD)
                         return(
                             <tr className='border-bottom text-center'>
-                                <td style={{width:'10%'}}>{val.id}</td>
+                                <td style={{width:'10%'}}>#bw_{val.id}</td>
                                 <td style={{width:'10%'}}>{val.created_at}</td>
                                 <td style={{width:'13%'}}>{val.order_recipient}</td>
                                 <td className='w-25 text-left'>
@@ -292,7 +307,7 @@ class Profile extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 0){
                     return(
                         <tr className='border-bottom text-center'>
-                            <td style={{width:'10%'}}>{val.id}</td>
+                            <td style={{width:'10%'}}>#bw_{val.id}</td>
                             <td style={{width:'10%'}}>{val.created_at}</td>
                             <td style={{width:'13%'}}>{val.order_recipient}</td>
                             <td className='w-25 text-left'>
@@ -308,7 +323,7 @@ class Profile extends Component{
                 }else if(val.payment_confirmation !== null && val.order_status === 1){
                     return(
                             <tr className='border-bottom'>
-                                <td style={{width:'10%'}} className='text-center'>{val.id}</td>
+                                <td style={{width:'10%'}} className='text-center'>#bw_{val.id}</td>
                                 <td style={{width:'10%'}} className='text-center'>{val.created_at}</td>
                                 <td style={{width:'13%'}} className='text-center'>{val.order_recipient}</td>
                                 <td className='w-25 text-left'>

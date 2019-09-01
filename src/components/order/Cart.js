@@ -83,6 +83,7 @@ class Cart extends Component{
     handleAddCoupon = async() =>{
         const coupon_code = this.coupon.value
         const user_id = this.props.user.id
+        const totalOrder = this.state.totalOrder
         
         if(coupon_code === ''){
             Swal.fire({
@@ -91,11 +92,13 @@ class Cart extends Component{
                     text: 'Please insert coupon'
                   })
         }else{
-            const data = await addCoupon(user_id,coupon_code)
+            const data = await addCoupon(user_id,coupon_code,totalOrder)
+            console.log(data)
 
             //dari action di return ke depan, karena mau melanjutkan hasil return tsb dengan function lainn
             if(data.affectedRows){
                 console.log(data)
+                console.log(totalOrder)
                     Swal.fire({
                         position: 'center',
                         type: 'success',

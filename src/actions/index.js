@@ -479,9 +479,9 @@ export const deleteFromCart= async(user_id,product_id) =>{
     }
 }
 
-export const addCoupon = async(user_id,coupon_code) =>{
+export const addCoupon = async(user_id,coupon_code,totalOrder) =>{
     try {
-        const res = await axios.post('/usecoupon',{user_id,coupon_code})
+        const res = await axios.post('/usecoupon',{user_id,coupon_code,totalOrder})
         return res.data
     } catch (err) {
         console.log(err)

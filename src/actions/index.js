@@ -248,28 +248,44 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
 export const onChangePassword = (id,oldPassword,newPassword,newPasswordConfirmation) =>{
     return(dispatch)=>{
         if(newPassword === newPasswordConfirmation){
-            if(oldPassword !== newPassword){
-                axios.patch(`/updatepassword/${id}`,
-                    {
-                        oldPassword,
-                        newPassword
-                    }
-                ).then(res=>{
-                    console.log(res)
-                    Swal.fire({
-                            position: 'center',
-                            type: 'success',
-                            title: 'Password Updated!',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                })
-            }else{
+            if(newPassword.length < 8){
                 Swal.fire({
-                type: 'error',
-                title: 'Password must not be the same',
-                text: 'Please change your password'
-                })
+                    type: 'error',
+                    title: 'Error',
+                    text: 'New password be minimum 8 characters'
+                    })
+            }else{
+                if(oldPassword !== newPassword){
+                    axios.patch(`/updatepassword/${id}`,
+                        {
+                            oldPassword,
+                            newPassword
+                        }
+                    ).then(res=>{
+                        if(res.data.sqlMessage){
+                            Swal.fire({
+                                type: 'error',
+                                title: 'New password does not match',
+                                text: res.data.sqlMessage
+                                })
+                        }else{
+                            console.log(res)
+                            Swal.fire({
+                                    position: 'center',
+                                    type: 'success',
+                                    title: 'Password Updated!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                    type: 'error',
+                    title: 'Password must not be the same',
+                    text: 'Please change your password'
+                    })
+                }
             }
         }else{
             Swal.fire({

@@ -200,6 +200,34 @@ class Profile extends Component{
         }
     }
 
+    //RENDERING PRODUCT REVIEW (INSIDE THE MODAL)
+    renderOrderDetails = () =>{
+        console.log(this.state.product_review)
+        if(this.state.product_review.length === 0){
+            return(
+                <tr className='text-center'>
+                    <td>Item unavailable</td>
+                </tr>
+            )
+        }else{
+            return this.state.product_review.map(val=>{
+                // BOOK REVIEW STEP 1 (WHICH BOOK DO YOU WANT TO REVIEW)
+                return(
+                    <tr className='border-bottom'>
+                        <td className='w-25'><img className="img-thumbnail w-50 mx-auto d-block" src={`http://localhost:2019/geteditproductimage/${val.photo}`} alt={val.photo}/></td>
+                        <td className='w-50 text-left'>
+                            <p><b>Title: </b>{val.name}</p>
+                            <p><b>Author: </b>{val.author}</p>
+                            <p><b>Published: </b>{val.published}</p>
+                            <p><b>Quantity: </b>{val.quantity}</p>
+                            <p><b>Sub Total: </b>Rp{val.sub_total.toLocaleString('IN')},00</p>
+                        </td>
+                    </tr>
+                    )
+            })
+        }
+    }
+
     handleCancelOrder =(order_id) =>{
         const user_id = this.props.user.id
         const username = this.props.user.username
@@ -265,6 +293,31 @@ class Profile extends Component{
                                 <p>{val.phone_number}</p>
                             </td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                            <td style={{width:'10%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-outline-primary btn-sm text-center" data-toggle="modal" data-target="#productdetails">
+                                        Order Details
+                                    </button>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="productdetails" tabindex="-1" role="dialog" aria-labelledby="productdetailsTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderOrderDetails()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             <td style={{width:'10%', color:'red'}} className='text-center'>Order Cancelled</td>
                             <td style={{width:'10%', color:'red'}} className='text-center'>Order Cancelled</td>
                         </tr>
@@ -283,6 +336,31 @@ class Profile extends Component{
                                 <p>{val.phone_number}</p>
                             </td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                            <td style={{width:'10%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-outline-primary btn-sm text-center" data-toggle="modal" data-target="#productdetails">
+                                        Order Details
+                                    </button>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="productdetails" tabindex="-1" role="dialog" aria-labelledby="productdetailsTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderOrderDetails()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
                             <td className='text-center w-75'>
                                 <button style={{fontSize:'0.8em'}} className='btn btn-primary btn-sm mr-2' onClick={()=>this.setState({selectedOrder:val.id})}>Upload</button>
@@ -303,12 +381,38 @@ class Profile extends Component{
                                 </td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
                                 <td style={{width:'10%',color:'red'}} className='text-center'>Payment pending</td>
+                                <td style={{width:'10%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-outline-primary btn-sm text-center" data-toggle="modal" data-target="#productdetails">
+                                        Order Details
+                                    </button>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="productdetails" tabindex="-1" role="dialog" aria-labelledby="productdetailsTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderOrderDetails()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td className='text-center w-75'>
                                     <form>
                                         <div class="form-group">
                                             <input type="file" class="form-control-file" id="exampleFormControlFile1" ref={input => this.payment_proof = input}/>
                                         </div>
                                     </form>
+                                    
                                     <button style={{fontSize:'0.8em'}} className='btn btn-success btn-sm mr-2' onClick={()=>this.handleUploadPaymentProof(val.id)}>Upload payment</button>
                                     <button style={{fontSize:'0.8em'}} className='btn btn-warning btn-sm' onClick={()=>this.setState({selectedOrder:0})}>Cancel</button>
                                 </td>
@@ -327,6 +431,31 @@ class Profile extends Component{
                                 <p>{val.phone_number}</p>
                             </td>
                             <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                            <td style={{width:'10%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-outline-primary btn-sm text-center" data-toggle="modal" data-target="#productdetails">
+                                        Order Details
+                                    </button>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="productdetails" tabindex="-1" role="dialog" aria-labelledby="productdetailsTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderOrderDetails()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             <td style={{width:'10%'}} className='text-center'>Waiting for payment confirmation</td>
                             <td style={{width:'10%'}} className='text-center'>Waiting for payment confirmation</td>
                         </tr>
@@ -343,8 +472,33 @@ class Profile extends Component{
                                     <p>{val.phone_number}</p>
                                 </td>
                                 <td style={{width:'10%'}} className='text-center'><b>Rp{val.total.toLocaleString('IN')},00</b></td>
+                                <td style={{width:'10%'}} className='text-center'>
+                                    <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-outline-primary btn-sm text-center" data-toggle="modal" data-target="#productdetails">
+                                        Order Details
+                                    </button>
+                                {/* LAUNCH MODAL */}
+                                    <div class="modal fade" id="productdetails" tabindex="-1" role="dialog" aria-labelledby="productdetailsTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Book Review</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    {this.renderOrderDetails()}
+                                                </tbody>
+                                            </table>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td style={{width:'10%'}} className='text-center'>Order completed</td>
-                                <td style={{width:'17%'}} className='text-center'>
+                                <td style={{width:'10%'}} className='text-center'>
                                     <button style={{fontSize:'0.8em'}} onClick={()=>{this.handleGetProductReview(val.id)}} type="button" className="btn btn-success btn-sm text-center" data-toggle="modal" data-target="#prouct_review">
                                         Review Book
                                     </button>
@@ -410,6 +564,7 @@ class Profile extends Component{
                                                     <th>Recipient</th>
                                                     <th>Address</th>
                                                     <th>Total</th>
+                                                    <th>Order Details</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>

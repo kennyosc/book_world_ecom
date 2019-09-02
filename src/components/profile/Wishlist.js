@@ -80,7 +80,6 @@ class Wishlist extends Component{
                 <Redirect to ='/'/>
             )
         }else{
-            if(this.state.wishlist.length !== 0){
                 return(
                     <div>
                     <Header/>
@@ -107,13 +106,6 @@ class Wishlist extends Component{
                         </div>
                     </div>
                 )
-            }else{
-                return(
-                    <div>
-                        <Loader/>
-                    </div>
-                )
-            }
         }
     }
 }

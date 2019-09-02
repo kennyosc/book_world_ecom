@@ -30,7 +30,7 @@ export const registerButton = (firstName,lastName,username,email,gender,phoneNum
             }else{
                   Swal.fire(
                     'Register Success!',
-                    'A verification email has been sent to your email!',
+                    'Please wait for the admin to verify your email in 1 or 2 days!',
                     'success'
                   )
             }

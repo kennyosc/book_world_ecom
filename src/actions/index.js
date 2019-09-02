@@ -158,6 +158,13 @@ export const onUpdateProfile = (id,firstName,lastName,email,gender,phoneNumber) 
                         title: 'Oops...',
                         text: res.data
                       })
+                }else if(res.data.sqlMessage){
+                    console.log(res.data)
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Email already used, please try a different email'
+                      })
                 }else{
                 const {id,first_name, last_name,username,email,gender,phone_number,avatar,verified} = res.data
                 console.log(res)
@@ -199,6 +206,14 @@ export const onUpdateAvatar = (id,avatar, objUser) =>{
 
         axios.patch(`/updateavatar/${id}`,formData).then(res=>{
             if(typeof(res.data)==='number'){
+                console.log(res)
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: res.data
+                  })
+            }else if(res.data.sqlMessage){
+                console.log(res)
                 Swal.fire({
                     type: 'error',
                     title: 'Oops...',

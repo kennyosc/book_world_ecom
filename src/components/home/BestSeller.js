@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom'
 // import bs2 from '../../images/products/bestsellers/product_best_seller2.jpg'
 // import bs3 from '../../images/products/bestsellers/product_best_seller3.jpg'
 import axios from '../../config/axios'
+import {onAddToCart} from '../../actions/index'
 
 class BestSeller extends Component{
 
@@ -27,7 +28,22 @@ class BestSeller extends Component{
         })
     }
 
-    renderButton = () =>{
+    handleAddToCart = (product_id , product_price) =>{
+        const user_id = this.props.user.id
+        const first_name = this.props.user.first_name
+        const last_name = this.props.user.last_name
+        const price = parseInt(product_price)
+        const phone_number = this.props.user.phone_number
+    
+        const quantity = 1
+        const sub_total = quantity * price
+    
+        console.log(quantity)
+        onAddToCart(user_id,first_name,last_name,phone_number,product_id,quantity,sub_total)
+        
+    }
+
+    renderButton = (product_id,product_price) =>{
         if(this.props.user.id === ''){
             return(
                 <Link to='/login'>
@@ -37,7 +53,7 @@ class BestSeller extends Component{
         }else{
             return(
                 <div>
-                    <button className='btn btn-danger btn-block  mr-1'>Add to Cart</button>
+                    <button onClick={()=>this.handleAddToCart(product_id,product_price)} className='btn btn-danger btn-block  mr-1'>Add to Cart</button>
                 </div>   
             )
         }
@@ -57,7 +73,7 @@ class BestSeller extends Component{
                         <p className="card-text">{val.description.slice(0,80)}...</p>
                     </div>
                     <div className='text-center'>
-                        {this.renderButton()}
+                        {this.renderButton(val.id,val.price)}
                     </div>
                 </div>
             )

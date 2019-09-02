@@ -20,7 +20,7 @@ class Stats extends Component{
     }
 
     componentDidMount(){
-        axios.get('/totalsalesonemonth').then(res=>{
+        axios.get('/totalsales').then(res=>{
             console.log(res)
             if(res.data.totalOrders !== null){
                 this.setState({totalSales: res.data})
@@ -38,7 +38,7 @@ class Stats extends Component{
             }
         })
 
-        axios.get('/totalbooksoldonemonth').then(res=>{
+        axios.get('/totalbooksold').then(res=>{
             this.setState({bookSold: res.data})
         })
 
@@ -60,14 +60,14 @@ class Stats extends Component{
                 <div style={{fontSize:'0.9em'}} className='row mb-5'>
                     <div className="card col-2 mt-3 mx-3">
                         <div className="card-body">
-                            <p className="card-title">Total 1 Month Sales</p>
+                            <p className="card-title">Total Sales</p>
                             <p className="card-text"><b>Rp {this.state.totalSales.totalOrders.toLocaleString('IN')},-</b></p>
                         </div>
                     </div>
     
                     <div className="card col-2 mt-3 mx-3">
                         <div className="card-body">
-                            <p className="card-title">Total 1 Month Books Sold</p>
+                            <p className="card-title">Total Books Sold</p>
                             <p className="card-text"><b>{this.state.bookSold.bookSold} books</b></p>
                         </div>
                     </div>

@@ -41,6 +41,7 @@ class LoginDropdown extends Component{
                                 Remember me
                             </label>
                         </div>
+                        
                         <button type="submit" className="btn btn-primary mt-3" onClick={this.handleLogin}>Sign in</button>
 
                         <div class="dropdown-divider"></div>

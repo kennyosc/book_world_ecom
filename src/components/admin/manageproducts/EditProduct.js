@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Link,Redirect} from 'react-router-dom'
 import axios from '../../../config/axios.js'
+import Swal from 'sweetalert2'
 
 import AdminHeader from '../../headers/AdminHeader'
 import blank_avatar from '../../../images/profile/blank_profile_picture.png'
@@ -101,7 +102,16 @@ class EditProduct extends Component{
             }
         ).then(res=>{
             console.log(res)
-            this.renderProductEdit()
+            if(res.data.affectedRows){
+                Swal.fire({
+                    position: 'center',
+                    type: 'success',
+                    title: 'Product Edited!',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                this.renderProductEdit()
+            }
         })
     }
 
